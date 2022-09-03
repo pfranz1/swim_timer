@@ -10,6 +10,7 @@ class PracticeRepository {
 
   final PracticeApi _practiceApi;
 
+  /// Returns a stream of all swimmers the API has
   Stream<List<Swimmer>> getSwimmers() => _practiceApi.getSwimmers();
 
   /// Gets the swimmer who are on the deck
@@ -54,20 +55,50 @@ class PracticeRepository {
             .toList(),
       );
 
+  /// Attempts to set the lane of a swimmer
+  ///
+  /// API defines rules and throws errors when rules violated
+  Future<bool> trySetLane(String id, int lane) =>
+      _practiceApi.trySetLane(id, lane);
+
+  /// Attempts to start a swimmer
+  ///
+  /// API defines rules and throws errors when rules violated
+  Future<bool> tryStartSwimmer(String id, DateTime startTime) =>
+      _practiceApi.tryStartSwimmer(id, startTime);
+
+  /// Attempts to end a swimmers lap
+  ///
+  /// API defines rules and throws errors when rules violated
+  Future<bool> tryEndSwimmer(String id, DateTime endTime) =>
+      _practiceApi.tryEndSwimmer(id, endTime);
+
+  /// Adds a swimmer
   Future<void> addSwimmer(Swimmer swimmer) => _practiceApi.addSwimmer(swimmer);
 
+  /// Removes a swimmer
   Future<void> removeSwimmer(String id) => _practiceApi.removeSwimmer(id);
 
+  /// Sets a swimmers lane
+  ///
+  /// Note: Doesnt check any conditions, directly sets it.
   Future<void> setLane(String id, int lane) => _practiceApi.setLane(id, lane);
 
+  /// Sets a swimmers stroke
   Future<void> setStroke(String id, Stroke stroke) =>
       _practiceApi.setStroke(id, stroke);
 
+  /// Sets a swimmers start time
+  ///
+  /// Note: Doesnt check any conditions, directly sets it
   Future<void> setStartTime(String id, DateTime start) {
     _practiceApi.setEndTime(id, null);
     return _practiceApi.setStartTime(id, start);
   }
 
+  /// Sets a swimmers end time
+  ///
+  /// Note: Doesnt check any conditions, directly sets it
   Future<void> setEndTime(String id, DateTime end) {
     _practiceApi.setLane(id, null);
     return _practiceApi.setEndTime(id, end);
