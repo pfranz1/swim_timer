@@ -58,21 +58,29 @@ class Swimmer extends Equatable {
   /// is null when a swimmer is swimming
   final DateTime? endTime;
 
+  // If you wanted to know why im using this aproach for copyWith
+  // I use current function notation instead of ValueGetters
+  // https://stackoverflow.com/a/73432242
+  // Basically I cant pass "null" directly to set startTime to null because
+  // the input parameter will be null if I pass nothing and also when I pass null
+  // So I need a better way to tell flutter to explicitly set it to null
+  // I do this by passing a function that returns what I want to set the value to
+
   Swimmer copyWith({
     String? id,
     String? name,
     int? lane,
     Stroke? stroke,
-    DateTime? startTime,
-    DateTime? endTime,
+    DateTime? Function()? startTime,
+    DateTime? Function()? endTime,
   }) {
     return Swimmer(
       id: id ?? this.id,
       name: name ?? this.name,
       lane: lane ?? this.lane,
       stroke: stroke ?? this.stroke,
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
+      startTime: startTime != null ? startTime() : this.startTime,
+      endTime: endTime != null ? endTime() : this.endTime,
     );
   }
 

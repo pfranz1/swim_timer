@@ -109,7 +109,7 @@ class LocalStoragePracticeApi extends PracticeApi {
   Future<void> setStartTime(String id, DateTime? start) {
     return _updateSwimmerAndSave(
       id,
-      (swimmer) => swimmer.copyWith(startTime: start),
+      (swimmer) => swimmer.copyWith(startTime: () => start),
     );
   }
 
@@ -117,7 +117,7 @@ class LocalStoragePracticeApi extends PracticeApi {
   Future<void> setEndTime(String id, DateTime? end) {
     return _updateSwimmerAndSave(
       id,
-      (swimmer) => swimmer.copyWith(endTime: end),
+      (swimmer) => swimmer.copyWith(endTime: () => end),
     );
   }
 
@@ -131,10 +131,9 @@ class LocalStoragePracticeApi extends PracticeApi {
       throw LaneOccupiedException();
       // Else un-occupied
     } else {
-      //TODO: Setting start time to null here will not work as expected, will have no effect
       await _updateSwimmerAndSave(
         id,
-        (swimmer) => swimmer.copyWith(lane: lane, startTime: null),
+        (swimmer) => swimmer.copyWith(lane: lane, startTime: () => null),
       );
       return true;
     }
@@ -147,10 +146,12 @@ class LocalStoragePracticeApi extends PracticeApi {
 
     // If the swimmer in valid lane
     if (swimmers[index].lane != null && swimmers[index].lane! > 0) {
-      //TODO: Setting end time to null here will not work as expected, will have no effect
       await _updateSwimmerAndSave(
         id,
-        (swimmer) => swimmer.copyWith(startTime: startTime, endTime: null),
+        (swimmer) => swimmer.copyWith(
+          startTime: () => startTime,
+          endTime: () => null,
+        ),
       );
       return true;
     } else {
@@ -168,7 +169,7 @@ class LocalStoragePracticeApi extends PracticeApi {
       await _updateSwimmerAndSave(
         id,
         (p0) => p0.copyWith(
-          endTime: endTime,
+          endTime: () => endTime,
           lane: 0,
         ),
       );
