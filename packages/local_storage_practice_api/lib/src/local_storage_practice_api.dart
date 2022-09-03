@@ -173,6 +173,8 @@ class LocalStoragePracticeApi extends PracticeApi {
           lane: 0,
         ),
       );
+      print(
+          "${swimmers[0].name} : ${swimmers[0].stroke} : ${swimmers[0].endTime?.difference(swimmers[0].startTime!)} \n");
       return true;
     } else {
       throw SwimmerNotStartedException();
