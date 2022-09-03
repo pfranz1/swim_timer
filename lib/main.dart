@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_storage_practice_api/local_storage_practice_api.dart';
+import 'package:practice_api/practice_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:swim_timer/bloc_observer.dart';
 import 'package:swim_timer/lane/lane.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Set default vlaue so issues reading from empty shared preference
+  // https://stackoverflow.com/q/50687801
+  SharedPreferences.setMockInitialValues({});
+
+  final practiceApi =
+      LocalStoragePracticeApi(plugin: await SharedPreferences.getInstance());
+
+  BlocOverrides.runZoned(
+    () {
+      runApp(const MyApp());
+    },
+    blocObserver: MyGlobalObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {
