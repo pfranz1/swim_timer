@@ -4,8 +4,8 @@ import 'package:test/test.dart';
 
 void main() {
   group('PracticeApi', () {
-    test('can be instantiated', () {
-      expect(PracticeApi(), isNotNull);
-    });
+    // test('can be instantiated', () {
+    //   expect(PracticeApi(), isNotNull);
+    // });
   });
 }
