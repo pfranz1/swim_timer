@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:practice_api/practice_api.dart';
@@ -11,9 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// {@endtemplate}
 class LocalStoragePracticeApi extends PracticeApi {
   /// {@macro local_storage_practice_api}
-  LocalStoragePracticeApi({
-    required SharedPreferences plugin,
-  }) : _plugin = plugin {
+  LocalStoragePracticeApi({required SharedPreferences plugin})
+      : _plugin = plugin {
     _init();
   }
 
@@ -23,7 +23,9 @@ class LocalStoragePracticeApi extends PracticeApi {
       BehaviorSubject<List<Swimmer>>.seeded(const []);
 
   @visibleForTesting
-  static const swimmerCollectionKey = "__swimmers_collection_key__";
+
+  /// The key used to store swimmer data
+  static const swimmerCollectionKey = '__swimmers_collection_key__';
 
   String? _getValue(String key) => _plugin.getString(key);
   Future<void> _setValue(String key, String value) =>
@@ -47,9 +49,24 @@ class LocalStoragePracticeApi extends PracticeApi {
   /// Find a swimmer by id
   ///
   /// Returns -1 when no swimmer with matching id is found
-  int findSwimmer(String id) {
+  int _findSwimmer(String id) {
     return _swimmerStreamController.value
         .indexWhere((swimmer) => swimmer.id == id);
+  }
+
+  /// Applies an update function to swimmer by id
+  Future<void> _updateSwimmerAndSave(
+      String id, Swimmer Function(Swimmer) update) {
+    // Get index
+    final index = _findSwimmer(id);
+    // Make modifiable copy of state
+    final swimmers = _swimmerStreamController.value;
+    // Update swimmer with passed function
+    swimmers[index] = update(swimmers[index]);
+    // Update stream controller.
+    _swimmerStreamController.add(swimmers);
+    // Update shared preferences.
+    return _setValue(swimmerCollectionKey, json.encode(swimmers));
   }
 
   @override
@@ -67,88 +84,97 @@ class LocalStoragePracticeApi extends PracticeApi {
 
   @override
   Future<void> removeSwimmer(String id) {
-    final swimmers = _swimmerStreamController.value..removeAt(findSwimmer(id));
+    final swimmers = _swimmerStreamController.value..removeAt(_findSwimmer(id));
     _swimmerStreamController.add(swimmers);
     return _setValue(swimmerCollectionKey, json.encode(swimmers));
   }
 
   @override
   Future<void> setLane(String id, int? lane) {
-    // Make mutable copy of swimmers.
-    final swimmers = _swimmerStreamController.value;
-    // Find index of desired swimmer.
-    final index = findSwimmer(id);
-
-    // If not found throw error.
-    if (index == -1) {
-      throw SwimmerNotFoundException();
-    } else {
-      // Make change to found element.
-      swimmers[index] = swimmers[index].copyWith(lane: lane);
-      // Update stream controller.
-      _swimmerStreamController.add(swimmers);
-      // Update shared preferences.
-      return _setValue(swimmerCollectionKey, json.encode(swimmers));
-    }
+    return _updateSwimmerAndSave(
+      id,
+      (swimmer) => swimmer.copyWith(lane: lane),
+    );
   }
 
   @override
   Future<void> setStroke(String id, Stroke stroke) {
-    // Make mutable copy of swimmers.
-    final swimmers = _swimmerStreamController.value;
-    // Find index of desired swimmer.
-    final index = findSwimmer(id);
-
-    // If not found throw error.
-    if (index == -1) {
-      throw SwimmerNotFoundException();
-    } else {
-      // Make change to found element.
-      swimmers[index] = swimmers[index].copyWith(stroke: stroke);
-      // Update stream controller.
-      _swimmerStreamController.add(swimmers);
-      // Update shared preferences.
-      return _setValue(swimmerCollectionKey, json.encode(swimmers));
-    }
+    return _updateSwimmerAndSave(
+      id,
+      (swimmer) => swimmer.copyWith(stroke: stroke),
+    );
   }
 
   @override
   Future<void> setStartTime(String id, DateTime? start) {
-    // Make mutable copy of swimmers.
-    final swimmers = _swimmerStreamController.value;
-    // Find index of desired swimmer.
-    final index = findSwimmer(id);
-
-    // If not found throw error.
-    if (index == -1) {
-      throw SwimmerNotFoundException();
-    } else {
-      // Make change to found element.
-      swimmers[index] = swimmers[index].copyWith(startTime: start);
-      // Update stream controller.
-      _swimmerStreamController.add(swimmers);
-      // Update shared preferences.
-      return _setValue(swimmerCollectionKey, json.encode(swimmers));
-    }
+    return _updateSwimmerAndSave(
+      id,
+      (swimmer) => swimmer.copyWith(startTime: start),
+    );
   }
 
   @override
   Future<void> setEndTime(String id, DateTime? end) {
-    // Make mutable copy of swimmers.
-    final swimmers = _swimmerStreamController.value;
-    // Find index of desired swimmer.
-    final index = findSwimmer(id);
+    return _updateSwimmerAndSave(
+      id,
+      (swimmer) => swimmer.copyWith(endTime: end),
+    );
+  }
 
-    // If not found throw error.
-    if (index == -1) {
-      throw SwimmerNotFoundException();
+  @override
+  Future<bool> trySetLane(String id, int lane) async {
+    final swimmers = _swimmerStreamController.value;
+    // If occupied
+    if (swimmers
+            .indexWhere((swimmer) => swimmer.lane == lane && swimmer.id != id) >
+        -1) {
+      throw LaneOccupiedException();
+      // Else un-occupied
     } else {
-      // Make change to found element.
-      swimmers[index] = swimmers[index].copyWith(endTime: end);
-      // Update stream controller.
-      _swimmerStreamController.add(swimmers);
-      // Update shared preferences.
-      return _setValue(swimmerCollectionKey, json.encode(swimmers));
+      //TODO: Setting start time to null here will not work as expected, will have no effect
+      await _updateSwimmerAndSave(
+        id,
+        (swimmer) => swimmer.copyWith(lane: lane, startTime: null),
+      );
+      return true;
+    }
+  }
+
+  @override
+  Future<bool> tryStartSwimmer(String id, DateTime startTime) async {
+    final swimmers = _swimmerStreamController.value;
+    final index = _findSwimmer(id);
+
+    // If the swimmer in valid lane
+    if (swimmers[index].lane != null && swimmers[index].lane! > 0) {
+      //TODO: Setting end time to null here will not work as expected, will have no effect
+      await _updateSwimmerAndSave(
+        id,
+        (swimmer) => swimmer.copyWith(startTime: startTime, endTime: null),
+      );
+      return true;
+    } else {
+      throw SwimmerNotAssignedLaneException();
+    }
+  }
+
+  @override
+  Future<bool> tryEndSwimmer(String id, DateTime endTime) async {
+    final swimmers = _swimmerStreamController.value;
+    final index = _findSwimmer(id);
+
+    // If swimmer has started
+    if (swimmers[index].startTime != null) {
+      await _updateSwimmerAndSave(
+        id,
+        (p0) => p0.copyWith(
+          endTime: endTime,
+          lane: 0,
+        ),
+      );
+      return true;
+    } else {
+      throw SwimmerNotStartedException();
     }
   }
 }

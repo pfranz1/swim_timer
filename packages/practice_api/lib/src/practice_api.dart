@@ -33,7 +33,32 @@ abstract class PracticeApi {
   ///
   /// Note: can be null to reset timing.
   Future<void> setEndTime(String id, DateTime? end);
+
+  /// Sets a swimmers lane if non-occupied lane
+  ///
+  /// Throws a [LaneOccupiedException] is the lane is occupied
+  Future<bool> trySetLane(String id, int lane);
+
+  /// Starts a swimmers lap
+  ///
+  /// Throws a [SwimmerNotAssignedLaneException] if swimmer is started
+  /// without a lane assignment
+  Future<bool> tryStartSwimmer(String id, DateTime startTime);
+
+  /// Ends a swimmers lap
+  ///
+  /// Throws a [SwimmerNotStartedException] if the swimmer hasnt been started yet
+  Future<bool> tryEndSwimmer(String id, DateTime endTime);
 }
 
 /// Error thrown when a [Swimmer] with a given id is not found
 class SwimmerNotFoundException implements Exception {}
+
+/// Error thrown when a [Swimmer] is added to a lane already occupied
+class LaneOccupiedException implements Exception {}
+
+/// Error thrown when a [Swimmer] is started without being assinged a lane
+class SwimmerNotAssignedLaneException implements Exception {}
+
+/// Error thrown when a [Swimmer] is finished without being already
+class SwimmerNotStartedException implements Exception {}
