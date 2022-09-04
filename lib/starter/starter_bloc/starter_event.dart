@@ -23,19 +23,26 @@ class TapSwimmer extends StarterBlocEvent {
 }
 
 class TapLane extends StarterBlocEvent {
-  TapLane(this.lane);
+  TapLane(this.lane, this.swimmer);
 
   final int lane;
+  final Swimmer? swimmer;
 
   @override
-  List<Object> get props => [lane];
+  List<Object> get props => [lane, swimmer ?? ""];
 }
 
-class TapAction extends StarterBlocEvent {
-  TapAction(this.action);
+class TapEdit extends StarterBlocEvent {}
 
-  final String action;
+class TapStart extends StarterBlocEvent {
+  final DateTime start;
+
+  TapStart(this.start);
 
   @override
-  List<Object> get props => [action];
+  List<Object> get props => [start];
 }
+
+class TapReset extends StarterBlocEvent {}
+
+class TapAdd extends StarterBlocEvent {}
