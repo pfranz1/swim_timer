@@ -65,7 +65,10 @@ class StarterView extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: Center(
-                      child: Deck(swimmersOnDeck: state.deckSwimmers),
+                      child: Deck(
+                        swimmersOnDeck: state.deckSwimmers,
+                        activeSwimmer: state.selectedSwimmer,
+                      ),
                     ),
                   ),
                   Expanded(

@@ -29,8 +29,9 @@ class StarterState extends Equatable {
     StarterStatus Function()? status,
   }) {
     return StarterState(
-      blockSwimmers: blockSwimmers != null ? blockSwimmers() : const [],
-      deckSwimmers: deckSwimmers != null ? deckSwimmers() : const [],
+      blockSwimmers:
+          blockSwimmers != null ? blockSwimmers() : this.blockSwimmers,
+      deckSwimmers: deckSwimmers != null ? deckSwimmers() : this.deckSwimmers,
       selectedSwimmer:
           selectedSwimmer != null ? selectedSwimmer() : this.selectedSwimmer,
       selectedAction:
