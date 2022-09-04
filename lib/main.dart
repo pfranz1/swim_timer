@@ -7,7 +7,6 @@ import 'package:practice_api/practice_api.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swim_timer/bloc_observer.dart';
-import 'package:swim_timer/bootstart.dart';
 import 'package:swim_timer/lane/lane.dart';
 import 'package:swim_timer/pages/practice/practice_page.dart';
 

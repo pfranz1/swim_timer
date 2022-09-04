@@ -6,6 +6,9 @@ import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_event.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_state.dart';
 
+export 'starter_event.dart';
+export 'starter_state.dart';
+
 class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
   StarterBloc({required PracticeRepository practiceRepository})
       : _practiceRepository = practiceRepository,
