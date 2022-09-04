@@ -48,8 +48,44 @@ class StarterView extends StatelessWidget {
                 child: CupertinoActivityIndicator(),
               );
             } else {
-              return Center(
-                child: Text("Loaded!"),
+              return Column(
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: Center(
+                        child: Text('Starter'),
+                      )),
+                  Expanded(
+                    flex: 4,
+                    child: Center(
+                      child: Text(state.blockSwimmers.toString()),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Center(
+                      child: Text(state.deckSwimmers.toString()),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Center(
+                        child: ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () => print('Add'),
+                            icon: Icon(Icons.add)),
+                        IconButton(
+                            onPressed: () => print('Start'),
+                            icon: Icon(Icons.play_arrow_rounded)),
+                        IconButton(
+                            onPressed: () => print('Edit'),
+                            icon: Icon(Icons.edit))
+                      ],
+                    )),
+                  )
+                ],
               );
             }
           }),
