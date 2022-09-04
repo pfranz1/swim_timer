@@ -51,8 +51,8 @@ class AppView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const PracticePage(),
+    return const MaterialApp(
+      home: PracticePage(),
     );
   }
 }
