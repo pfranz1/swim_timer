@@ -74,7 +74,8 @@ class StarterView extends StatelessWidget {
                       alignment: MainAxisAlignment.center,
                       children: [
                         IconButton(
-                            onPressed: () => print('Add'),
+                            onPressed: () =>
+                                {context.read<StarterBloc>().add(TapAdd())},
                             icon: Icon(Icons.add)),
                         IconButton(
                             onPressed: () => print('Start'),
