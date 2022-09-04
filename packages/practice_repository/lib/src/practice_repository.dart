@@ -36,8 +36,10 @@ class PracticeRepository {
   /// Specifically, the swimmers with a lane but with a null start time
   Stream<List<Swimmer>> getBlockSwimmers() => _practiceApi.getSwimmers().map(
         (event) => event
-            .where(
-                (element) => element.lane != null && element.startTime == null)
+            .where((element) =>
+                element.lane != null &&
+                element.lane! > 0 &&
+                element.startTime == null)
             .toList(),
       );
 

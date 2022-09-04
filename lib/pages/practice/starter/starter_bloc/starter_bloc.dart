@@ -37,12 +37,14 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
         status: () => StarterStatus.succsess,
         // Filter all swimmers to the ones on the block
         blockSwimmers: () => swimmers
-            .where(
-                (element) => element.lane != null && element.startTime == null)
+            .where((element) =>
+                (element.lane != null && element.lane! > 0) &&
+                element.startTime == null)
             .toList(),
         // Filter all swimmer to the ones on deck
-        deckSwimmers: () =>
-            swimmers.where((element) => element.lane == 0).toList(),
+        deckSwimmers: () => swimmers
+            .where((element) => element.lane == 0 || element.lane == null)
+            .toList(),
       ),
       onError: (_, __) => state.copyWith(status: () => StarterStatus.failure),
     );
