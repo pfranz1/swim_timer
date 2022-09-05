@@ -83,7 +83,7 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
   ) async {
     // If the user taps aways
     if (tapSwimmer.swimmer == null) {
-      emit(state.copyWith(selectedSwimmer: () => tapSwimmer.swimmer));
+      emit(state.copyWith(selectedSwimmer: () => null));
       return;
     }
 
