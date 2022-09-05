@@ -13,49 +13,81 @@ class PracticeRepository {
   /// Returns a stream of all swimmers the API has
   Stream<List<Swimmer>> getSwimmers() => _practiceApi.getSwimmers();
 
+  /// Applies a filter to all elements of swimmers
+  /// filter function should return true to keep the swimmer
+  List<Swimmer> _filterSwimmers(
+      bool Function(Swimmer) filter, List<Swimmer> swimmers) {
+    return swimmers
+        .where((Swimmer swimmer) => filter(swimmer) == true)
+        .toList();
+  }
+
   /// Gets the swimmer who are on the deck
   ///
-  /// Specifically, the swimmers in lane 0
-  Stream<List<Swimmer>> getDeckSwimmers() =>
-      // For every output from Api stream, apply a function to it then return
-      _practiceApi.getSwimmers().map((event) {
-        // Keep every element that meets criteria then return filtered
-        return event.where((element) {
-          // Return true, keeping element, if the lane is equal to 0
-          return element.lane == 0;
-        }).toList();
-      });
+  /// Deck Stream
+  Stream<List<Swimmer>> getDeckSwimmers() => _practiceApi.getSwimmers().map(
+        (event) => _filterSwimmers(_filterDeckSwimmer, event),
+      );
 
-  // The above function could also be written as using => notation
-  // Stream<List<Swimmer>> getDeckSwimmers() => _practiceApi.getSwimmers().map(
-  //       (event) => event.where((element) => element.lane == 0).toList(),
-  //     );
+  /// Keep if the swimmers lane is 0 or they dont have one
+  ///
+  /// Deck Filter
+  bool _filterDeckSwimmer(Swimmer swimmer) {
+    return swimmer.lane == 0 || swimmer.lane == null;
+  }
 
   /// Gets the swimmers who are the blocks ready to swim next
   ///
-  /// Specifically, the swimmers with a lane but with a null start time
+  /// Block Stream
   Stream<List<Swimmer>> getBlockSwimmers() => _practiceApi.getSwimmers().map(
-        (event) => event
-            .where((element) =>
-                element.lane != null &&
-                element.lane! > 0 &&
-                element.startTime == null)
-            .toList(),
+        (event) => _filterSwimmers(_filterBlockSwimmer, event),
       );
+
+  /// Keep the swimmer who has a lane > 0 but no start time.
+  ///
+  /// Block Filter
+  bool _filterBlockSwimmer(Swimmer swimmer) {
+    return swimmer.lane != null &&
+        swimmer.lane != 0 &&
+        swimmer.startTime == null;
+  }
 
   /// Gets the swimmers who are swimming in the pool
   ///
-  /// Specifically, the swimers with a lane and a start time but no end time
-  // Maybe good to remove check for a lane, it should be enforced by the api
-  // but also maybe just to be safe leave it?
+  /// Pool Stream
   Stream<List<Swimmer>> getPoolSwimmers() => _practiceApi.getSwimmers().map(
-        (event) => event
-            .where((element) =>
-                element.lane != null &&
-                element.startTime != null &&
-                element.endTime == null)
-            .toList(),
+        (event) => _filterSwimmers(_filterPoolSwimmers, event),
       );
+
+  /// Keep if the swimmer has a lane > 0, a start time, but no end time
+  ///
+  /// Pool Filter
+  bool _filterPoolSwimmers(Swimmer swimmer) {
+    return swimmer.lane != null &&
+        swimmer.lane != 0 &&
+        swimmer.startTime != null &&
+        swimmer.endTime == null;
+  }
+
+  /// Returns a 2-D of swimmers in the pool, Swimmer grouped by lane number
+  Stream<List<List<Swimmer>>> getPoolSwimmerByLane() =>
+      _practiceApi.getSwimmers().map(
+          (event) => _groupByLane(_filterSwimmers(_filterPoolSwimmers, event)));
+
+  /// Groups swimmers into lanes based on their lane numbers
+  List<List<Swimmer>> _groupByLane(List<Swimmer> swimmers, {int maxLanes = 6}) {
+    //TODO: Set max lanes via some meta data about practice and enforce it
+
+    // Adding 1 to account for lane 0
+    final groupings = List.generate(maxLanes + 1, (index) => <Swimmer>[]);
+
+    for (final swimmer in swimmers) {
+      final laneNum = swimmer.lane ?? 0;
+      groupings[laneNum].add(swimmer);
+    }
+
+    return groupings;
+  }
 
   /// Attempts to set the lane of a swimmer
   ///
