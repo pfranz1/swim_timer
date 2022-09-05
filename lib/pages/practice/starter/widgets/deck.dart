@@ -22,28 +22,33 @@ class Deck extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoScrollbar(
-      child: GridView.builder(
-        itemCount: this.swimmersOnDeck.length,
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 125.0,
-            crossAxisSpacing: 5.0,
-            mainAxisSpacing: 5.0),
-        itemBuilder: (context, index) {
-          return ElevatedButton(
-            key: ObjectKey(swimmersOnDeck[index]),
-            style: ElevatedButton.styleFrom(
-                alignment: Alignment.center,
-                backgroundColor: colors[swimmersOnDeck[index].stroke],
-                side: BorderSide(
-                    color: Colors.black,
-                    width: swimmersOnDeck[index] == activeSwimmer ? 5.0 : 2.0)),
-            onPressed: () => context
-                .read<StarterBloc>()
-                .add(TapSwimmer(swimmersOnDeck[index], false)),
-            child: Text("${swimmersOnDeck[index].name}"),
-          );
-        },
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: AspectRatio(
+        aspectRatio: 3 / 2,
+        child: GridView.builder(
+          itemCount: this.swimmersOnDeck.length,
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 125.0,
+              crossAxisSpacing: 5.0,
+              mainAxisSpacing: 5.0),
+          itemBuilder: (context, index) {
+            return ElevatedButton(
+              key: ObjectKey(swimmersOnDeck[index]),
+              style: ElevatedButton.styleFrom(
+                  alignment: Alignment.center,
+                  backgroundColor: colors[swimmersOnDeck[index].stroke],
+                  side: BorderSide(
+                      color: Colors.black,
+                      width:
+                          swimmersOnDeck[index] == activeSwimmer ? 5.0 : 2.0)),
+              onPressed: () => context
+                  .read<StarterBloc>()
+                  .add(TapSwimmer(swimmersOnDeck[index], false)),
+              child: Text("${swimmersOnDeck[index].name}"),
+            );
+          },
+        ),
       ),
     );
   }
