@@ -125,8 +125,10 @@ class LocalStoragePracticeApi extends PracticeApi {
   Future<bool> trySetLane(String id, int lane) async {
     final swimmers = _swimmerStreamController.value;
     // If occupied
-    if (swimmers
-            .indexWhere((swimmer) => swimmer.lane == lane && swimmer.id != id) >
+    if (swimmers.indexWhere((swimmer) =>
+            swimmer.lane == lane &&
+            swimmer.startTime == null &&
+            swimmer.id != id) >
         -1) {
       throw LaneOccupiedException();
       // Else un-occupied
