@@ -64,10 +64,15 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
         // Set selected swimmer
         await _practiceRepository.trySetLane(
             state.selectedSwimmer!.id, tapLane.lane);
+
+        // Clear selected swimmer
+        return emit(state.copyWith(selectedSwimmer: () => null));
       } else {
         // Moving swimmer into unocupied lane
         await _practiceRepository.trySetLane(
             state.selectedSwimmer!.id, tapLane.lane);
+        // Clear selected swimmer
+        return emit(state.copyWith(selectedSwimmer: () => null));
       }
     }
   }
