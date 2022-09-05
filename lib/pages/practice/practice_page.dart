@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:swim_timer/pages/practice/practice_cubit/practice_cubit.dart';
 import 'package:swim_timer/pages/practice/starter/starter_page.dart';
+import 'package:swim_timer/pages/practice/stopper/stopper_page.dart';
 
 class PracticePage extends StatelessWidget {
   const PracticePage({super.key});
@@ -30,7 +31,7 @@ class PracticeView extends StatelessWidget {
         index: selectedTab.index,
         children: const [
           StarterPage(),
-          Center(child: Text('I am the stopper page')),
+          StopperPage(),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

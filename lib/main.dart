@@ -15,7 +15,7 @@ void main() async {
 
   // Set default vlaue so issues reading from empty shared preference
   // https://stackoverflow.com/q/50687801
-  // SharedPreferences.setMockInitialValues({});
+  SharedPreferences.setMockInitialValues({});
 
   final practiceApi =
       LocalStoragePracticeApi(plugin: await SharedPreferences.getInstance());

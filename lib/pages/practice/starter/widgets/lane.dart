@@ -31,10 +31,8 @@ class BlockLineup extends StatelessWidget {
         aspectRatio: 3 / 2,
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: numPerRow,
-              mainAxisSpacing: 10,
-              crossAxisSpacing: 10),
-          scrollDirection: Axis.horizontal,
+              crossAxisCount: 3, mainAxisSpacing: 10, crossAxisSpacing: 10),
+          scrollDirection: Axis.vertical,
           shrinkWrap: true,
           itemCount: numOfLanes,
           itemBuilder: ((context, index) {

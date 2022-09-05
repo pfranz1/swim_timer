@@ -3,6 +3,9 @@ import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_bloc/stopper_event.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_bloc/stopper_state.dart';
 
+export 'stopper_event.dart';
+export 'stopper_state.dart';
+
 class StopperBloc extends Bloc<StopperEvent, StopperState> {
   final PracticeRepository _practiceRepository;
 
