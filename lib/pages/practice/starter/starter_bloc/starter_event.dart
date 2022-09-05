@@ -15,11 +15,11 @@ class SubscriptionRequested extends StarterBlocEvent {
 class TapSwimmer extends StarterBlocEvent {
   TapSwimmer(this.swimmer, this.isOnBlock);
 
-  final Swimmer swimmer;
+  final Swimmer? swimmer;
   final bool isOnBlock;
 
   @override
-  List<Object> get props => [swimmer.id, isOnBlock];
+  List<Object> get props => [swimmer?.id ?? "null", isOnBlock];
 }
 
 class TapLane extends StarterBlocEvent {

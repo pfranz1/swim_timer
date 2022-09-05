@@ -50,48 +50,56 @@ class StarterView extends StatelessWidget {
                 child: CupertinoActivityIndicator(),
               );
             } else {
-              return Column(
-                children: [
-                  Expanded(
-                      flex: 1,
-                      child: Center(
-                        child: Text('Starter'),
-                      )),
-                  Expanded(
-                    flex: 4,
-                    child: Center(
-                      child: BlockLineup(blockSwimmers: state.blockSwimmers),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: Center(
-                      child: Deck(
-                        swimmersOnDeck: state.deckSwimmers,
-                        activeSwimmer: state.selectedSwimmer,
+              return GestureDetector(
+                onTap: () =>
+                    context.read<StarterBloc>().add(TapSwimmer(null, false)),
+                child: Container(
+                  color: Theme.of(context).backgroundColor,
+                  child: Column(
+                    children: [
+                      Expanded(
+                          flex: 1,
+                          child: Center(
+                            child: Text('Starter'),
+                          )),
+                      Expanded(
+                        flex: 4,
+                        child: Center(
+                          child:
+                              BlockLineup(blockSwimmers: state.blockSwimmers),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        flex: 4,
+                        child: Center(
+                          child: Deck(
+                            swimmersOnDeck: state.deckSwimmers,
+                            activeSwimmer: state.selectedSwimmer,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: Center(
+                            child: ButtonBar(
+                          alignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () =>
+                                    {context.read<StarterBloc>().add(TapAdd())},
+                                icon: Icon(Icons.add)),
+                            IconButton(
+                                onPressed: () => print('Start'),
+                                icon: Icon(Icons.play_arrow_rounded)),
+                            IconButton(
+                                onPressed: () => print('Edit'),
+                                icon: Icon(Icons.edit))
+                          ],
+                        )),
+                      )
+                    ],
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Center(
-                        child: ButtonBar(
-                      alignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                            onPressed: () =>
-                                {context.read<StarterBloc>().add(TapAdd())},
-                            icon: Icon(Icons.add)),
-                        IconButton(
-                            onPressed: () => print('Start'),
-                            icon: Icon(Icons.play_arrow_rounded)),
-                        IconButton(
-                            onPressed: () => print('Edit'),
-                            icon: Icon(Icons.edit))
-                      ],
-                    )),
-                  )
-                ],
+                ),
               );
             }
           }),
