@@ -34,6 +34,12 @@ class StopperBloc extends Bloc<StopperEvent, StopperState> {
     TapSwimmer event,
     Emitter<StopperState> emit,
   ) async {
-    await _practiceRepository.tryEndSwimmer(event.swimmer.id, event.time);
+    await _practiceRepository
+        .tryEndSwimmer(event.swimmer.id, event.time)
+        .then((value) {
+      if (value == true) {
+        emit(state.copyWith(finisher: event.swimmer, finisherLane: event.lane));
+      }
+    });
   }
 }
