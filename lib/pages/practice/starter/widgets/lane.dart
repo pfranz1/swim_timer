@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
+import 'package:swim_timer/pages/practice/starter/widgets/swimmer_tile.dart';
 
 class BlockLineup extends StatelessWidget {
   const BlockLineup({super.key, required this.blockSwimmers});
@@ -63,8 +64,13 @@ class BlockTile extends StatelessWidget {
           color: Colors.lightBlue,
           child: Center(
               child: swimmer != null
-                  ? Container(
-                      child: Text(swimmer!.name),
+                  ? SwimmerTile(
+                      swimmer: swimmer!,
+                      isActiveSwimmer: false,
+                      isOnBlock: true,
+                      onTap: () => context
+                          .read<StarterBloc>()
+                          .add(TapLane(laneNumber, swimmer)),
                     )
                   : null)),
     );
