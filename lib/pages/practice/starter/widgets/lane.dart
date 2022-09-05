@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 
 class BlockLineup extends StatelessWidget {
   const BlockLineup({super.key, required this.blockSwimmers});
@@ -12,7 +14,7 @@ class BlockLineup extends StatelessWidget {
   //TODO: Remove magic number
   static const int numOfLanes = 6;
 
-  static const int numPerRow = 3;
+  static const int numPerRow = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -22,31 +24,49 @@ class BlockLineup extends StatelessWidget {
       organizedSwimmers[swimmer.lane! - 1] = swimmer;
     }
 
-    return GridView.builder(
-      gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: numPerRow),
-      itemCount: numOfLanes,
-      itemBuilder: ((context, index) {
-        return BlockTile(swimmer: organizedSwimmers[index]);
-      }),
+    return Container(
+      padding: EdgeInsets.all(10),
+      child: AspectRatio(
+        aspectRatio: 3 / 2,
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: numPerRow,
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10),
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: numOfLanes,
+          itemBuilder: ((context, index) {
+            return BlockTile(
+              swimmer: organizedSwimmers[index],
+              laneNumber: index + 1,
+            );
+          }),
+        ),
+      ),
     );
   }
 }
 
 class BlockTile extends StatelessWidget {
-  const BlockTile({super.key, required this.swimmer});
+  const BlockTile({super.key, required this.swimmer, required this.laneNumber});
 
   final Swimmer? swimmer;
+  final int laneNumber;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.lightBlue,
-        child: Center(
-            child: swimmer != null
-                ? Container(
-                    child: Text(swimmer!.name),
-                  )
-                : null));
+    return GestureDetector(
+      onTap: () =>
+          context.read<StarterBloc>().add(TapLane(laneNumber, swimmer)),
+      child: Container(
+          color: Colors.lightBlue,
+          child: Center(
+              child: swimmer != null
+                  ? Container(
+                      child: Text(swimmer!.name),
+                    )
+                  : null)),
+    );
   }
 }
