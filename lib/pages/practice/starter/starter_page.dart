@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 import 'package:swim_timer/pages/practice/starter/widgets/deck.dart';
+import 'package:swim_timer/pages/practice/starter/widgets/lane.dart';
 
 class StarterPage extends StatelessWidget {
   const StarterPage({super.key});
@@ -59,7 +60,7 @@ class StarterView extends StatelessWidget {
                   Expanded(
                     flex: 4,
                     child: Center(
-                      child: Text(state.blockSwimmers.toString()),
+                      child: BlockLineup(blockSwimmers: state.blockSwimmers),
                     ),
                   ),
                   Expanded(
