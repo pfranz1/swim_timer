@@ -58,7 +58,9 @@ class StopperView extends StatelessWidget {
                   Expanded(
                       flex: 8,
                       child: Center(
-                        child: Lanes(swimmersByLane: state.lanesOfSwimmers),
+                        child: Lanes(
+                            swimmersByLane: state.lanesOfSwimmers,
+                            latestFinishers: state.latestFinishers),
                       )),
                 ],
               ),

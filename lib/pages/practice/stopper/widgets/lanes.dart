@@ -8,9 +8,10 @@ import 'package:swim_timer/pages/practice/stopper/widgets/swimmer_tile.dart';
 import 'package:provider/provider.dart';
 
 class Lanes extends StatelessWidget {
-  const Lanes({super.key, required this.swimmersByLane});
+  const Lanes({super.key, required this.swimmersByLane, this.latestFinishers});
 
   final List<List<Swimmer>> swimmersByLane;
+  final List<Swimmer?>? latestFinishers;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,8 @@ class Lanes extends StatelessWidget {
           return Lane(
             swimmers: swimmersByLane[index + 1],
             laneNum: index + 1,
+            latestFinisher:
+                latestFinishers != null ? latestFinishers![index + 1] : null,
           );
         },
         // Need to remove lane 0
@@ -37,23 +40,46 @@ class Lanes extends StatelessWidget {
 
 class Lane extends StatelessWidget {
   final List<Swimmer> swimmers;
+  final Swimmer? latestFinisher;
   final int laneNum;
 
-  const Lane({super.key, required this.swimmers, required this.laneNum});
+  const Lane(
+      {super.key,
+      required this.swimmers,
+      required this.laneNum,
+      required this.latestFinisher});
 
   @override
   Widget build(BuildContext context) {
     return Container(
         color: Theme.of(context).primaryColorLight,
-        child: Column(
-          children: [
-            for (var swimmer in swimmers)
-              SwimmerTile(
-                swimmer: swimmer,
-                onTap: () => context.read<StopperBloc>().add(TapSwimmer(
-                    lane: laneNum, swimmer: swimmer, time: DateTime.now())),
-              )
-          ],
-        ));
+        child: Stack(children: [
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Column(
+                children: [
+                  for (var swimmer in swimmers)
+                    SwimmerTile(
+                      swimmer: swimmer,
+                      onTap: () => context.read<StopperBloc>().add(TapSwimmer(
+                          lane: laneNum,
+                          swimmer: swimmer,
+                          time: DateTime.now())),
+                    )
+                ],
+              ),
+            ),
+          ),
+          if (latestFinisher != null)
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: IconButton(
+                icon: Icon(Icons.undo),
+                onPressed: (() => print('Undo!')),
+              ),
+            )
+        ]));
   }
 }

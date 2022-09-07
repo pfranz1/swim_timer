@@ -22,7 +22,9 @@ class StopperBloc extends Bloc<StopperEvent, StopperState> {
     SubscriptionRequested event,
     Emitter<StopperState> emit,
   ) async {
-    emit(state.copyWith(status: StopperStatus.loading));
+    emit(state.copyWith(
+        status: StopperStatus.loading,
+        latestFinishers: [for (var x = 0; x <= 6; x++) null]));
 
     await emit.forEach(_practiceRepository.getPoolSwimmerByLane(),
         onData: ((List<List<Swimmer>> data) => state.copyWith(
@@ -38,7 +40,8 @@ class StopperBloc extends Bloc<StopperEvent, StopperState> {
         .tryEndSwimmer(event.swimmer.id, event.time)
         .then((value) {
       if (value == true) {
-        emit(state.copyWith(finisher: event.swimmer, finisherLane: event.lane));
+        emit(state.registerFinisher(
+            finisher: event.swimmer, finisherLane: event.lane));
       }
     });
   }

@@ -10,33 +10,35 @@ class StopperState extends Equatable {
   final List<List<Swimmer>> lanesOfSwimmers;
   final List<Swimmer?> latestFinishers;
 
-  //TODO: Would love if the lane of swimmers wansnt growable,
-  // Maybe it should be feed the lane number from a bloc above it?
-
   const StopperState({
     this.status = StopperStatus.inital,
     this.lanesOfSwimmers = const [],
     this.latestFinishers = const [],
   });
 
+  StopperState registerFinisher(
+      {required Swimmer finisher, required int finisherLane}) {
+    final newFinishers = this.latestFinishers;
+
+    // newFinishers.replaceRange(finisherLane, finisherLane, [finisher]);
+    newFinishers.removeAt(finisherLane);
+    newFinishers.insert(finisherLane, finisher);
+
+    return copyWith(latestFinishers: newFinishers);
+  }
+
   StopperState copyWith({
     StopperStatus? status,
     List<List<Swimmer>>? lanesOfSwimmers,
-    Swimmer? finisher,
-    int? finisherLane,
+    List<Swimmer?>? latestFinishers,
   }) {
-    //These should always be done at the same time
-    if (finisher != null && finisherLane != null) {
-      // DO something to have an undo
-    }
-
     return StopperState(
       status: status ?? this.status,
       lanesOfSwimmers: lanesOfSwimmers ?? this.lanesOfSwimmers,
-      latestFinishers: latestFinishers,
+      latestFinishers: latestFinishers ?? this.latestFinishers,
     );
   }
 
   @override
-  List<Object> get props => [status, lanesOfSwimmers];
+  List<Object> get props => [status, lanesOfSwimmers, latestFinishers];
 }
