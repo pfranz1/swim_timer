@@ -16,6 +16,7 @@ class StopperBloc extends Bloc<StopperEvent, StopperState> {
             status: StopperStatus.inital, lanesOfSwimmers: [])) {
     on<SubscriptionRequested>(_onSubscriptionRequested);
     on<TapSwimmer>(_onTapSwimmer);
+    on<TapUndo>(_onTapUndo);
   }
 
   Future<void> _onSubscriptionRequested(
@@ -44,5 +45,11 @@ class StopperBloc extends Bloc<StopperEvent, StopperState> {
             finisher: event.swimmer, finisherLane: event.lane));
       }
     });
+  }
+
+  Future<void> _onTapUndo(TapUndo undo, Emitter<StopperState> emitter) async {
+    await _practiceRepository
+        .resetSwimmer(undo.id, undo.startTime, undo.lane)
+        .then((value) => emit(state.removeFinisher(undo.lane)));
   }
 }

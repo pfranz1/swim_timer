@@ -21,3 +21,12 @@ class TapSwimmer extends StopperEvent {
   @override
   List<Object> get props => [lane, swimmer];
 }
+
+class TapUndo extends StopperEvent {
+  final String id;
+  final DateTime startTime;
+  final int lane;
+
+  const TapUndo(
+      {required this.id, required this.startTime, required this.lane});
+}

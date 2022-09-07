@@ -49,6 +49,13 @@ abstract class PracticeApi {
   ///
   /// Throws a [SwimmerNotStartedException] if the swimmer hasnt been started yet
   Future<bool> tryEndSwimmer(String id, DateTime endTime);
+
+  /// Resets a incorrectly stopped swimmer
+  Future<bool> resetSwimmer(
+    String id,
+    DateTime startTime,
+    int lane,
+  );
 }
 
 /// Error thrown when a [Swimmer] with a given id is not found

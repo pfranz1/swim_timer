@@ -137,4 +137,7 @@ class PracticeRepository {
     _practiceApi.setLane(id, null);
     return _practiceApi.setEndTime(id, end);
   }
+
+  Future<void> resetSwimmer(String id, DateTime startTime, int lane) =>
+      _practiceApi.resetSwimmer(id, startTime, lane);
 }

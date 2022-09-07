@@ -27,6 +27,15 @@ class StopperState extends Equatable {
     return copyWith(latestFinishers: newFinishers);
   }
 
+  StopperState removeFinisher(int lane) {
+    final newFinishers = this.latestFinishers;
+
+    // newFinishers.replaceRange(finisherLane, finisherLane, [finisher]);
+    newFinishers[lane] = null;
+
+    return copyWith(latestFinishers: newFinishers);
+  }
+
   StopperState copyWith({
     StopperStatus? status,
     List<List<Swimmer>>? lanesOfSwimmers,

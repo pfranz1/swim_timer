@@ -77,7 +77,10 @@ class Lane extends StatelessWidget {
               alignment: Alignment.bottomLeft,
               child: IconButton(
                 icon: Icon(Icons.undo),
-                onPressed: (() => print('Undo!')),
+                onPressed: (() => context.read<StopperBloc>().add(TapUndo(
+                    id: latestFinisher!.id,
+                    startTime: latestFinisher!.startTime!,
+                    lane: laneNum))),
               ),
             )
         ]));

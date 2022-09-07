@@ -182,4 +182,27 @@ class LocalStoragePracticeApi extends PracticeApi {
       throw SwimmerNotStartedException();
     }
   }
+
+  @override
+  Future<bool> resetSwimmer(
+    String id,
+    DateTime startTime,
+    int lane,
+  ) async {
+    // I dont do any checks / throw exceptions here because
+    // I am expecting a swimmer to be rapidly reset.
+    // I could be wrong and there need to be checks for this to be valid
+    // but i dont think it often arise.
+
+    await _updateSwimmerAndSave(
+      id,
+      (swimmer) => swimmer.copyWith(
+        startTime: () => startTime,
+        lane: lane,
+        endTime: () => null,
+      ),
+    );
+
+    return true;
+  }
 }
