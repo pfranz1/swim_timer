@@ -141,6 +141,7 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
       Stroke.BUTTERFLY
     ];
     List<String> names = [
+      "Kyla",
       "Peter",
       "Henry",
       "Catherine",
