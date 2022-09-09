@@ -43,6 +43,8 @@ class Lane extends StatelessWidget {
   final Swimmer? latestFinisher;
   final int laneNum;
 
+  static const Duration _undoShowDuration = const Duration(seconds: 5);
+
   const Lane(
       {super.key,
       required this.swimmers,
@@ -65,14 +67,25 @@ class Lane extends StatelessWidget {
                       swimmer: swimmer,
                       onTap: () => context.read<StopperBloc>().add(TapSwimmer(
                           lane: laneNum,
-                          swimmer: swimmer,
+                          // This end time passed with the swimmer wont be used
+                          // to pass to the api. Instead it will become relvant
+                          // when the api call works and the latestSwimmer is being
+                          // set in the clientside.
+                          // This code is a little smelly :D
+                          swimmer:
+                              swimmer.copyWith(endTime: () => DateTime.now()),
+                          // This is the time that will go to the api
                           time: DateTime.now())),
                     )
                 ],
               ),
             ),
           ),
-          if (latestFinisher != null)
+          if (latestFinisher != null &&
+              latestFinisher!.endTime!
+                      .add(_undoShowDuration)
+                      .compareTo(DateTime.now()) >
+                  0)
             Align(
               alignment: Alignment.bottomLeft,
               child: IconButton(
