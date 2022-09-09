@@ -6,6 +6,7 @@ enum StarterStatus { inital, loading, succsess, failure }
 class StarterState extends Equatable {
   final List<Swimmer> blockSwimmers;
   final List<Swimmer> deckSwimmers;
+  final List<Swimmer> recentlyStarted;
   final Swimmer? selectedSwimmer;
   final String? selectedAction;
   final int? selectedLane;
@@ -14,6 +15,7 @@ class StarterState extends Equatable {
   const StarterState({
     this.blockSwimmers = const [],
     this.deckSwimmers = const [],
+    this.recentlyStarted = const [],
     this.selectedSwimmer,
     this.selectedAction,
     this.selectedLane,
@@ -23,6 +25,7 @@ class StarterState extends Equatable {
   StarterState copyWith({
     List<Swimmer> Function()? blockSwimmers,
     List<Swimmer> Function()? deckSwimmers,
+    List<Swimmer> Function()? recentlyStarted,
     Swimmer? Function()? selectedSwimmer,
     String? Function()? selectedAction,
     int? Function()? selectedLane,
@@ -34,6 +37,8 @@ class StarterState extends Equatable {
       deckSwimmers: deckSwimmers != null ? deckSwimmers() : this.deckSwimmers,
       selectedSwimmer:
           selectedSwimmer != null ? selectedSwimmer() : this.selectedSwimmer,
+      recentlyStarted:
+          recentlyStarted != null ? recentlyStarted() : this.recentlyStarted,
       selectedAction:
           selectedAction != null ? selectedAction() : this.selectedAction,
       selectedLane: selectedLane != null ? selectedLane() : this.selectedLane,
