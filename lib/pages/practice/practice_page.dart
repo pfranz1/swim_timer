@@ -32,6 +32,9 @@ class PracticeView extends StatelessWidget {
         children: const [
           StarterPage(),
           StopperPage(),
+          Scaffold(
+            body: Center(child: Text('Pratice Page')),
+          )
         ],
       ),
       bottomNavigationBar: BottomAppBar(
@@ -47,6 +50,10 @@ class PracticeView extends StatelessWidget {
                 groupValue: selectedTab,
                 value: PracticeTab.stopper,
                 icon: Icon(Icons.stop_circle_outlined)),
+            _PracticeTabButton(
+                groupValue: selectedTab,
+                value: PracticeTab.overview,
+                icon: Icon(Icons.list)),
           ],
         ),
       ),

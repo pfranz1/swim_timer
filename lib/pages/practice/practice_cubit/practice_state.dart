@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum PracticeTab { starter, stopper }
+enum PracticeTab { starter, stopper, overview }
 
 class PracticeState extends Equatable {
   const PracticeState({
