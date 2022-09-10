@@ -213,8 +213,8 @@ class LocalStoragePracticeApi extends PracticeApi {
   Future<void> _saveSwimmerFinisherEntry(Swimmer finisher) {
     // Create new entry
     final newEntry = FinisherEntry.swimmer(finisher);
-    // Make modifyable list and modify it
-    final entries = _entryStreamController.value..add(newEntry);
+    // Make growable list and modify it
+    final entries = _entryStreamController.value.toList()..add(newEntry);
     // Add entries to stream controller
     _entryStreamController.add(entries);
     // Set value in the storage

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:swim_timer/pages/practice/overview/overview_page.dart';
 import 'package:swim_timer/pages/practice/practice_cubit/practice_cubit.dart';
 import 'package:swim_timer/pages/practice/starter/starter_page.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_page.dart';
@@ -32,9 +33,7 @@ class PracticeView extends StatelessWidget {
         children: const [
           StarterPage(),
           StopperPage(),
-          Scaffold(
-            body: Center(child: Text('Pratice Page')),
-          )
+          OverviewPage(),
         ],
       ),
       bottomNavigationBar: BottomAppBar(

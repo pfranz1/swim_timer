@@ -10,6 +10,9 @@ class PracticeRepository {
 
   final PracticeApi _practiceApi;
 
+  /// Returns a stream of all the entries the api has
+  Stream<List<FinisherEntry>> getEntries() => _practiceApi.getEntries();
+
   /// Returns a stream of all swimmers the API has
   Stream<List<Swimmer>> getSwimmers() => _practiceApi.getSwimmers();
 
