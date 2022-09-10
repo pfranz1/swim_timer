@@ -4,20 +4,10 @@ import 'package:equatable/equatable.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:practice_api/src/stroke.dart';
 import 'package:uuid/uuid.dart';
 
 part 'swimmer.g.dart';
-
-enum Stroke {
-  @JsonValue("free")
-  FREE_STYLE,
-  @JsonValue("back")
-  BACK_STROKE,
-  @JsonValue("breast")
-  BREAST_STROKE,
-  @JsonValue("fly")
-  BUTTERFLY,
-}
 
 @immutable
 @JsonSerializable()

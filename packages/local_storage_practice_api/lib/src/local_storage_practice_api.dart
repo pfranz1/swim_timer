@@ -6,6 +6,7 @@ import 'package:practice_api/practice_api.dart';
 import 'package:practice_api/src/swimmer.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:practice_api/src/finisher_entry.dart' hide Stroke;
 
 /// {@template local_storage_practice_api}
 /// A Flutter implementation of the PracticeApi that uses local storage.
@@ -22,12 +23,19 @@ class LocalStoragePracticeApi extends PracticeApi {
   final _swimmerStreamController =
       BehaviorSubject<List<Swimmer>>.seeded(const []);
 
+  final _entryStreamController =
+      BehaviorSubject<List<FinisherEntry>>.seeded(const []);
+
   @visibleForTesting
 
   /// The key used to store swimmer data
   static const swimmerCollectionKey = '__swimmers_collection_key__';
 
+  /// The key used to store entry data
+  static const entryCollectionKey = '__entry_collection_key__';
+
   String? _getValue(String key) => _plugin.getString(key);
+
   Future<void> _setValue(String key, String value) =>
       _plugin.setString(key, value);
 
@@ -43,6 +51,19 @@ class LocalStoragePracticeApi extends PracticeApi {
       _swimmerStreamController.add(swimmers);
     } else {
       _swimmerStreamController.add(const []);
+    }
+
+    final entryJson = _getValue(entryCollectionKey);
+
+    if (entryJson != null) {
+      final entries =
+          List<Map<dynamic, dynamic>>.from(jsonDecode(entryJson) as List)
+              .map((jsonMap) =>
+                  FinisherEntry.fromJson(Map<String, dynamic>.from(jsonMap)))
+              .toList();
+      _entryStreamController.add(entries);
+    } else {
+      _entryStreamController.add(const []);
     }
   }
 
@@ -72,6 +93,10 @@ class LocalStoragePracticeApi extends PracticeApi {
   @override
   Stream<List<Swimmer>> getSwimmers() =>
       _swimmerStreamController.asBroadcastStream();
+
+  @override
+  Stream<List<FinisherEntry>> getEntries() =>
+      _entryStreamController.asBroadcastStream();
 
   @override
   Future<void> addSwimmer(Swimmer swimmer) {
@@ -177,10 +202,23 @@ class LocalStoragePracticeApi extends PracticeApi {
       );
       print(
           "${swimmers[index].name} : ${swimmers[index].stroke} : ${swimmers[index].endTime?.difference(swimmers[index].startTime!)} \n");
+
+      await _saveSwimmerFinisherEntry(swimmers[index]);
       return true;
     } else {
       throw SwimmerNotStartedException();
     }
+  }
+
+  Future<void> _saveSwimmerFinisherEntry(Swimmer finisher) {
+    // Create new entry
+    final newEntry = FinisherEntry.swimmer(finisher);
+    // Make modifyable list and modify it
+    final entries = _entryStreamController.value..add(newEntry);
+    // Add entries to stream controller
+    _entryStreamController.add(entries);
+    // Set value in the storage
+    return _setValue(entryCollectionKey, json.encode(entries));
   }
 
   @override
@@ -194,6 +232,7 @@ class LocalStoragePracticeApi extends PracticeApi {
     // I could be wrong and there need to be checks for this to be valid
     // but i dont think it often arise.
 
+    //TODO: Undo the entry for the swimmer that was reset
     await _updateSwimmerAndSave(
       id,
       (swimmer) => swimmer.copyWith(

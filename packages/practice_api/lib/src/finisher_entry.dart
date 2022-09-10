@@ -1,27 +1,25 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:practice_api/practice_api.dart';
+import 'stroke.dart';
 
 part "finisher_entry.g.dart";
-
-// It is smelly to have stroke defined here and in swimmer.dart
-// But I dont want to deal with json serializable issues and what not
-// The strokes wont change? Maybe could be expanded?
-// But later problem :D
-enum Stroke {
-  @JsonValue("free")
-  FREE_STYLE,
-  @JsonValue("back")
-  BACK_STROKE,
-  @JsonValue("breast")
-  BREAST_STROKE,
-  @JsonValue("fly")
-  BUTTERFLY,
-}
 
 @JsonSerializable()
 @immutable
 class FinisherEntry extends Equatable {
+  /// Builds an entry from a swimmer that has all feilds
+  factory FinisherEntry.swimmer(Swimmer swimmer) {
+    final time = swimmer.endTime!.difference(swimmer.startTime!);
+    return FinisherEntry(
+      id: swimmer.id,
+      name: swimmer.name,
+      time: time,
+      stroke: swimmer.stroke,
+    );
+  }
+
   /// The name of the swimmer
   final String name;
 

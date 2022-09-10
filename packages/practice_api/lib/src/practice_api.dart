@@ -1,3 +1,5 @@
+import 'package:practice_api/src/finisher_entry.dart';
+import 'package:practice_api/src/stroke.dart';
 import 'package:practice_api/src/swimmer.dart';
 
 /// {@template practice_api}
@@ -9,6 +11,9 @@ abstract class PracticeApi {
 
   /// Provides a [Stream] of [Swimmer]s.
   Stream<List<Swimmer>> getSwimmers();
+
+  /// Provides a [Stream] of [FinisherEntry]
+  Stream<List<FinisherEntry>> getEntries();
 
   /// Adds a swimmer to the current swimmers.
   Future<void> addSwimmer(Swimmer swimmer);
