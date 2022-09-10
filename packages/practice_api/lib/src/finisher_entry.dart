@@ -30,10 +30,12 @@ class FinisherEntry extends Equatable {
 
   /// The time of the swimmer
   final Duration time;
-  // The stroke the swimmer was swimming
+
+  /// The stroke the swimmer was swimming
   final Stroke stroke;
 
-  FinisherEntry({
+  /// The object that stores a swimmer's result after a lap
+  const FinisherEntry({
     required this.id,
     required this.name,
     required this.time,
@@ -45,6 +47,6 @@ class FinisherEntry extends Equatable {
 
   @override
   String toString() {
-    return "{$name : $stroke : $time}";
+    return '{$name : $stroke : $time}';
   }
 }
