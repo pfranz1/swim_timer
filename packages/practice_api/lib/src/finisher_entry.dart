@@ -4,7 +4,7 @@ import 'package:meta/meta.dart';
 
 part "finisher_entry.g.dart";
 
-// It is smelly to have stroke defined here and in swimmer
+// It is smelly to have stroke defined here and in swimmer.dart
 // But I dont want to deal with json serializable issues and what not
 // The strokes wont change? Maybe could be expanded?
 // But later problem :D
@@ -41,6 +41,13 @@ class FinisherEntry extends Equatable {
     required this.time,
     required this.stroke,
   });
+
+  ///  Deserializes the given [Map] into a [FinisherEntry].
+  static FinisherEntry fromJson(Map<String, dynamic> json) =>
+      _$FinisherEntryFromJson(json);
+
+  /// Converts this [FinisherEntry] into a [Map]
+  Map<String, dynamic> toJson() => _$FinisherEntryToJson(this);
 
   @override // For equatable
   List<Object> get props => [stroke, id, name, time];
