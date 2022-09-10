@@ -30,3 +30,13 @@ class TapUndo extends StopperEvent {
   const TapUndo(
       {required this.id, required this.startTime, required this.lane});
 }
+
+class StaleFinisher extends StopperEvent {
+  final String id;
+  final int lane;
+
+  const StaleFinisher({required this.id, required this.lane});
+
+  @override
+  List<Object> get props => [id, lane];
+}
