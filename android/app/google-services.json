@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "589959329423",
+    "firebase_url": "https://swimtimer-36014-default-rtdb.firebaseio.com",
+    "project_id": "swimtimer-36014",
+    "storage_bucket": "swimtimer-36014.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:589959329423:android:5b9346e517319af168a2fa",
+        "android_client_info": {
+          "package_name": "com.example.swim_timer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "589959329423-odtsc1f9stlvrbk9qoro4nq8qaeqij41.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY6yVmjLhk8aExfBF097h54_0CFln7EkY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "589959329423-odtsc1f9stlvrbk9qoro4nq8qaeqij41.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "589959329423-2rbo5747s0848gn43mentr75nqv8769i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.swimTimer"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
