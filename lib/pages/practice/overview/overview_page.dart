@@ -23,24 +23,93 @@ class OverviewView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: BlocBuilder<OverviewBloc, OverviewState>(
-      builder: ((context, state) {
-        if (state.status == OverviewStatus.loading) {
-          return const Center(
-            child: CupertinoActivityIndicator(),
-          );
-        } else {
-          return Center(
-              child: ListView.builder(
-            itemBuilder: (context, index) {
-              return Card(
-                child: Text('${state.entries?[index]}'),
-              );
-            },
-            itemCount: state.entries?.length ?? 0,
-          ));
-        }
-      }),
-    ));
+    return Scaffold(
+      body: BlocBuilder<OverviewBloc, OverviewState>(
+        builder: ((context, state) {
+          if (state.status == OverviewStatus.loading) {
+            return const Center(
+              child: CupertinoActivityIndicator(),
+            );
+          } else {
+            return Center(
+                child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: EntriesCard(entries: state.entries),
+            ));
+          }
+        }),
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
+    );
+  }
+}
+
+class EntriesCard extends StatelessWidget {
+  const EntriesCard({Key? key, this.entries}) : super(key: key);
+
+  final List<FinisherEntry>? entries;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
+              // Subtracting from length to reverse order entries are shown
+              child: EntryCard(entry: entries?[entries!.length - 1 - index]),
+            );
+          },
+          itemCount: entries?.length ?? 0,
+        ),
+      ),
+    );
+  }
+}
+
+class EntryCard extends StatelessWidget {
+  const EntryCard({
+    Key? key,
+    required this.entry,
+  }) : super(key: key);
+
+  final FinisherEntry? entry;
+
+  String _prettyPrintDuration(Duration? duration) {
+    if (duration == null) return "---";
+    return duration.toString();
+  }
+
+  Widget? _StrokeIcon(Stroke? stroke) {
+    return Icon(Icons.pool);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Theme.of(context).primaryColorLight,
+          borderRadius: BorderRadius.all(Radius.circular(10.0))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Center(child: Text(entry?.name ?? "---")),
+            flex: 4,
+          ),
+          _StrokeIcon(entry?.stroke) ?? Container(),
+          Expanded(
+            child: Center(child: Text(_prettyPrintDuration(entry?.time))),
+            flex: 4,
+          ),
+        ],
+      ),
+    );
   }
 }
