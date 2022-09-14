@@ -6,11 +6,13 @@ enum StarterStatus { inital, loading, succsess, failure }
 class StarterState extends Equatable {
   final List<Swimmer> blockSwimmers;
   final List<Swimmer> deckSwimmers;
-  final List<Swimmer> recentlyStarted;
+  final List<Swimmer?> recentlyStarted;
   final Swimmer? selectedSwimmer;
   final String? selectedAction;
   final int? selectedLane;
   final StarterStatus status;
+
+  final bool canUndoStart;
 
   const StarterState({
     this.blockSwimmers = const [],
@@ -20,16 +22,18 @@ class StarterState extends Equatable {
     this.selectedAction,
     this.selectedLane,
     this.status = StarterStatus.inital,
+    this.canUndoStart = false,
   });
 
   StarterState copyWith({
     List<Swimmer> Function()? blockSwimmers,
     List<Swimmer> Function()? deckSwimmers,
-    List<Swimmer> Function()? recentlyStarted,
+    List<Swimmer?> Function()? recentlyStarted,
     Swimmer? Function()? selectedSwimmer,
     String? Function()? selectedAction,
     int? Function()? selectedLane,
     StarterStatus Function()? status,
+    bool? canUndoStart,
   }) {
     return StarterState(
       blockSwimmers:
@@ -43,11 +47,13 @@ class StarterState extends Equatable {
           selectedAction != null ? selectedAction() : this.selectedAction,
       selectedLane: selectedLane != null ? selectedLane() : this.selectedLane,
       status: status != null ? status() : this.status,
+      canUndoStart: canUndoStart ?? this.canUndoStart,
     );
   }
 
   @override
   List<Object?> get props => [
+        canUndoStart,
         selectedSwimmer,
         selectedAction,
         selectedLane,

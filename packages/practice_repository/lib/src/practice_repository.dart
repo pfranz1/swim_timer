@@ -143,4 +143,7 @@ class PracticeRepository {
 
   Future<void> resetSwimmer(String id, DateTime startTime, int lane) =>
       _practiceApi.resetSwimmer(id, startTime, lane);
+
+  Future<void> undoStart(String id, DateTime? oldEndTime) =>
+      _practiceApi.undoStart(id, oldEndTime);
 }

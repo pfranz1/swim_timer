@@ -88,13 +88,22 @@ class StarterView extends StatelessWidget {
                                 onPressed: () =>
                                     {context.read<StarterBloc>().add(TapAdd())},
                                 icon: Icon(Icons.add)),
-                            IconButton(
-                                onPressed: () => {
-                                      context
-                                          .read<StarterBloc>()
-                                          .add(TapStart(DateTime.now()))
-                                    },
-                                icon: Icon(Icons.play_arrow_rounded)),
+                            if (!state.canUndoStart)
+                              IconButton(
+                                  onPressed: () => {
+                                        context
+                                            .read<StarterBloc>()
+                                            .add(TapStart(DateTime.now()))
+                                      },
+                                  icon: Icon(Icons.play_arrow_rounded)),
+                            if (state.canUndoStart)
+                              IconButton(
+                                  onPressed: () => {
+                                        context
+                                            .read<StarterBloc>()
+                                            .add(TapUndo())
+                                      },
+                                  icon: Icon(Icons.fast_rewind_rounded)),
                             IconButton(
                                 onPressed: () => print('Edit'),
                                 icon: Icon(Icons.edit))

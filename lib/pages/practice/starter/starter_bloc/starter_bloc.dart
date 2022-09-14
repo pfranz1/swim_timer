@@ -19,11 +19,14 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     on<TapSwimmer>(_onTapSwimmer);
     on<TapEdit>(_onTapEdit);
     on<TapStart>(_onTapStart);
-    on<TapReset>(_onTapReset);
+    on<TapUndo>(_onTapUndo);
     on<TapAdd>(_onTapAdd);
+    on<StaleUndo>(_onStaleUndo);
   }
 
   final PracticeRepository _practiceRepository;
+
+  static const Duration undoFadeDuration = Duration(seconds: 5);
 
   Future<void> _onSubscriptionRequested(
     SubscriptionRequested request,
@@ -113,16 +116,46 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     TapStart tapStart,
     Emitter<StarterState> emit,
   ) async {
+    List<Swimmer?> newlyStarted = [];
+    bool startedAtLeastOne = false;
     for (Swimmer blockSwimmer in state.blockSwimmers) {
-      await _practiceRepository.setStartTime(blockSwimmer.id, tapStart.start);
+      await _practiceRepository
+          .tryStartSwimmer(blockSwimmer.id, tapStart.start)
+          .then((value) {
+        startedAtLeastOne = startedAtLeastOne || value;
+        if (value == true) {
+          newlyStarted.add(blockSwimmer);
+        } else {
+          newlyStarted.add(null);
+        }
+      });
     }
+
+    emit(state.copyWith(
+        recentlyStarted: () => newlyStarted, canUndoStart: startedAtLeastOne));
+
+    Future.delayed(undoFadeDuration).then((value) => add(StaleUndo()));
   }
 
   // TODO: Decide how reset feature should work - server side or client side?
-  Future<void> _onTapReset(
-    TapReset tapReset,
+  Future<void> _onTapUndo(
+    TapUndo tapUndo,
     Emitter<StarterState> emit,
-  ) async {}
+  ) async {
+    emit(state.copyWith(canUndoStart: false));
+
+    for (Swimmer? swimmerToUndo in state.recentlyStarted) {
+      if (swimmerToUndo != null) {
+        await _practiceRepository.undoStart(
+            swimmerToUndo.id, swimmerToUndo.endTime);
+      }
+    }
+  }
+
+  Future<void> _onStaleUndo(
+      StaleUndo staleUndo, Emitter<StarterState> emit) async {
+    emit(state.copyWith(canUndoStart: false));
+  }
 
   Future<void> _onTapAdd(
     TapAdd tapAdd,

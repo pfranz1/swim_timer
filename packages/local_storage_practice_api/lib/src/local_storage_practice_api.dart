@@ -244,4 +244,19 @@ class LocalStoragePracticeApi extends PracticeApi {
 
     return true;
   }
+
+  Future<bool> undoStart(
+    String id,
+    DateTime? oldEndTime,
+  ) async {
+    await _updateSwimmerAndSave(
+      id,
+      (swimmer) => swimmer.copyWith(
+        endTime: () => oldEndTime,
+        startTime: () => null,
+      ),
+    );
+
+    return true;
+  }
 }
