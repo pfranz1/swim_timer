@@ -9,11 +9,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:swim_timer/bloc_observer.dart';
 import 'package:swim_timer/lane/lane.dart';
 import 'package:swim_timer/pages/practice/practice_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Set default vlaue so issues reading from empty shared preference
+  // Set default value so issues reading from empty shared preference
   // https://stackoverflow.com/q/50687801
   // SharedPreferences.setMockInitialValues({});
 
