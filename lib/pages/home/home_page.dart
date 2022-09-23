@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -23,17 +24,17 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ActionButton(
-                  onTap: () => {},
+                  onTap: () => context.go('/create'),
                   backgroundColor: Colors.orange,
                   text: "Create",
                 ),
                 ActionButton(
-                  onTap: () => {},
+                  onTap: () => context.go('/join'),
                   backgroundColor: Colors.green,
                   text: "Join",
                 ),
                 ActionButton(
-                  onTap: () => {},
+                  onTap: () => context.go('/records'),
                   backgroundColor: Colors.blue,
                   text: "Records ",
                 ),
