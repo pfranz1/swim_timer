@@ -11,6 +11,7 @@ import 'package:swim_timer/lane/lane.dart';
 import 'package:swim_timer/pages/practice/practice_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:go_router/go_router.dart';
 
 void main() async {
   await Firebase.initializeApp(
@@ -46,18 +47,28 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: practiceRepository,
-      child: const AppView(),
+      child: AppView(),
     );
   }
 }
 
 class AppView extends StatelessWidget {
-  const AppView({super.key});
+  AppView({super.key});
+
+  final GoRouter _router = GoRouter(routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) {
+        return const PracticePage();
+      },
+    )
+  ]);
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: PracticePage(),
+    return MaterialApp.router(
+      routerConfig: _router,
+      title: "Swim Timer",
     );
   }
 }
