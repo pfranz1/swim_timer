@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/overview/overview_bloc/overview_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class OverviewPage extends StatelessWidget {
   const OverviewPage({super.key});
@@ -24,6 +25,12 @@ class OverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("Session Stats"),
+        leading: IconButton(
+            onPressed: () => {context.go('/')}, icon: Icon(Icons.chevron_left)),
+        centerTitle: true,
+      ),
       body: BlocBuilder<OverviewBloc, OverviewState>(
         builder: ((context, state) {
           if (state.status == OverviewStatus.loading) {

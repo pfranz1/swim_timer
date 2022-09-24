@@ -7,6 +7,7 @@ import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 import 'package:swim_timer/pages/practice/starter/widgets/deck.dart';
 import 'package:swim_timer/pages/practice/starter/widgets/lane.dart';
+import 'package:go_router/go_router.dart';
 
 class StarterPage extends StatelessWidget {
   const StarterPage({super.key});
@@ -28,6 +29,19 @@ class StarterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Starter',
+        ),
+        elevation: 0,
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () => {context.go('/')},
+            icon: Icon(
+              Icons.chevron_left,
+              color: Theme.of(context).colorScheme.onBackground,
+            )),
+      ),
       body: MultiBlocListener(
         listeners: [
           BlocListener<StarterBloc, StarterState>(
@@ -58,10 +72,9 @@ class StarterView extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text('Starter'),
-                          )),
+                        child: Container(),
+                        flex: 1,
+                      ),
                       Expanded(
                         flex: 4,
                         child: Center(

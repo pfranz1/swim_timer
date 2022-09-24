@@ -16,8 +16,9 @@ class JoinPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child:
-            ElevatedButton(onPressed: () => {}, child: Text('Join Practice')),
+        child: ElevatedButton(
+            onPressed: () => {context.go('/practice/1234')},
+            child: Text('Join Practice')),
       ),
     );
   }

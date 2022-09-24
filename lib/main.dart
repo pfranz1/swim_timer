@@ -84,6 +84,14 @@ class AppView extends StatelessWidget {
         return const RecordsPage();
       },
     ),
+    GoRoute(
+      path: '/practice/:sessionId',
+      builder: (context, state) {
+        final sessionId = state.params['sessionId'];
+        print(sessionId);
+        return const PracticePage();
+      },
+    ),
   ]);
 
   @override

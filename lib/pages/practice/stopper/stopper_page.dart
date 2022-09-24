@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_bloc/stopper_bloc.dart';
 import 'package:swim_timer/pages/practice/stopper/widgets/lanes.dart';
+import 'package:go_router/go_router.dart';
 
 class StopperPage extends StatelessWidget {
   const StopperPage({super.key});
@@ -25,52 +26,62 @@ class StopperView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text("Stopper"),
+          leading: IconButton(
+              onPressed: () => {context.go('/')},
+              icon: Icon(Icons.chevron_left)),
+          centerTitle: true,
+        ),
         body: MultiBlocListener(
-      listeners: [
-        BlocListener<StopperBloc, StopperState>(
-          listenWhen: (previous, current) => previous.status != current.status,
-          listener: (context, state) {
-            if (state.status == StopperStatus.failure) {
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                    SnackBar(content: Text("Failure Status in StopperBloc")));
-            }
-          },
-        )
-      ],
-      child: BlocBuilder<StopperBloc, StopperState>(
-        builder: ((context, state) {
-          if (state.status == StopperStatus.loading) {
-            return const Center(child: CupertinoActivityIndicator());
-          } else {
-            if (state.lanesOfSwimmers.isEmpty) {
-              return Center(
-                child: Text("NOTHING YET"),
-              );
-            }
-            return Container(
-              color: Theme.of(context).colorScheme.background,
-              child: Column(
-                children: [
-                  const Expanded(
-                      flex: 1, child: Center(child: Text("Stopper"))),
-                  Expanded(
-                      flex: 8,
-                      child: Center(
-                        child: Lanes(
-                            swimmersByLane: state.lanesOfSwimmers,
-                            latestFinishers: state.latestFinishers),
-                      )),
-                ],
-              ),
-            );
+          listeners: [
+            BlocListener<StopperBloc, StopperState>(
+              listenWhen: (previous, current) =>
+                  previous.status != current.status,
+              listener: (context, state) {
+                if (state.status == StopperStatus.failure) {
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(
+                        content: Text("Failure Status in StopperBloc")));
+                }
+              },
+            )
+          ],
+          child: BlocBuilder<StopperBloc, StopperState>(
+            builder: ((context, state) {
+              if (state.status == StopperStatus.loading) {
+                return const Center(child: CupertinoActivityIndicator());
+              } else {
+                if (state.lanesOfSwimmers.isEmpty) {
+                  return Center(
+                    child: Text("NOTHING YET"),
+                  );
+                }
+                return Container(
+                  color: Theme.of(context).colorScheme.background,
+                  child: Column(
+                    children: [
+                      Expanded(flex: 1, child: Container()),
+                      Expanded(
+                          flex: 8,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Lanes(
+                                  swimmersByLane: state.lanesOfSwimmers,
+                                  latestFinishers: state.latestFinishers),
+                            ),
+                          )),
+                    ],
+                  ),
+                );
 
-            return Center(
-                child: Text(state.lanesOfSwimmers.sublist(1).toString()));
-          }
-        }),
-      ),
-    ));
+                return Center(
+                    child: Text(state.lanesOfSwimmers.sublist(1).toString()));
+              }
+            }),
+          ),
+        ));
   }
 }
