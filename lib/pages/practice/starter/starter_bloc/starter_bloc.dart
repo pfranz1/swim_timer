@@ -134,7 +134,15 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     emit(state.copyWith(
         recentlyStarted: () => newlyStarted, canUndoStart: startedAtLeastOne));
 
-    Future.delayed(undoFadeDuration).then((value) => add(StaleUndo()));
+    Future.delayed(undoFadeDuration).then((value) {
+      // Try-On to handle error when this is triggered but the bloc is dead
+      try {
+        add(StaleUndo());
+      } on StateError {
+        print(
+            'NON ISSUE - State Error Occured - Probably a transition to diffrent route');
+      }
+    });
   }
 
   // TODO: Decide how reset feature should work - server side or client side?

@@ -11,8 +11,12 @@ import 'package:swim_timer/lane/lane.dart';
 import 'package:swim_timer/pages/create/create_page.dart';
 import 'package:swim_timer/pages/home/home_page.dart';
 import 'package:swim_timer/pages/join/join_page.dart';
+import 'package:swim_timer/pages/practice/overview/overview_page.dart';
 import 'package:swim_timer/pages/practice/practice_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:swim_timer/pages/practice/practice_scaffold.dart';
+import 'package:swim_timer/pages/practice/starter/starter_page.dart';
+import 'package:swim_timer/pages/practice/stopper/stopper_page.dart';
 import 'package:swim_timer/pages/records/records_page.dart';
 import 'firebase_options.dart';
 import 'package:go_router/go_router.dart';
@@ -84,6 +88,45 @@ class AppView extends StatelessWidget {
         return const RecordsPage();
       },
     ),
+    ShellRoute(
+        builder: (context, state, child) {
+          print(
+              "Full path ${state.location.split("/").reversed.skip(1).take(1).first}");
+
+          final locationValues = state.location.split("/").sublist(1);
+
+          final role = locationValues.elementAt(2);
+          final sessionId = locationValues.elementAt(1);
+
+          print("role $role sessionId $sessionId");
+
+          // context
+          //     .read<PracticeRepository>()
+          //     .addSwimmer(Swimmer(name: "ROUTING SWIMMER!"));
+          return PracticeScaffold(location: state.location, child: child);
+        },
+        routes: [
+          GoRoute(
+            path: '/practice/:sessionID/starter',
+            builder: (context, state) {
+              print("Session ID Lower: ${state.params["sessionID"]}");
+
+              return StarterPage();
+            },
+          ),
+          GoRoute(
+            path: '/practice/:sessionID/stopper',
+            builder: (context, state) {
+              return StopperPage();
+            },
+          ),
+          GoRoute(
+            path: '/practice/:sessionID/overview',
+            builder: (context, state) {
+              return OverviewPage();
+            },
+          ),
+        ]),
     GoRoute(
       path: '/practice/:sessionId',
       builder: (context, state) {

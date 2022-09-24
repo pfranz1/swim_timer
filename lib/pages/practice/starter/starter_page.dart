@@ -30,19 +30,6 @@ class StarterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Starter',
-        ),
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-            onPressed: () => {context.go('/')},
-            icon: Icon(
-              Icons.chevron_left,
-              color: Theme.of(context).colorScheme.onBackground,
-            )),
-      ),
       body: MultiBlocListener(
         listeners: [
           BlocListener<StarterBloc, StarterState>(

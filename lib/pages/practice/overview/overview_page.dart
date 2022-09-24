@@ -25,12 +25,6 @@ class OverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Session Stats"),
-        leading: IconButton(
-            onPressed: () => {context.go('/')}, icon: Icon(Icons.chevron_left)),
-        centerTitle: true,
-      ),
       body: BlocBuilder<OverviewBloc, OverviewState>(
         builder: ((context, state) {
           if (state.status == OverviewStatus.loading) {
