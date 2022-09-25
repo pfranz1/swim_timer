@@ -26,6 +26,7 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         title: Text("Loading..."),
         centerTitle: true,
@@ -35,7 +36,17 @@ class _LoadingPageState extends State<LoadingPage> {
         ),
       ),
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: Theme.of(context).colorScheme.primary,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(50.0),
+              child: CircularProgressIndicator(
+                color: Colors.orange,
+              ),
+            )),
       ),
     );
   }
