@@ -7,8 +7,9 @@ import 'package:swim_timer/pages/practice/practice_cubit/practice_cubit.dart';
 enum PracticeTab { starter, stopper, overview }
 
 class PracticeScaffold extends StatelessWidget {
-  const PracticeScaffold(
-      {super.key, required this.child, required this.location});
+  PracticeScaffold({super.key, required this.child, required this.location}) {
+    print("build practice scaffold");
+  }
 
   final Widget child;
 

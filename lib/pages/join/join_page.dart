@@ -16,9 +16,16 @@ class JoinPage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child: ElevatedButton(
-            onPressed: () => {context.go('/practice/1234')},
-            child: Text('Join Practice')),
+        child: Column(
+          children: [
+            ElevatedButton(
+                onPressed: () => {context.go('/practice/1111')},
+                child: Text('Join Practice 1111')),
+            ElevatedButton(
+                onPressed: () => {context.go('/practice/9999')},
+                child: Text('Join Practice 9999')),
+          ],
+        ),
       ),
     );
   }

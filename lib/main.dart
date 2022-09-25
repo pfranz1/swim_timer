@@ -11,6 +11,7 @@ import 'package:swim_timer/lane/lane.dart';
 import 'package:swim_timer/pages/create/create_page.dart';
 import 'package:swim_timer/pages/home/home_page.dart';
 import 'package:swim_timer/pages/join/join_page.dart';
+import 'package:swim_timer/pages/loading/loading_page.dart';
 import 'package:swim_timer/pages/practice/overview/overview_page.dart';
 import 'package:swim_timer/pages/practice/practice_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -63,6 +64,8 @@ class App extends StatelessWidget {
 class AppView extends StatelessWidget {
   AppView({super.key});
 
+  final PracticeRepository? currentPracticeRepository = null;
+
   final GoRouter _router = GoRouter(routes: [
     GoRoute(
       path: '/',
@@ -88,11 +91,15 @@ class AppView extends StatelessWidget {
         return const RecordsPage();
       },
     ),
+    GoRoute(
+      path: '/practice/:sessionId/not-found',
+      builder: (context, state) => Scaffold(
+        body: Center(child: Text("Practice not found")),
+      ),
+    ),
+    // Route of loaded practice
     ShellRoute(
         builder: (context, state, child) {
-          print(
-              "Full path ${state.location.split("/").reversed.skip(1).take(1).first}");
-
           final locationValues = state.location.split("/").sublist(1);
 
           final role = locationValues.elementAt(2);
@@ -128,11 +135,33 @@ class AppView extends StatelessWidget {
           ),
         ]),
     GoRoute(
-      path: '/practice/:sessionId',
+      path: "/practice/:sessionId/resolve",
+      redirect: (context, state) async {
+        final repository = context.read<PracticeRepository>();
+
+        if (state.params["sessionId"] != repository.sessionId) {
+          repository.loadingSession = true;
+          print('Loading new session');
+          await Future.delayed(Duration(seconds: 5));
+          bool didFindSession = true;
+          repository.sessionId = state.params["sessionId"]!;
+          final baseLocation =
+              state.location.substring(0, state.location.lastIndexOf("/"));
+          return didFindSession
+              ? baseLocation + "/starter"
+              : baseLocation + "/not-found";
+        } else {
+          return state.location + "/starter";
+        }
+      },
+    ),
+
+    GoRoute(
+      path: "/practice/:sessionId",
       builder: (context, state) {
-        final sessionId = state.params['sessionId'];
-        print(sessionId);
-        return const PracticePage();
+        return LoadingPage(
+            afterLoadingDisplay: (context) =>
+                {context.go(state.location + '/resolve')});
       },
     ),
   ]);

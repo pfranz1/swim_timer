@@ -5,10 +5,13 @@ import 'package:practice_api/practice_api.dart';
 /// {@endtemplate}
 class PracticeRepository {
   /// {@macro practice_repository}
-  const PracticeRepository({required PracticeApi practiceApi})
+  PracticeRepository({required PracticeApi practiceApi})
       : _practiceApi = practiceApi;
 
   final PracticeApi _practiceApi;
+
+  String sessionId = "DEFAULTID";
+  bool loadingSession = false;
 
   /// Returns a stream of all the entries the api has
   Stream<List<FinisherEntry>> getEntries() => _practiceApi.getEntries();
