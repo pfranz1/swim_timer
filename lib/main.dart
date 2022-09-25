@@ -91,76 +91,83 @@ class AppView extends StatelessWidget {
         return const RecordsPage();
       },
     ),
+
+    // Practice Not Found
     GoRoute(
       path: '/practice/:sessionId/not-found',
-      builder: (context, state) => Scaffold(
+      builder: (context, state) => const Scaffold(
         body: Center(child: Text("Practice not found")),
       ),
     ),
-    // Route of loaded practice
+    // Loaded Practice
     ShellRoute(
-        builder: (context, state, child) {
-          final locationValues = state.location.split("/").sublist(1);
-
-          final role = locationValues.elementAt(2);
-          final sessionId = locationValues.elementAt(1);
-
-          print("role $role sessionId $sessionId");
-
-          // context
-          //     .read<PracticeRepository>()
-          //     .addSwimmer(Swimmer(name: "ROUTING SWIMMER!"));
-          return PracticeScaffold(location: state.location, child: child);
-        },
-        routes: [
-          GoRoute(
-            path: '/practice/:sessionID/starter',
-            builder: (context, state) {
-              print("Session ID Lower: ${state.params["sessionID"]}");
-
-              return StarterPage();
-            },
-          ),
-          GoRoute(
-            path: '/practice/:sessionID/stopper',
-            builder: (context, state) {
-              return StopperPage();
-            },
-          ),
-          GoRoute(
-            path: '/practice/:sessionID/overview',
-            builder: (context, state) {
-              return OverviewPage();
-            },
-          ),
-        ]),
+      // The parent object of all sub-routes
+      builder: (context, state, child) {
+        return PracticeScaffold(location: state.location, child: child);
+      },
+      routes: [
+        // Starter
+        GoRoute(
+          path: '/practice/:sessionID/starter',
+          builder: (context, state) {
+            return StarterPage();
+          },
+        ),
+        // Stopper
+        GoRoute(
+          path: '/practice/:sessionID/stopper',
+          builder: (context, state) {
+            return StopperPage();
+          },
+        ),
+        // Overview
+        GoRoute(
+          path: '/practice/:sessionID/overview',
+          builder: (context, state) {
+            return OverviewPage();
+          },
+        ),
+      ],
+    ),
+    // Route called to get repository to provide new session, then redirect to appropriate
     GoRoute(
       path: "/practice/:sessionId/resolve",
       redirect: (context, state) async {
+        // Read in the repository
         final repository = context.read<PracticeRepository>();
-
+        // IF the sessionId i want to have isnt the one in repository
         if (state.params["sessionId"] != repository.sessionId) {
-          repository.loadingSession = true;
-          print('Loading new session');
-          await Future.delayed(Duration(seconds: 5));
+          // TODO: Actally update the repository in a meaningful way
+          // I.E. the repository should provide data from a different session
+          await Future.delayed(Duration(seconds: 5)).then(
+              (value) => repository.sessionId = state.params["sessionId"]!);
+
+          // TODO: Base this on if the change occured or not
           bool didFindSession = true;
-          repository.sessionId = state.params["sessionId"]!;
+
           final baseLocation =
               state.location.substring(0, state.location.lastIndexOf("/"));
+          // If a session was redirect to starter of that session
+          // Otherwise redirect to the page-not-found page
           return didFindSession
               ? baseLocation + "/starter"
               : baseLocation + "/not-found";
         } else {
+          // If the repository already is providing from the session I want
           final baseLocation =
               state.location.substring(0, state.location.lastIndexOf("/"));
           return baseLocation + "/starter";
         }
       },
     ),
-
+    // Loading screen that initiates redirect call
     GoRoute(
       path: "/practice/:sessionId",
       builder: (context, state) {
+        // As soon as this page loads and displays a loading icon
+        // It calls to go to the /resolve route which is actually
+        // a redirection that is responsible for telling the repository
+        // to load the session of sessionId
         return LoadingPage(
             afterLoadingDisplay: (context) =>
                 {context.go(state.location + '/resolve')});
