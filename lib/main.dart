@@ -151,7 +151,9 @@ class AppView extends StatelessWidget {
               ? baseLocation + "/starter"
               : baseLocation + "/not-found";
         } else {
-          return state.location + "/starter";
+          final baseLocation =
+              state.location.substring(0, state.location.lastIndexOf("/"));
+          return baseLocation + "/starter";
         }
       },
     ),
