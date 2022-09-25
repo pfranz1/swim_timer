@@ -13,7 +13,7 @@ class IconActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: icon,
+      child: Center(child: icon),
       style: ElevatedButton.styleFrom(
         shape: CircleBorder(), //<-- SEE HERE
         padding: EdgeInsets.all(20),
@@ -43,9 +43,11 @@ class IconStartButton extends StatelessWidget {
           shape: const CircleBorder(),
           padding: const EdgeInsets.all(30),
           backgroundColor: Colors.orange),
-      child: canUndoStart
-          ? Icon(Icons.fast_rewind_rounded)
-          : Icon(Icons.play_arrow_rounded),
+      child: Center(
+        child: canUndoStart
+            ? Icon(Icons.fast_rewind_rounded)
+            : Icon(Icons.play_arrow_rounded),
+      ),
     );
   }
 }
