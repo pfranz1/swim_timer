@@ -44,11 +44,25 @@ class StopperBloc extends Bloc<StopperEvent, StopperState> {
         .tryEndSwimmer(event.swimmer.id, event.time)
         .then((value) {
       if (value == true) {
-        emit(state.registerFinisher(
-            finisher: event.swimmer, finisherLane: event.lane));
+        // Try-On to handle error when the swimmer was ended but bloc dead
+        try {
+          emit(state.registerFinisher(
+              finisher: event.swimmer, finisherLane: event.lane));
+        } on StateError {
+          print(
+              'NON ISSUE - State Error Occured - Probably a transition to diffrent route');
+        }
 
-        Future.delayed(_undoStayingTime).then((_) =>
-            {add(StaleFinisher(id: event.swimmer.id, lane: event.lane))});
+        //TODO: FIX error when this fires on dead bloc
+        Future.delayed(_undoStayingTime).then((_) {
+          // Try-On to handle error when this is triggered but the bloc is dead
+          try {
+            add(StaleFinisher(id: event.swimmer.id, lane: event.lane));
+          } on StateError {
+            print(
+                'NON ISSUE - State Error Occured - Probably a transition to diffrent route');
+          }
+        });
       }
     });
   }

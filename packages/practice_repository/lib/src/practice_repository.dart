@@ -5,10 +5,12 @@ import 'package:practice_api/practice_api.dart';
 /// {@endtemplate}
 class PracticeRepository {
   /// {@macro practice_repository}
-  const PracticeRepository({required PracticeApi practiceApi})
+  PracticeRepository({required PracticeApi practiceApi})
       : _practiceApi = practiceApi;
 
   final PracticeApi _practiceApi;
+
+  String sessionId = "DEFAULTID";
 
   /// Returns a stream of all the entries the api has
   Stream<List<FinisherEntry>> getEntries() => _practiceApi.getEntries();
@@ -143,4 +145,7 @@ class PracticeRepository {
 
   Future<void> resetSwimmer(String id, DateTime startTime, int lane) =>
       _practiceApi.resetSwimmer(id, startTime, lane);
+
+  Future<void> undoStart(String id, DateTime? oldEndTime) =>
+      _practiceApi.undoStart(id, oldEndTime);
 }

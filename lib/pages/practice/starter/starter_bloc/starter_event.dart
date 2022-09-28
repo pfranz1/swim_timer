@@ -43,6 +43,8 @@ class TapStart extends StarterBlocEvent {
   List<Object> get props => [start];
 }
 
-class TapReset extends StarterBlocEvent {}
+class TapUndo extends StarterBlocEvent {}
+
+class StaleUndo extends StarterBlocEvent {}
 
 class TapAdd extends StarterBlocEvent {}

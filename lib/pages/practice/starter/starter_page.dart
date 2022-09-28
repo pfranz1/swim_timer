@@ -6,7 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 import 'package:swim_timer/pages/practice/starter/widgets/deck.dart';
+import 'package:swim_timer/pages/practice/starter/widgets/icon_action_button.dart';
 import 'package:swim_timer/pages/practice/starter/widgets/lane.dart';
+import 'package:go_router/go_router.dart';
 
 class StarterPage extends StatelessWidget {
   const StarterPage({super.key});
@@ -58,10 +60,9 @@ class StarterView extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                          flex: 1,
-                          child: Center(
-                            child: Text('Starter'),
-                          )),
+                        child: Container(),
+                        flex: 1,
+                      ),
                       Expanded(
                         flex: 4,
                         child: Center(
@@ -84,20 +85,30 @@ class StarterView extends StatelessWidget {
                             child: ButtonBar(
                           alignment: MainAxisAlignment.center,
                           children: [
-                            IconButton(
+                            IconActionButton(
                                 onPressed: () =>
                                     {context.read<StarterBloc>().add(TapAdd())},
                                 icon: Icon(Icons.add)),
-                            IconButton(
-                                onPressed: () => {
-                                      context
-                                          .read<StarterBloc>()
-                                          .add(TapStart(DateTime.now()))
-                                    },
-                                icon: Icon(Icons.play_arrow_rounded)),
-                            IconButton(
+                            IconActionButton(
                                 onPressed: () => print('Edit'),
-                                icon: Icon(Icons.edit))
+                                icon: Icon(Icons.edit)),
+                            IconStartButton(
+                              canUndoStart: state.canUndoStart,
+                              onStart: () => {
+                                context
+                                    .read<StarterBloc>()
+                                    .add(TapStart(DateTime.now()))
+                              },
+                              onUndo: () =>
+                                  {context.read<StarterBloc>().add(TapUndo())},
+                            ),
+                            IconActionButton(
+                                onPressed: () => {print("Remove Swimmer")},
+                                icon: Icon(
+                                    Icons.indeterminate_check_box_outlined)),
+                            IconActionButton(
+                                onPressed: () => {print("Remove from block")},
+                                icon: Icon(Icons.close))
                           ],
                         )),
                       )

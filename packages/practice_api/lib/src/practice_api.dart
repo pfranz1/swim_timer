@@ -55,11 +55,18 @@ abstract class PracticeApi {
   /// Throws a [SwimmerNotStartedException] if the swimmer hasnt been started yet
   Future<bool> tryEndSwimmer(String id, DateTime endTime);
 
-  /// Resets a incorrectly stopped swimmer
+  /// Resets an incorrectly stopped swimmer
   Future<bool> resetSwimmer(
+    //TODO: Change rest to undo
     String id,
     DateTime startTime,
     int lane,
+  );
+
+  // Undoes an incorrectly started swimmer
+  Future<bool> undoStart(
+    String id,
+    DateTime? oldEndTime,
   );
 }
 

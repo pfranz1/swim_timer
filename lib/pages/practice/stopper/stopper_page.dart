@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_bloc/stopper_bloc.dart';
 import 'package:swim_timer/pages/practice/stopper/widgets/lanes.dart';
+import 'package:go_router/go_router.dart';
 
 class StopperPage extends StatelessWidget {
   const StopperPage({super.key});
@@ -53,14 +54,15 @@ class StopperView extends StatelessWidget {
               color: Theme.of(context).colorScheme.background,
               child: Column(
                 children: [
-                  const Expanded(
-                      flex: 1, child: Center(child: Text("Stopper"))),
                   Expanded(
                       flex: 8,
                       child: Center(
-                        child: Lanes(
-                            swimmersByLane: state.lanesOfSwimmers,
-                            latestFinishers: state.latestFinishers),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Lanes(
+                              swimmersByLane: state.lanesOfSwimmers,
+                              latestFinishers: state.latestFinishers),
+                        ),
                       )),
                 ],
               ),
