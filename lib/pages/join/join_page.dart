@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -19,14 +20,20 @@ class JoinPage extends StatelessWidget {
         child: Column(
           children: [
             ElevatedButton(
-                onPressed: () => {context.go('/practice/1111')},
+                onPressed: () => {this.selectionHandler("/practice/1111", context)},
                 child: Text('Join Practice 1111')),
             ElevatedButton(
-                onPressed: () => {context.go('/practice/9999')},
+                onPressed: () => {this.selectionHandler('/practice/9999', context)},
                 child: Text('Join Practice 9999')),
           ],
         ),
       ),
     );
+  }
+
+  void selectionHandler(String practice, BuildContext context)
+  {
+    context.go(practice);
+
   }
 }
