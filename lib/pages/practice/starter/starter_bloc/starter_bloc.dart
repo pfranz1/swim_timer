@@ -58,19 +58,39 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     TapLane tapLane,
     Emitter<StarterState> emit,
   ) async {
+    // If a swimmer has been selected and not taping lane of that selected swimmer
     if (state.selectedSwimmer != null) {
+      // If the lane being tapped on has a swimmer in it
       if (tapLane.swimmer != null) {
-        // Attempting to move swimmer into lane that is occupied
+        // If the lane is occupied by another swimmer (different for currentlySelected)
+        if (tapLane.swimmer!.id != state.selectedSwimmer!.id) {
+          // Attempting to move swimmer into lane that is occupied
 
-        // Move blocking swimmer
-        await _practiceRepository.setLane(tapLane.swimmer!.id, 0);
+          // // Move blocking swimmer to location of selected (Default to 0 in no lane specified)
+          // await _practiceRepository.setLane(
+          //     tapLane.swimmer!.id, state.selectedSwimmer?.lane ?? 0);
 
-        // Set selected swimmer
-        await _practiceRepository.trySetLane(
-            state.selectedSwimmer!.id, tapLane.lane);
+          // // Set selected swimmer
+          // await _practiceRepository.trySetLane(
+          //     state.selectedSwimmer!.id, tapLane.lane);
+          await _practiceRepository.swapLanes(
+            firstId: tapLane.swimmer!.id,
+            firstLane: tapLane.lane,
+            secondId: state.selectedSwimmer!.id,
+            secondLane: state.selectedSwimmer?.lane ?? 0,
+          );
 
-        // Clear selected swimmer
-        return emit(state.copyWith(selectedSwimmer: () => null));
+          // Clear selected swimmer
+          return emit(state.copyWith(
+            selectedSwimmer: () => null,
+          ));
+        }
+        // Else we are tapping on the lane of the selected swimmer
+        else {
+          emit(state.copyWith(
+            selectedSwimmer: () => null,
+          ));
+        }
       } else {
         // Moving swimmer into unocupied lane
         await _practiceRepository.trySetLane(
@@ -78,6 +98,10 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
         // Clear selected swimmer
         return emit(state.copyWith(selectedSwimmer: () => null));
       }
+    } else {
+      emit(state.copyWith(
+        selectedSwimmer: () => tapLane.swimmer,
+      ));
     }
   }
 

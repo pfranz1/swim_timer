@@ -28,7 +28,7 @@ class SwimmerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      key: ObjectKey(swimmer),
+      key: ObjectKey(swimmer.id),
       style: ElevatedButton.styleFrom(
           alignment: Alignment.center,
           backgroundColor: colors[swimmer.stroke],

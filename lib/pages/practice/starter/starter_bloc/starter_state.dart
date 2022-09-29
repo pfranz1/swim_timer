@@ -58,7 +58,7 @@ class StarterState extends Equatable {
         selectedAction,
         selectedLane,
         status,
-        blockSwimmers,
+        ...blockSwimmers,
         deckSwimmers,
       ];
 }

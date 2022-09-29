@@ -47,6 +47,7 @@ class StarterView extends StatelessWidget {
         ],
         child: BlocBuilder<StarterBloc, StarterState>(
           builder: ((context, state) {
+            print("bloc builder rebuilds");
             if (state.status == StarterStatus.loading) {
               return const Center(
                 child: CupertinoActivityIndicator(),
@@ -66,8 +67,11 @@ class StarterView extends StatelessWidget {
                       Expanded(
                         flex: 4,
                         child: Center(
-                          child:
-                              BlockLineup(blockSwimmers: state.blockSwimmers),
+                          child: BlockLineup(
+                            blockSwimmers: state.blockSwimmers,
+                            selectedSwimmer: state.selectedSwimmer,
+                            // key: ObjectKey(DateTime.now()),
+                          ),
                         ),
                       ),
                       Expanded(

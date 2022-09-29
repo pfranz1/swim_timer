@@ -39,6 +39,16 @@ abstract class PracticeApi {
   /// Note: can be null to reset timing.
   Future<void> setEndTime(String id, DateTime? end);
 
+  /// Swaps swimmers lanes
+  ///
+  /// Throws a [SwapFailure] if the swap fails
+  Future<bool> trySwapLanes({
+    required String firstId,
+    required int firstLane,
+    required String secondId,
+    required int secondLane,
+  });
+
   /// Sets a swimmers lane if non-occupied lane
   ///
   /// Throws a [LaneOccupiedException] is the lane is occupied
@@ -81,3 +91,5 @@ class SwimmerNotAssignedLaneException implements Exception {}
 
 /// Error thrown when a [Swimmer] is finished without being already
 class SwimmerNotStartedException implements Exception {}
+
+class SwapFailure implements Exception {}

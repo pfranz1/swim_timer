@@ -87,6 +87,7 @@ class LocalStoragePracticeApi extends PracticeApi {
     // Update stream controller.
     _swimmerStreamController.add(swimmers);
     // Update shared preferences.
+    // print('New Swimmer state: ${swimmers}');
     return _setValue(swimmerCollectionKey, json.encode(swimmers));
   }
 
@@ -144,6 +145,27 @@ class LocalStoragePracticeApi extends PracticeApi {
       id,
       (swimmer) => swimmer.copyWith(endTime: () => end),
     );
+  }
+
+  Future<bool> trySwapLanes({
+    required String firstId,
+    required int firstLane,
+    required String secondId,
+    required int secondLane,
+  }) async {
+    // Get index
+    final firstIndex = _findSwimmer(firstId);
+    final secondIndex = _findSwimmer(secondId);
+    // Make modifiable copy of state
+    final swimmers = _swimmerStreamController.value;
+    // Update swimmers
+    swimmers[firstIndex] = swimmers[firstIndex].copyWith(lane: secondLane);
+    swimmers[secondIndex] = swimmers[secondIndex].copyWith(lane: firstLane);
+    // Update stream controller.
+    _swimmerStreamController.add(swimmers);
+    // Update shared preferences.
+    return _setValue(swimmerCollectionKey, json.encode(swimmers))
+        .then((value) => true);
   }
 
   @override

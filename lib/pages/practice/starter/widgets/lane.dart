@@ -8,9 +8,11 @@ import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart
 import 'package:swim_timer/pages/practice/starter/widgets/swimmer_tile.dart';
 
 class BlockLineup extends StatelessWidget {
-  const BlockLineup({super.key, required this.blockSwimmers});
+  const BlockLineup(
+      {super.key, required this.blockSwimmers, required this.selectedSwimmer});
 
   final List<Swimmer> blockSwimmers;
+  final Swimmer? selectedSwimmer;
 
   //TODO: Remove magic number
   static const int numOfLanes = 6;
@@ -39,6 +41,7 @@ class BlockLineup extends StatelessWidget {
             return BlockTile(
               swimmer: organizedSwimmers[index],
               laneNumber: index + 1,
+              isSwimmerSelected: index + 1 == (selectedSwimmer?.lane ?? -1),
             );
           }),
         ),
@@ -48,10 +51,16 @@ class BlockLineup extends StatelessWidget {
 }
 
 class BlockTile extends StatelessWidget {
-  const BlockTile({super.key, required this.swimmer, required this.laneNumber});
+  const BlockTile({
+    super.key,
+    required this.swimmer,
+    required this.laneNumber,
+    this.isSwimmerSelected = false,
+  });
 
   final Swimmer? swimmer;
   final int laneNumber;
+  final bool isSwimmerSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +73,7 @@ class BlockTile extends StatelessWidget {
               child: swimmer != null
                   ? SwimmerTile(
                       swimmer: swimmer!,
-                      isActiveSwimmer: false,
+                      isActiveSwimmer: isSwimmerSelected,
                       isOnBlock: true,
                       onTap: () => context
                           .read<StarterBloc>()
