@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_api/practice_api.dart';
 import 'package:practice_api/src/stroke.dart';
@@ -17,11 +18,11 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     on<SubscriptionRequested>(_onSubscriptionRequested);
     on<TapLane>(_onTapLane);
     on<TapSwimmer>(_onTapSwimmer);
-    on<TapEdit>(_onTapEdit);
     on<TapStart>(_onTapStart);
     on<TapUndo>(_onTapUndo);
     on<TapAdd>(_onTapAdd);
     on<StaleUndo>(_onStaleUndo);
+    on<TapAction>(_onTapAction);
   }
 
   final PracticeRepository _practiceRepository;
@@ -105,6 +106,7 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     }
   }
 
+  /// Called when someone taps on a swimmer thats on the deck
   Future<void> _onTapSwimmer(
     TapSwimmer tapSwimmer,
     Emitter<StarterState> emit,
@@ -114,26 +116,67 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
       emit(state.copyWith(selectedSwimmer: () => null));
       return;
     }
+    // If there is action selected to resolve
+    if (state.selectedAction != null) {
+      // Resolve action on tapped on swimmer
+      _handleAction(state.selectedAction, tapSwimmer.swimmer!.id);
 
-    if (state.selectedAction == null) {
-      emit(state.copyWith(selectedSwimmer: () => tapSwimmer.swimmer));
+      // Clear selected action
+      emit(state.copyWith(
+        selectedAction: () => null,
+      ));
     } else {
-      switch (state.selectedAction) {
-        case "edit":
-          print("EDIT SWIMMER: ${tapSwimmer.swimmer}");
-          emit(state.copyWith(selectedAction: () => null));
-          break;
-        default:
-          break;
-      }
+      emit(state.copyWith(selectedSwimmer: () => tapSwimmer.swimmer));
     }
   }
 
-  Future<void> _onTapEdit(
-    TapEdit tapEdit,
+  /// Called when an action button is tapped
+  Future<void> _onTapAction(
+    TapAction tapAction,
     Emitter<StarterState> emit,
   ) async {
-    emit(state.copyWith(selectedAction: () => "edit"));
+    // If a swimmer is already selected
+    if (state.selectedSwimmer != null) {
+      // Handle the action on the swimmer
+      _handleAction(tapAction.action, state.selectedSwimmer!.id);
+      // Clear the selection of swimmer and emit
+      emit(state.copyWith(
+        selectedSwimmer: () => null,
+      ));
+    }
+    // If no swimmer is selected
+    else {
+      // Set the selectedAction to the action just selected
+      emit(state.copyWith(selectedAction: () => tapAction.action));
+    }
+  }
+
+  Future<void> _handleAction(SelectedAction? action, String id) async {
+    switch (action) {
+      case SelectedAction.edit:
+        _handleEdit(id);
+        break;
+      case SelectedAction.delete:
+        _handleDelete(id);
+        break;
+      case SelectedAction.deblock:
+        _handleDeblock(id);
+        break;
+      case null:
+        break;
+    }
+  }
+
+  Future<void> _handleEdit(String id) async {
+    print("EDIT SWIMMER: $id");
+  }
+
+  Future<void> _handleDeblock(String id) async {
+    print("DEBLOCK SWIMMER : $id");
+  }
+
+  Future<void> _handleDelete(String id) async {
+    print("DELETE SWIMMER : $id");
   }
 
   Future<void> _onTapStart(

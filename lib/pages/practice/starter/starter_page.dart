@@ -91,10 +91,16 @@ class StarterView extends StatelessWidget {
                             IconActionButton(
                                 onPressed: () =>
                                     {context.read<StarterBloc>().add(TapAdd())},
-                                icon: Icon(Icons.add)),
+                                icon: Icon(Icons.add),
+                                isSelected: false),
                             IconActionButton(
-                                onPressed: () => print('Edit'),
-                                icon: Icon(Icons.edit)),
+                              onPressed: () => context
+                                  .read<StarterBloc>()
+                                  .add(TapAction(action: SelectedAction.edit)),
+                              icon: Icon(Icons.edit),
+                              isSelected:
+                                  state.selectedAction == SelectedAction.edit,
+                            ),
                             IconStartButton(
                               canUndoStart: state.canUndoStart,
                               onStart: () => {
@@ -106,12 +112,20 @@ class StarterView extends StatelessWidget {
                                   {context.read<StarterBloc>().add(TapUndo())},
                             ),
                             IconActionButton(
-                                onPressed: () => {print("Remove Swimmer")},
-                                icon: Icon(
-                                    Icons.indeterminate_check_box_outlined)),
+                              onPressed: () => context.read<StarterBloc>().add(
+                                  TapAction(action: SelectedAction.deblock)),
+                              icon:
+                                  Icon(Icons.indeterminate_check_box_outlined),
+                              isSelected: state.selectedAction ==
+                                  SelectedAction.deblock,
+                            ),
                             IconActionButton(
-                                onPressed: () => {print("Remove from block")},
-                                icon: Icon(Icons.close))
+                              onPressed: () => context.read<StarterBloc>().add(
+                                  TapAction(action: SelectedAction.delete)),
+                              icon: Icon(Icons.close),
+                              isSelected:
+                                  state.selectedAction == SelectedAction.delete,
+                            )
                           ],
                         )),
                       )

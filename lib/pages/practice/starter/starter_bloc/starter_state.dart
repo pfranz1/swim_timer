@@ -3,12 +3,14 @@ import 'package:practice_repository/practice_repository.dart';
 
 enum StarterStatus { inital, loading, succsess, failure }
 
+enum SelectedAction { edit, deblock, delete }
+
 class StarterState extends Equatable {
   final List<Swimmer> blockSwimmers;
   final List<Swimmer> deckSwimmers;
   final List<Swimmer?> recentlyStarted;
   final Swimmer? selectedSwimmer;
-  final String? selectedAction;
+  final SelectedAction? selectedAction;
   final int? selectedLane;
   final StarterStatus status;
 
@@ -30,7 +32,7 @@ class StarterState extends Equatable {
     List<Swimmer> Function()? deckSwimmers,
     List<Swimmer?> Function()? recentlyStarted,
     Swimmer? Function()? selectedSwimmer,
-    String? Function()? selectedAction,
+    SelectedAction? Function()? selectedAction,
     int? Function()? selectedLane,
     StarterStatus Function()? status,
     bool? canUndoStart,
