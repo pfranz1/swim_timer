@@ -53,8 +53,7 @@ class StarterView extends StatelessWidget {
               );
             } else {
               return GestureDetector(
-                onTap: () =>
-                    context.read<StarterBloc>().add(TapSwimmer(null, false)),
+                onTap: () => context.read<StarterBloc>().add(TapAway()),
                 child: Container(
                   color: Theme.of(context).backgroundColor,
                   child: Column(

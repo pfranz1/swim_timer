@@ -23,6 +23,7 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     on<TapAdd>(_onTapAdd);
     on<StaleUndo>(_onStaleUndo);
     on<TapAction>(_onTapAction);
+    on<TapAway>(_onTapAway);
   }
 
   final PracticeRepository _practiceRepository;
@@ -55,6 +56,10 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     );
   }
 
+  Future<void> _onTapAway(TapAway tapAway, Emitter<StarterState> emit) async {
+    emit(state.clearAllSelections());
+  }
+
   Future<void> _onTapLane(
     TapLane tapLane,
     Emitter<StarterState> emit,
@@ -81,13 +86,12 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
             secondLane: state.selectedSwimmer?.lane ?? 0,
           );
 
-          // Clear selected swimmer
-          return emit(state.copyWith(
-            selectedSwimmer: () => null,
-          ));
+          // Clear selections
+          return emit(state.clearAllSelections());
         }
         // Else we are tapping on the lane of the selected swimmer
         else {
+          // Im interpreting a re-tap as a person wanting to clear their selection
           emit(state.copyWith(
             selectedSwimmer: () => null,
           ));
@@ -111,13 +115,8 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     TapSwimmer tapSwimmer,
     Emitter<StarterState> emit,
   ) async {
-    // If the user taps aways
-    if (tapSwimmer.swimmer == null) {
-      emit(state.copyWith(selectedSwimmer: () => null));
-      return;
-    }
     // If there is action selected to resolve
-    if (state.selectedAction != null) {
+    if (state.selectedAction != null && tapSwimmer.swimmer != null) {
       // Resolve action on tapped on swimmer
       _handleAction(state.selectedAction, tapSwimmer.swimmer!.id);
 
@@ -198,7 +197,8 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
       });
     }
 
-    emit(state.copyWith(
+    // Chaining calls here to be super swag
+    emit(state.clearAllSelections().copyWith(
         recentlyStarted: () => newlyStarted, canUndoStart: startedAtLeastOne));
 
     Future.delayed(undoFadeDuration).then((value) {

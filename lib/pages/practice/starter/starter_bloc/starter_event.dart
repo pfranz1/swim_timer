@@ -13,6 +13,8 @@ class SubscriptionRequested extends StarterBlocEvent {
   SubscriptionRequested();
 }
 
+class TapAway extends StarterBlocEvent {}
+
 class TapSwimmer extends StarterBlocEvent {
   TapSwimmer(this.swimmer, this.isOnBlock);
 
