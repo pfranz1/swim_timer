@@ -27,12 +27,15 @@ class PracticeRepository {
         .toList();
   }
 
-  /// Gets the swimmer who are on the deck
+  /// Gets the swimmers who are on the deck
   ///
   /// Deck Stream
   Stream<List<Swimmer>> getDeckSwimmers() => _practiceApi.getSwimmers().map(
         (event) => _filterSwimmers(_filterDeckSwimmer, event),
       );
+
+  ///TODO: sort swimmers by idle time (idle time = no end time or least recent end time)
+  Stream<List<Swimmer>> sortDeckSwimmers() => getDeckSwimmers(); //WIP
 
   /// Keep if the swimmers lane is 0 or they dont have one
   ///
@@ -41,7 +44,7 @@ class PracticeRepository {
     return swimmer.lane == 0 || swimmer.lane == null;
   }
 
-  /// Gets the swimmers who are the blocks ready to swim next
+  /// Gets the swimmers who are at the blocks ready to swim next
   ///
   /// Block Stream
   Stream<List<Swimmer>> getBlockSwimmers() => _practiceApi.getSwimmers().map(

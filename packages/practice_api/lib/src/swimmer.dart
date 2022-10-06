@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs
 
+import 'dart:html';
+
 import 'package:equatable/equatable.dart';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -11,7 +13,7 @@ part 'swimmer.g.dart';
 
 @immutable
 @JsonSerializable()
-class Swimmer extends Equatable {
+class Swimmer extends Equatable /*implements Comparable<Swimmer>*/ {
   Swimmer({
     String? id,
     required this.name,
@@ -87,4 +89,14 @@ class Swimmer extends Equatable {
   String toString() {
     return "{$name : $stroke : $lane}";
   }
+
+  // @override
+  // int compareTo(Swimmer other) {
+  //   if (endTime?.compareTo(other.endTime) > 0) {
+  //     return 1;
+  //     }
+  //   else if (endTime?.compareTo(other.endTime) < 0) {
+  //     return -1;
+  //   }
+  // }
 }
