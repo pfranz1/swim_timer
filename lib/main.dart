@@ -72,24 +72,91 @@ class AppView extends StatelessWidget {
       builder: (context, state) {
         return const HomePage();
       },
+      pageBuilder: (context, state) {
+        return CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const HomePage(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const begin = Offset(1.0, 0.0);
+              const end = Offset.zero;
+              const curve = Curves.ease;
+
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
+            });
+      },
     ),
     GoRoute(
       path: '/join',
-      builder: (context, state) {
-        return const JoinPage();
-      },
+      // builder: (context, state) {
+      //   return const JoinPage();
+      // },
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const JoinPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          }),
     ),
     GoRoute(
       path: '/create',
-      builder: (context, state) {
-        return const CreatePage();
-      },
+      // builder: (context, state) {
+      //   return const CreatePage();
+      // },
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const CreatePage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          }),
     ),
     GoRoute(
       path: '/records',
-      builder: (context, state) {
-        return const RecordsPage();
-      },
+      // builder: (context, state) {
+      //   return const RecordsPage();
+      // },
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: const RecordsPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          }),
     ),
 
     // Practice Not Found
