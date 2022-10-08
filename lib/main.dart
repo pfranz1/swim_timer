@@ -169,15 +169,53 @@ class AppView extends StatelessWidget {
     // Loaded Practice
     ShellRoute(
       // The parent object of all sub-routes
-      builder: (context, state, child) {
-        return PracticeScaffold(location: state.location, child: child);
-      },
+      // builder: (context, state, child) {
+      //   return PracticeScaffold(location: state.location, child: child);
+      // },
+      pageBuilder: (context, state, child) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: PracticeScaffold(location: state.location, child: child),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          }),
+
       routes: [
         // Starter
         GoRoute(
           path: '/practice/:sessionID/starter',
-          builder: (context, state) {
-            return StarterPage();
+          // builder: (context, state) {
+          //   return StarterPage();
+          // },
+          pageBuilder: (context, state) {
+            final current = state.name;
+
+            return CustomTransitionPage<void>(
+                key: state.pageKey,
+                child: const StarterPage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  const begin = Offset(-1.0, 0.0);
+                  const end = Offset.zero;
+                  const curve = Curves.decelerate;
+
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                });
           },
         ),
         // Stopper
@@ -186,12 +224,77 @@ class AppView extends StatelessWidget {
           builder: (context, state) {
             return StopperPage();
           },
+          pageBuilder: (context, state) {
+            final current = (int);
+
+            return CustomTransitionPage<void>(
+                key: state.pageKey,
+                child: const StopperPage(),
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  final Offset begin;
+                  if (state.extra != null && state.extra.runtimeType == int) {
+                    int leaving = int.parse(state.extra.toString());
+                    if (leaving < 1) {
+                      begin = Offset(1.0, 0.0);
+                    } else {
+                      begin = Offset(-1.0, 0.0);
+                    }
+                  } else {
+                    begin = Offset(0.0, 1.0);
+                  }
+
+                  const end = Offset.zero;
+                  const curve = Curves.decelerate;
+
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                });
+          },
         ),
         // Overview
         GoRoute(
           path: '/practice/:sessionID/overview',
           builder: (context, state) {
             return OverviewPage();
+          },
+          pageBuilder: (context, state) {
+            final current = (int);
+
+            return CustomTransitionPage<void>(
+                key: state.pageKey,
+                child: const OverviewPage(),
+                // TODO: DO code reuse
+                transitionsBuilder:
+                    (context, animation, secondaryAnimation, child) {
+                  final Offset begin;
+                  if (state.extra != null && state.extra.runtimeType == int) {
+                    int leaving = int.parse(state.extra.toString());
+                    if (leaving < 2) {
+                      begin = Offset(1.0, 0.0);
+                    } else {
+                      begin = Offset(-1.0, 0.0);
+                    }
+                  } else {
+                    begin = Offset(0.0, 1.0);
+                  }
+
+                  const end = Offset.zero;
+                  const curve = Curves.decelerate;
+
+                  var tween = Tween(begin: begin, end: end)
+                      .chain(CurveTween(curve: curve));
+
+                  return SlideTransition(
+                    position: animation.drive(tween),
+                    child: child,
+                  );
+                });
           },
         ),
       ],
@@ -206,7 +309,7 @@ class AppView extends StatelessWidget {
         if (state.params["sessionId"] != repository.sessionId) {
           // TODO: Actally update the repository in a meaningful way
           // I.E. the repository should provide data from a different session
-          await Future.delayed(Duration(seconds: 5)).then(
+          await Future.delayed(Duration(seconds: 2)).then(
               (value) => repository.sessionId = state.params["sessionId"]!);
 
           // TODO: Base this on if the change occured or not
@@ -230,6 +333,22 @@ class AppView extends StatelessWidget {
     // Loading screen that initiates redirect call
     GoRoute(
       path: "/practice/:sessionId",
+      pageBuilder: (context, state) => CustomTransitionPage<void>(
+          key: state.pageKey,
+          child: LoadingPage(
+              afterLoadingDisplay: (context) =>
+                  {context.go(state.location + '/resolve')}),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const shiftedDown = Offset(0.0, 1.0);
+            const normal = Offset.zero;
+            const curve = Curves.ease;
+
+            var tween = Tween(begin: shiftedDown, end: normal)
+                .chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+                position: animation.drive(tween), child: child);
+          }),
       builder: (context, state) {
         // As soon as this page loads and displays a loading icon
         // It calls to go to the /resolve route which is actually

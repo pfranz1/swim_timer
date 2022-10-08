@@ -34,6 +34,17 @@ class PracticeScaffold extends StatelessWidget {
     }
   }
 
+  int get indexOfTab {
+    switch (selectedTab) {
+      case PracticeTab.starter:
+        return 0;
+      case PracticeTab.stopper:
+        return 1;
+      case PracticeTab.overview:
+        return 2;
+    }
+  }
+
   String get lastLocation =>
       upperCase(location.substring(location.lastIndexOf("/") + 1));
 
@@ -61,17 +72,21 @@ class PracticeScaffold extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             _PracticeTabButton(
-                onPressed: () => context.go(_popAndReplace("starter")),
-                groupValue: selectedTab,
-                value: PracticeTab.starter,
-                icon: Icon(Icons.play_circle_outline_rounded)),
+              onPressed: () =>
+                  context.go(_popAndReplace("starter"), extra: indexOfTab),
+              groupValue: selectedTab,
+              value: PracticeTab.starter,
+              icon: Icon(Icons.play_circle_outline_rounded),
+            ),
             _PracticeTabButton(
-                onPressed: () => context.go(_popAndReplace("stopper")),
+                onPressed: () =>
+                    context.go(_popAndReplace("stopper"), extra: indexOfTab),
                 groupValue: selectedTab,
                 value: PracticeTab.stopper,
                 icon: Icon(Icons.stop_circle_outlined)),
             _PracticeTabButton(
-                onPressed: () => context.go(_popAndReplace("overview")),
+                onPressed: () =>
+                    context.go(_popAndReplace("overview"), extra: indexOfTab),
                 groupValue: selectedTab,
                 value: PracticeTab.overview,
                 icon: Icon(Icons.list)),

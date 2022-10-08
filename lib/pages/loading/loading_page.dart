@@ -27,14 +27,14 @@ class _LoadingPageState extends State<LoadingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        title: Text("Loading..."),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(Icons.chevron_left),
-          onPressed: () => context.go('/'),
-        ),
-      ),
+      // appBar: AppBar(
+      //   title: Text("Loading..."),
+      //   centerTitle: true,
+      //   leading: IconButton(
+      //     icon: Icon(Icons.chevron_left),
+      //     onPressed: () => context.go('/'),
+      //   ),
+      // ),
       body: Center(
         child: Container(
             decoration: BoxDecoration(
