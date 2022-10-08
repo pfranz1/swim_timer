@@ -81,8 +81,8 @@ class StarterView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
-                        flex: 1,
+                      ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: 100),
                         child: Center(
                             child: ButtonBar(
                           alignment: MainAxisAlignment.center,
