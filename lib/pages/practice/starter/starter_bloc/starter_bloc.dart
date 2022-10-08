@@ -64,6 +64,16 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     TapLane tapLane,
     Emitter<StarterState> emit,
   ) async {
+    // Handle a lane being taped when an action is active
+    if (state.selectedAction != null) {
+      // If the lane has a swimmer in it
+      if (tapLane.swimmer != null) {
+        // Apply action to swimmer
+        _handleAction(state.selectedAction, tapLane.swimmer!.id);
+      }
+      emit(state.clearAllSelections());
+    }
+
     // If a swimmer has been selected and not taping lane of that selected swimmer
     if (state.selectedSwimmer != null) {
       // If the lane being tapped on has a swimmer in it
@@ -172,10 +182,14 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
 
   Future<void> _handleDeblock(String id) async {
     print("DEBLOCK SWIMMER : $id");
+    await _practiceRepository.setLane(id, 0);
+    emit(state.clearAllSelections());
   }
 
   Future<void> _handleDelete(String id) async {
     print("DELETE SWIMMER : $id");
+    await _practiceRepository.removeSwimmer(id);
+    emit(state.clearAllSelections());
   }
 
   Future<void> _onTapStart(
