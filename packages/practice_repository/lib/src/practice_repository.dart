@@ -112,6 +112,19 @@ class PracticeRepository {
   Future<bool> tryEndSwimmer(String id, DateTime endTime) =>
       _practiceApi.tryEndSwimmer(id, endTime);
 
+  /// Swaps Swimmers Lanes
+  Future<bool> swapLanes(
+      {required String firstId,
+      required int firstLane,
+      required String secondId,
+      required int secondLane}) async {
+    return _practiceApi.trySwapLanes(
+        firstId: firstId,
+        firstLane: firstLane,
+        secondId: secondId,
+        secondLane: secondLane);
+  }
+
   /// Adds a swimmer
   Future<void> addSwimmer(Swimmer swimmer) => _practiceApi.addSwimmer(swimmer);
 

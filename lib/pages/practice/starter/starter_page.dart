@@ -53,8 +53,7 @@ class StarterView extends StatelessWidget {
               );
             } else {
               return GestureDetector(
-                onTap: () =>
-                    context.read<StarterBloc>().add(TapSwimmer(null, false)),
+                onTap: () => context.read<StarterBloc>().add(TapAway()),
                 child: Container(
                   color: Theme.of(context).backgroundColor,
                   child: Column(
@@ -66,8 +65,11 @@ class StarterView extends StatelessWidget {
                       Expanded(
                         flex: 4,
                         child: Center(
-                          child:
-                              BlockLineup(blockSwimmers: state.blockSwimmers),
+                          child: BlockLineup(
+                            blockSwimmers: state.blockSwimmers,
+                            selectedSwimmer: state.selectedSwimmer,
+                            // key: ObjectKey(DateTime.now()),
+                          ),
                         ),
                       ),
                       Expanded(
@@ -79,8 +81,8 @@ class StarterView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
-                        flex: 1,
+                      ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: 100),
                         child: Center(
                             child: ButtonBar(
                           alignment: MainAxisAlignment.center,
@@ -88,10 +90,16 @@ class StarterView extends StatelessWidget {
                             IconActionButton(
                                 onPressed: () =>
                                     {context.read<StarterBloc>().add(TapAdd())},
-                                icon: Icon(Icons.add)),
+                                icon: Icon(Icons.add),
+                                isSelected: false),
                             IconActionButton(
-                                onPressed: () => print('Edit'),
-                                icon: Icon(Icons.edit)),
+                              onPressed: () => context
+                                  .read<StarterBloc>()
+                                  .add(TapAction(action: SelectedAction.edit)),
+                              icon: Icon(Icons.edit),
+                              isSelected:
+                                  state.selectedAction == SelectedAction.edit,
+                            ),
                             IconStartButton(
                               canUndoStart: state.canUndoStart,
                               onStart: () => {
@@ -103,12 +111,20 @@ class StarterView extends StatelessWidget {
                                   {context.read<StarterBloc>().add(TapUndo())},
                             ),
                             IconActionButton(
-                                onPressed: () => {print("Remove Swimmer")},
-                                icon: Icon(
-                                    Icons.indeterminate_check_box_outlined)),
+                              onPressed: () => context.read<StarterBloc>().add(
+                                  TapAction(action: SelectedAction.deblock)),
+                              icon:
+                                  Icon(Icons.indeterminate_check_box_outlined),
+                              isSelected: state.selectedAction ==
+                                  SelectedAction.deblock,
+                            ),
                             IconActionButton(
-                                onPressed: () => {print("Remove from block")},
-                                icon: Icon(Icons.close))
+                              onPressed: () => context.read<StarterBloc>().add(
+                                  TapAction(action: SelectedAction.delete)),
+                              icon: Icon(Icons.close),
+                              isSelected:
+                                  state.selectedAction == SelectedAction.delete,
+                            )
                           ],
                         )),
                       )

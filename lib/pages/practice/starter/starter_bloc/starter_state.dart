@@ -3,13 +3,14 @@ import 'package:practice_repository/practice_repository.dart';
 
 enum StarterStatus { inital, loading, succsess, failure }
 
+enum SelectedAction { edit, deblock, delete }
+
 class StarterState extends Equatable {
   final List<Swimmer> blockSwimmers;
   final List<Swimmer> deckSwimmers;
   final List<Swimmer?> recentlyStarted;
   final Swimmer? selectedSwimmer;
-  final String? selectedAction;
-  final int? selectedLane;
+  final SelectedAction? selectedAction;
   final StarterStatus status;
 
   final bool canUndoStart;
@@ -20,7 +21,6 @@ class StarterState extends Equatable {
     this.recentlyStarted = const [],
     this.selectedSwimmer,
     this.selectedAction,
-    this.selectedLane,
     this.status = StarterStatus.inital,
     this.canUndoStart = false,
   });
@@ -30,8 +30,7 @@ class StarterState extends Equatable {
     List<Swimmer> Function()? deckSwimmers,
     List<Swimmer?> Function()? recentlyStarted,
     Swimmer? Function()? selectedSwimmer,
-    String? Function()? selectedAction,
-    int? Function()? selectedLane,
+    SelectedAction? Function()? selectedAction,
     StarterStatus Function()? status,
     bool? canUndoStart,
   }) {
@@ -45,10 +44,13 @@ class StarterState extends Equatable {
           recentlyStarted != null ? recentlyStarted() : this.recentlyStarted,
       selectedAction:
           selectedAction != null ? selectedAction() : this.selectedAction,
-      selectedLane: selectedLane != null ? selectedLane() : this.selectedLane,
       status: status != null ? status() : this.status,
       canUndoStart: canUndoStart ?? this.canUndoStart,
     );
+  }
+
+  StarterState clearAllSelections() {
+    return copyWith(selectedAction: () => null, selectedSwimmer: () => null);
   }
 
   @override
@@ -56,9 +58,8 @@ class StarterState extends Equatable {
         canUndoStart,
         selectedSwimmer,
         selectedAction,
-        selectedLane,
         status,
-        blockSwimmers,
+        ...blockSwimmers,
         deckSwimmers,
       ];
 }

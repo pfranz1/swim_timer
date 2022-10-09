@@ -2,6 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 
 abstract class StarterBlocEvent extends Equatable {
   @override
@@ -11,6 +12,8 @@ abstract class StarterBlocEvent extends Equatable {
 class SubscriptionRequested extends StarterBlocEvent {
   SubscriptionRequested();
 }
+
+class TapAway extends StarterBlocEvent {}
 
 class TapSwimmer extends StarterBlocEvent {
   TapSwimmer(this.swimmer, this.isOnBlock);
@@ -32,8 +35,6 @@ class TapLane extends StarterBlocEvent {
   List<Object> get props => [lane, swimmer ?? ""];
 }
 
-class TapEdit extends StarterBlocEvent {}
-
 class TapStart extends StarterBlocEvent {
   final DateTime start;
 
@@ -46,5 +47,14 @@ class TapStart extends StarterBlocEvent {
 class TapUndo extends StarterBlocEvent {}
 
 class StaleUndo extends StarterBlocEvent {}
+
+class TapAction extends StarterBlocEvent {
+  final SelectedAction action;
+
+  TapAction({required this.action});
+
+  @override
+  List<Object> get props => [action];
+}
 
 class TapAdd extends StarterBlocEvent {}

@@ -4,10 +4,14 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class IconActionButton extends StatelessWidget {
   const IconActionButton(
-      {super.key, required this.onPressed, required this.icon});
+      {super.key,
+      required this.onPressed,
+      required this.icon,
+      required this.isSelected});
 
   final void Function() onPressed;
   final Widget icon;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +21,7 @@ class IconActionButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shape: CircleBorder(), //<-- SEE HERE
         padding: EdgeInsets.all(20),
+        side: isSelected ? BorderSide(color: Colors.green, width: 5.0) : null,
       ),
     );
   }

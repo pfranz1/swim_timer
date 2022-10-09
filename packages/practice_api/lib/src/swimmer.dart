@@ -81,7 +81,7 @@ class Swimmer extends Equatable {
   Map<String, dynamic> toJson() => _$SwimmerToJson(this);
 
   @override // For equatable
-  List<Object> get props => [id, name];
+  List<Object?> get props => [id, name, lane, stroke];
 
   @override
   String toString() {

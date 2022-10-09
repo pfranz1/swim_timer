@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_api/practice_api.dart';
 import 'package:practice_api/src/stroke.dart';
@@ -17,11 +18,12 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     on<SubscriptionRequested>(_onSubscriptionRequested);
     on<TapLane>(_onTapLane);
     on<TapSwimmer>(_onTapSwimmer);
-    on<TapEdit>(_onTapEdit);
     on<TapStart>(_onTapStart);
     on<TapUndo>(_onTapUndo);
     on<TapAdd>(_onTapAdd);
     on<StaleUndo>(_onStaleUndo);
+    on<TapAction>(_onTapAction);
+    on<TapAway>(_onTapAway);
   }
 
   final PracticeRepository _practiceRepository;
@@ -54,23 +56,56 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     );
   }
 
+  Future<void> _onTapAway(TapAway tapAway, Emitter<StarterState> emit) async {
+    emit(state.clearAllSelections());
+  }
+
   Future<void> _onTapLane(
     TapLane tapLane,
     Emitter<StarterState> emit,
   ) async {
-    if (state.selectedSwimmer != null) {
+    // Handle a lane being taped when an action is active
+    if (state.selectedAction != null) {
+      // If the lane has a swimmer in it
       if (tapLane.swimmer != null) {
-        // Attempting to move swimmer into lane that is occupied
+        // Apply action to swimmer
+        _handleAction(state.selectedAction, tapLane.swimmer!.id);
+      }
+      emit(state.clearAllSelections());
+    }
 
-        // Move blocking swimmer
-        await _practiceRepository.setLane(tapLane.swimmer!.id, 0);
+    // If a swimmer has been selected and not taping lane of that selected swimmer
+    if (state.selectedSwimmer != null) {
+      // If the lane being tapped on has a swimmer in it
+      if (tapLane.swimmer != null) {
+        // If the lane is occupied by another swimmer (different for currentlySelected)
+        if (tapLane.swimmer!.id != state.selectedSwimmer!.id) {
+          // Attempting to move swimmer into lane that is occupied
 
-        // Set selected swimmer
-        await _practiceRepository.trySetLane(
-            state.selectedSwimmer!.id, tapLane.lane);
+          // // Move blocking swimmer to location of selected (Default to 0 in no lane specified)
+          // await _practiceRepository.setLane(
+          //     tapLane.swimmer!.id, state.selectedSwimmer?.lane ?? 0);
 
-        // Clear selected swimmer
-        return emit(state.copyWith(selectedSwimmer: () => null));
+          // // Set selected swimmer
+          // await _practiceRepository.trySetLane(
+          //     state.selectedSwimmer!.id, tapLane.lane);
+          await _practiceRepository.swapLanes(
+            firstId: tapLane.swimmer!.id,
+            firstLane: tapLane.lane,
+            secondId: state.selectedSwimmer!.id,
+            secondLane: state.selectedSwimmer?.lane ?? 0,
+          );
+
+          // Clear selections
+          return emit(state.clearAllSelections());
+        }
+        // Else we are tapping on the lane of the selected swimmer
+        else {
+          // Im interpreting a re-tap as a person wanting to clear their selection
+          emit(state.copyWith(
+            selectedSwimmer: () => null,
+          ));
+        }
       } else {
         // Moving swimmer into unocupied lane
         await _practiceRepository.trySetLane(
@@ -78,38 +113,83 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
         // Clear selected swimmer
         return emit(state.copyWith(selectedSwimmer: () => null));
       }
+    } else {
+      emit(state.copyWith(
+        selectedSwimmer: () => tapLane.swimmer,
+      ));
     }
   }
 
+  /// Called when someone taps on a swimmer thats on the deck
   Future<void> _onTapSwimmer(
     TapSwimmer tapSwimmer,
     Emitter<StarterState> emit,
   ) async {
-    // If the user taps aways
-    if (tapSwimmer.swimmer == null) {
-      emit(state.copyWith(selectedSwimmer: () => null));
-      return;
-    }
+    // If there is action selected to resolve
+    if (state.selectedAction != null && tapSwimmer.swimmer != null) {
+      // Resolve action on tapped on swimmer
+      _handleAction(state.selectedAction, tapSwimmer.swimmer!.id);
 
-    if (state.selectedAction == null) {
-      emit(state.copyWith(selectedSwimmer: () => tapSwimmer.swimmer));
+      // Clear selected action
+      emit(state.copyWith(
+        selectedAction: () => null,
+      ));
     } else {
-      switch (state.selectedAction) {
-        case "edit":
-          print("EDIT SWIMMER: ${tapSwimmer.swimmer}");
-          emit(state.copyWith(selectedAction: () => null));
-          break;
-        default:
-          break;
-      }
+      emit(state.copyWith(selectedSwimmer: () => tapSwimmer.swimmer));
     }
   }
 
-  Future<void> _onTapEdit(
-    TapEdit tapEdit,
+  /// Called when an action button is tapped
+  Future<void> _onTapAction(
+    TapAction tapAction,
     Emitter<StarterState> emit,
   ) async {
-    emit(state.copyWith(selectedAction: () => "edit"));
+    // If a swimmer is already selected
+    if (state.selectedSwimmer != null) {
+      // Handle the action on the swimmer
+      _handleAction(tapAction.action, state.selectedSwimmer!.id);
+      // Clear the selection of swimmer and emit
+      emit(state.copyWith(
+        selectedSwimmer: () => null,
+      ));
+    }
+    // If no swimmer is selected
+    else {
+      // Set the selectedAction to the action just selected
+      emit(state.copyWith(selectedAction: () => tapAction.action));
+    }
+  }
+
+  Future<void> _handleAction(SelectedAction? action, String id) async {
+    switch (action) {
+      case SelectedAction.edit:
+        _handleEdit(id);
+        break;
+      case SelectedAction.delete:
+        _handleDelete(id);
+        break;
+      case SelectedAction.deblock:
+        _handleDeblock(id);
+        break;
+      case null:
+        break;
+    }
+  }
+
+  Future<void> _handleEdit(String id) async {
+    print("EDIT SWIMMER: $id");
+  }
+
+  Future<void> _handleDeblock(String id) async {
+    print("DEBLOCK SWIMMER : $id");
+    await _practiceRepository.setLane(id, 0);
+    emit(state.clearAllSelections());
+  }
+
+  Future<void> _handleDelete(String id) async {
+    print("DELETE SWIMMER : $id");
+    await _practiceRepository.removeSwimmer(id);
+    emit(state.clearAllSelections());
   }
 
   Future<void> _onTapStart(
@@ -131,7 +211,8 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
       });
     }
 
-    emit(state.copyWith(
+    // Chaining calls here to be super swag
+    emit(state.clearAllSelections().copyWith(
         recentlyStarted: () => newlyStarted, canUndoStart: startedAtLeastOne));
 
     Future.delayed(undoFadeDuration).then((value) {
