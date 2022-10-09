@@ -1,5 +1,21 @@
 import 'package:practice_api/practice_api.dart';
 
+class StarterData {
+  /// Swimmers on the block
+  final List<Swimmer> blockSwimmers;
+
+  /// Swimmers on the deck
+  final List<Swimmer> deckSwimmers;
+
+  /// Swimmers on the block, grouped by lane
+  final List<List<Swimmer>> blockSwimmersByLane;
+
+  StarterData(
+      {required this.blockSwimmers,
+      required this.deckSwimmers,
+      required this.blockSwimmersByLane});
+}
+
 /// {@template practice_repository}
 /// A repository that handles pratice related requests.
 /// {@endtemplate}
@@ -48,6 +64,10 @@ class PracticeRepository {
         (event) => _filterSwimmers(_filterBlockSwimmer, event),
       );
 
+  Stream<List<List<Swimmer>>> getBlockSwimmersByLane() =>
+      _practiceApi.getSwimmers().map(
+          (event) => _groupByLane(_filterSwimmers(_filterBlockSwimmer, event)));
+
   /// Keep the swimmer who has a lane > 0 but no start time.
   ///
   /// Block Filter
@@ -93,6 +113,20 @@ class PracticeRepository {
 
     return groupings;
   }
+
+  /// Provides all of the data the starter page wants in a single stream
+  ///
+  /// Has info: blockSwimmers, deckSwimmers, blockSwimmersByLane
+  Stream<StarterData> getStarterData() => _practiceApi.getSwimmers().map(
+        (swimmers) {
+          final blockSwimmers = _filterSwimmers(_filterBlockSwimmer, swimmers);
+          return StarterData(
+            blockSwimmers: blockSwimmers,
+            deckSwimmers: _filterSwimmers(_filterDeckSwimmer, swimmers),
+            blockSwimmersByLane: _groupByLane(blockSwimmers),
+          );
+        },
+      );
 
   /// Attempts to set the lane of a swimmer
   ///

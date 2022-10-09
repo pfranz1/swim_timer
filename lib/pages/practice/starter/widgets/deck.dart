@@ -17,24 +17,29 @@ class Deck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: AspectRatio(
-        aspectRatio: 3 / 2,
-        child: GridView.builder(
-          itemCount: this.swimmersOnDeck.length,
-          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 125.0,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0),
-          itemBuilder: (context, index) {
-            return SwimmerTile(
-                swimmer: swimmersOnDeck[index],
-                isActiveSwimmer: swimmersOnDeck[index] == activeSwimmer,
-                isOnBlock: false,
-                onTap: () => context
-                    .read<StarterBloc>()
-                    .add(TapSwimmer(swimmersOnDeck[index], false)));
-          },
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(16.0)),
+            color: Colors.white),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: GridView.builder(
+            itemCount: swimmersOnDeck.length,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200.0,
+                crossAxisSpacing: 5.0,
+                mainAxisSpacing: 5.0),
+            itemBuilder: (context, index) {
+              return SwimmerTile(
+                  swimmer: swimmersOnDeck[index],
+                  isActiveSwimmer: swimmersOnDeck[index] == activeSwimmer,
+                  isOnBlock: false,
+                  onTap: () => context
+                      .read<StarterBloc>()
+                      .add(TapSwimmer(swimmersOnDeck[index], false)));
+            },
+          ),
         ),
       ),
     );

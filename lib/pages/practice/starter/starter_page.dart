@@ -7,7 +7,7 @@ import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 import 'package:swim_timer/pages/practice/starter/widgets/deck.dart';
 import 'package:swim_timer/pages/practice/starter/widgets/icon_action_button.dart';
-import 'package:swim_timer/pages/practice/starter/widgets/lane.dart';
+import 'package:swim_timer/pages/practice/starter/widgets/block_lineup.dart';
 import 'package:go_router/go_router.dart';
 
 class StarterPage extends StatelessWidget {
@@ -59,14 +59,10 @@ class StarterView extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
-                        child: Container(),
-                        flex: 1,
-                      ),
-                      Expanded(
                         flex: 4,
                         child: Center(
                           child: BlockLineup(
-                            blockSwimmers: state.blockSwimmers,
+                            blockSwimmersByLane: state.blockSwimmersByLane,
                             selectedSwimmer: state.selectedSwimmer,
                             // key: ObjectKey(DateTime.now()),
                           ),
@@ -74,11 +70,9 @@ class StarterView extends StatelessWidget {
                       ),
                       Expanded(
                         flex: 4,
-                        child: Center(
-                          child: Deck(
-                            swimmersOnDeck: state.deckSwimmers,
-                            activeSwimmer: state.selectedSwimmer,
-                          ),
+                        child: Deck(
+                          swimmersOnDeck: state.deckSwimmers,
+                          activeSwimmer: state.selectedSwimmer,
                         ),
                       ),
                       ConstrainedBox(

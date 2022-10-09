@@ -36,21 +36,14 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
   ) async {
     emit(state.copyWith(status: () => StarterStatus.loading));
 
-    await emit.forEach<List<Swimmer>>(
-      _practiceRepository.getSwimmers(),
-      onData: (swimmers) => state.copyWith(
-        // Set status to succsess
-        status: () => StarterStatus.succsess,
-        // Filter all swimmers to the ones on the block
-        blockSwimmers: () => swimmers
-            .where((element) =>
-                (element.lane != null && element.lane! > 0) &&
-                element.startTime == null)
-            .toList(),
-        // Filter all swimmer to the ones on deck
-        deckSwimmers: () => swimmers
-            .where((element) => element.lane == 0 || element.lane == null)
-            .toList(),
+    await emit.forEach<StarterData>(
+      _practiceRepository.getStarterData(),
+      onData: (data) => state.copyWith(
+        // Set status to success
+        status: () => StarterStatus.success,
+        blockSwimmers: () => data.blockSwimmers,
+        deckSwimmers: () => data.deckSwimmers,
+        blockSwimmersByLane: () => data.blockSwimmersByLane,
       ),
       onError: (_, __) => state.copyWith(status: () => StarterStatus.failure),
     );
