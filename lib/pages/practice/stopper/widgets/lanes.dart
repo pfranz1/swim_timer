@@ -108,38 +108,42 @@ class Lane extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Theme.of(context).primaryColor,
-        child: Stack(children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Column(
-                children: [
-                  for (var swimmer in swimmers)
-                    SwimmerTile(
-                      swimmer: swimmer,
-                      onTap: () => context.read<StopperBloc>().add(TapSwimmer(
-                          lane: laneNum,
-                          swimmer: swimmer,
-                          time: DateTime.now())),
-                    )
-                ],
+    return SizedBox(
+      height: 100,
+      width: 33,
+      child: Container(
+          color: Theme.of(context).primaryColor,
+          child: Stack(children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Column(
+                  children: [
+                    for (var swimmer in swimmers)
+                      SwimmerTile(
+                        swimmer: swimmer,
+                        onTap: () => context.read<StopperBloc>().add(TapSwimmer(
+                            lane: laneNum,
+                            swimmer: swimmer,
+                            time: DateTime.now())),
+                      )
+                  ],
+                ),
               ),
             ),
-          ),
-          if (latestFinisher != null)
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: IconButton(
-                icon: Icon(Icons.undo),
-                onPressed: (() => context.read<StopperBloc>().add(TapUndo(
-                    id: latestFinisher!.id,
-                    startTime: latestFinisher!.startTime!,
-                    lane: laneNum))),
-              ),
-            )
-        ]));
+            if (latestFinisher != null)
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: IconButton(
+                  icon: Icon(Icons.undo),
+                  onPressed: (() => context.read<StopperBloc>().add(TapUndo(
+                      id: latestFinisher!.id,
+                      startTime: latestFinisher!.startTime!,
+                      lane: laneNum))),
+                ),
+              )
+          ])),
+    );
   }
 }
