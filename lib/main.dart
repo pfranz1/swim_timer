@@ -21,6 +21,7 @@ import 'package:swim_timer/pages/practice/stopper/stopper_page.dart';
 import 'package:swim_timer/pages/records/records_page.dart';
 import 'firebase_options.dart';
 import 'package:go_router/go_router.dart';
+import 'package:swim_timer/globals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +29,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  Globals globalThis = new Globals();
   // Set default value so issues reading from empty shared preference
   // https://stackoverflow.com/q/50687801
   // SharedPreferences.setMockInitialValues({});
