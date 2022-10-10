@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -26,8 +28,10 @@ class Deck extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: GridView.builder(
             itemCount: swimmersOnDeck.length,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200.0,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount:
+                    max(3, (MediaQuery.of(context).size.width / 150).floor()),
+                childAspectRatio: 1,
                 crossAxisSpacing: 5.0,
                 mainAxisSpacing: 5.0),
             itemBuilder: (context, index) {
