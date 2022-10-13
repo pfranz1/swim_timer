@@ -1,5 +1,6 @@
 import 'dart:js';
 
+import 'package:page_transition/page_transition.dart';
 import 'package:swim_timer/pages/loading/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:swim_timer/pages/home/home_page.dart';
 import 'package:swim_timer/pages/join/join_page.dart';
 import 'package:swim_timer/pages/practice/overview/overview_page.dart';
 import 'package:swim_timer/pages/practice/practice_scaffold.dart';
+import 'package:swim_timer/pages/practice/starter/add/add_page.dart';
 import 'package:swim_timer/pages/practice/starter/starter_page.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_page.dart';
 import 'package:swim_timer/pages/records/records_page.dart';
@@ -25,17 +27,17 @@ class RoutingInformation {
     // Join
     GoRoute(
         path: '/join',
-        pageBuilder: makeBottomSlideUpTransition(const JoinPage())),
+        pageBuilder: makeBottomSlideUpTransition(child: const JoinPage())),
 
     // Create
     GoRoute(
         path: '/create',
-        pageBuilder: makeBottomSlideUpTransition(const CreatePage())),
+        pageBuilder: makeBottomSlideUpTransition(child: const CreatePage())),
 
     // Records
     GoRoute(
         path: '/records',
-        pageBuilder: makeBottomSlideUpTransition(const RecordsPage())),
+        pageBuilder: makeBottomSlideUpTransition(child: const RecordsPage())),
 
     // Practice Not Found
     GoRoute(
@@ -45,12 +47,26 @@ class RoutingInformation {
       ),
     ),
 
+    GoRoute(
+      path: '/practice/:sessionId/add',
+      pageBuilder: (context, state) {
+        final backLocation =
+            state.location.substring(0, state.location.lastIndexOf('/')) +
+                '/starter';
+        return makeBottomSlideUpTransition(
+            child: AddSwimmerPage(backLocation: backLocation))(context, state);
+      },
+    ),
+
     // Loaded Practice
     ShellRoute(
       // Parent of practice sub-routes
-      pageBuilder: (context, state, child) => makeBottomSlideUpTransition(
-        PracticeScaffold(location: state.location, child: child),
-      )(context, state),
+      pageBuilder: (context, state, child) => CustomTransitionPage<void>(
+        key: state.pageKey,
+        child: PracticeScaffold(location: state.location, child: child),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+      ),
       routes: [
         // Starter
         GoRoute(
@@ -116,16 +132,18 @@ class RoutingInformation {
     // Loading screen that initiates redirect call
     GoRoute(
       path: "/practice/:sessionId",
-      pageBuilder: ((context, state) => makeBottomSlideUpTransition(LoadingPage(
-          afterLoadingDisplay: (context) =>
-              {context.go(state.location + '/resolve')}))(context, state)),
+      pageBuilder: ((context, state) => makeBottomSlideUpTransition(
+          child: LoadingPage(
+              afterLoadingDisplay: (context) =>
+                  {context.go(state.location + '/resolve')}))(context, state)),
     )
   ]);
 }
 
 // Returns a delegate that can be used as a page builder that slide up
 CustomTransitionPage<void> Function(BuildContext context, GoRouterState state)
-    makeBottomSlideUpTransition(Widget child) {
+    makeBottomSlideUpTransition(
+        {required Widget child, bool doesSlideDown = false}) {
   return (BuildContext context, GoRouterState state) {
     return CustomTransitionPage<void>(
         key: state.pageKey,
@@ -139,9 +157,19 @@ CustomTransitionPage<void> Function(BuildContext context, GoRouterState state)
           var tween =
               Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
+          const begin2 = Offset.zero;
+          const end2 = Offset(0.0, 1.0);
+          const curve2 = Curves.fastLinearToSlowEaseIn;
+
+          var tween2 =
+              Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
           return SlideTransition(
             position: animation.drive(tween),
-            child: child,
+            child: doesSlideDown
+                ? SlideTransition(
+                    child: child, position: animation.drive(tween2))
+                : child,
           );
         });
   };

@@ -82,8 +82,13 @@ class StarterView extends StatelessWidget {
                           alignment: MainAxisAlignment.center,
                           children: [
                             IconActionButton(
-                                onPressed: () =>
-                                    {context.read<StarterBloc>().add(TapAdd())},
+                                onPressed: () {
+                                  // context.go('/add');
+                                  String baseAddress = context.read<String>();
+                                  context.go(baseAddress + 'add');
+
+                                  //context.read<StarterBloc>().add(TapAdd())
+                                },
                                 icon: Icon(Icons.add),
                                 isSelected: false),
                             IconActionButton(

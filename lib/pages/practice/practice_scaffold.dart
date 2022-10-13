@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swim_timer/pages/practice/practice_cubit/practice_cubit.dart';
+import 'package:provider/provider.dart';
 
 enum PracticeTab { starter, stopper, overview }
 
@@ -16,11 +17,15 @@ class PracticeScaffold extends StatelessWidget {
   final String location;
 
   String _popAndReplace(String replacement) {
-    return location.substring(0, location.lastIndexOf("/") + 1) + replacement;
+    return _baseAddress + replacement;
+  }
+
+  String get _baseAddress {
+    return location.substring(0, location.lastIndexOf("/") + 1);
   }
 
   PracticeTab get selectedTab {
-    switch (lastLocation) {
+    switch (currentLocation) {
       case "Starter":
         return PracticeTab.starter;
       case "Stopper":
@@ -45,7 +50,7 @@ class PracticeScaffold extends StatelessWidget {
     }
   }
 
-  String get lastLocation =>
+  String get currentLocation =>
       upperCase(location.substring(location.lastIndexOf("/") + 1));
 
   String upperCase(String string) =>
@@ -53,44 +58,47 @@ class PracticeScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(lastLocation),
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-            onPressed: () => {context.go('/')},
-            icon: Icon(
-              Icons.chevron_left,
-              color: Theme.of(context).colorScheme.onBackground,
-            )),
-      ),
-      body: child,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _PracticeTabButton(
-              onPressed: () =>
-                  context.go(_popAndReplace("starter"), extra: indexOfTab),
-              groupValue: selectedTab,
-              value: PracticeTab.starter,
-              icon: Icon(Icons.play_circle_outline_rounded),
-            ),
-            _PracticeTabButton(
+    return Provider.value(
+      value: _baseAddress,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(currentLocation),
+          elevation: 0,
+          centerTitle: true,
+          leading: IconButton(
+              onPressed: () => context.go('/'),
+              icon: Icon(
+                Icons.chevron_left,
+                color: Theme.of(context).colorScheme.onBackground,
+              )),
+        ),
+        body: child,
+        bottomNavigationBar: BottomAppBar(
+          shape: const CircularNotchedRectangle(),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _PracticeTabButton(
                 onPressed: () =>
-                    context.go(_popAndReplace("stopper"), extra: indexOfTab),
+                    context.go(_popAndReplace("starter"), extra: indexOfTab),
                 groupValue: selectedTab,
-                value: PracticeTab.stopper,
-                icon: Icon(Icons.stop_circle_outlined)),
-            _PracticeTabButton(
-                onPressed: () =>
-                    context.go(_popAndReplace("overview"), extra: indexOfTab),
-                groupValue: selectedTab,
-                value: PracticeTab.overview,
-                icon: Icon(Icons.list)),
-          ],
+                value: PracticeTab.starter,
+                icon: Icon(Icons.play_circle_outline_rounded),
+              ),
+              _PracticeTabButton(
+                  onPressed: () =>
+                      context.go(_popAndReplace("stopper"), extra: indexOfTab),
+                  groupValue: selectedTab,
+                  value: PracticeTab.stopper,
+                  icon: Icon(Icons.stop_circle_outlined)),
+              _PracticeTabButton(
+                  onPressed: () =>
+                      context.go(_popAndReplace("overview"), extra: indexOfTab),
+                  groupValue: selectedTab,
+                  value: PracticeTab.overview,
+                  icon: Icon(Icons.list)),
+            ],
+          ),
         ),
       ),
     );
