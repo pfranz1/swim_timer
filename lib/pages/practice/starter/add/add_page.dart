@@ -5,13 +5,65 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:practice_api/practice_api.dart';
+import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/main.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
-class AddSwimmerPage extends StatelessWidget {
-  const AddSwimmerPage({super.key, required this.backLocation});
+class AddSwimmerPage extends StatefulWidget {
+  AddSwimmerPage({super.key, required this.backLocation});
 
   final String backLocation;
+
+  @override
+  State<AddSwimmerPage> createState() => _AddSwimmerPageState();
+}
+
+// TODO: Do this is a centeralized spot
+Map<Stroke, String> strokeToString = {
+  Stroke.FREE_STYLE: "Free",
+  Stroke.BACK_STROKE: "Back",
+  Stroke.BREAST_STROKE: "Breast",
+  Stroke.BUTTERFLY: "Fly"
+};
+
+class _AddSwimmerPageState extends State<AddSwimmerPage> {
+  final TextEditingController _nameController = TextEditingController();
+  Stroke? selectedStroke = null;
+
+  void _handleStrokeTap(Stroke stroke) {
+    print('Handle $stroke ${_nameController.text}');
+    setState(() {
+      selectedStroke = stroke;
+    });
+  }
+
+  void _handleAddTap() async {
+    if (_nameController.value.text.length > 0 && selectedStroke != null) {
+      await context.read<PracticeRepository>().addSwimmer(
+          Swimmer(name: _nameController.text, stroke: selectedStroke));
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Row(
+        children: [
+          Text(
+              'Added ${_nameController.text}, Swimming ${strokeToString[selectedStroke]}')
+        ],
+        mainAxisAlignment: MainAxisAlignment.center,
+      )));
+
+      setState(() {
+        selectedStroke = null;
+        _nameController.clear();
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Row(
+        children: [Text('Please specify name and stroke')],
+        mainAxisAlignment: MainAxisAlignment.center,
+      )));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +74,7 @@ class AddSwimmerPage extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              context.go(backLocation);
+              context.go(widget.backLocation);
             },
             icon: Icon(
               Icons.chevron_left,
@@ -59,6 +111,8 @@ class AddSwimmerPage extends StatelessWidget {
                             top: 48.0,
                           ),
                           child: TextFormField(
+                            controller: _nameController,
+                            cursorColor: Colors.black,
                             decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
@@ -85,11 +139,15 @@ class AddSwimmerPage extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       StrokeTile(
+                                          onTap: _handleStrokeTap,
                                           stroke: Stroke.FREE_STYLE,
-                                          isActive: false),
+                                          isActive: selectedStroke ==
+                                              Stroke.FREE_STYLE),
                                       StrokeTile(
+                                          onTap: _handleStrokeTap,
                                           stroke: Stroke.BACK_STROKE,
-                                          isActive: false),
+                                          isActive: selectedStroke ==
+                                              Stroke.BACK_STROKE),
                                     ],
                                   ),
                                 ),
@@ -101,11 +159,15 @@ class AddSwimmerPage extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     children: [
                                       StrokeTile(
+                                          onTap: _handleStrokeTap,
                                           stroke: Stroke.BREAST_STROKE,
-                                          isActive: false),
+                                          isActive: selectedStroke ==
+                                              Stroke.BREAST_STROKE),
                                       StrokeTile(
+                                          onTap: _handleStrokeTap,
                                           stroke: Stroke.BUTTERFLY,
-                                          isActive: false),
+                                          isActive: selectedStroke ==
+                                              Stroke.BUTTERFLY),
                                     ],
                                   ),
                                 ),
@@ -125,15 +187,9 @@ class AddSwimmerPage extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
+                // Check to add swimmer button
                 child: FloatingActionButton(
-                    child: Icon(Icons.check),
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Row(
-                        children: [Text('Added Swimmer')],
-                        mainAxisAlignment: MainAxisAlignment.center,
-                      )));
-                    }),
+                    child: Icon(Icons.check), onPressed: _handleAddTap),
               )
             ],
           )
@@ -156,7 +212,11 @@ class AddSwimmerPage extends StatelessWidget {
 }
 
 class StrokeTile extends StatelessWidget {
-  StrokeTile({super.key, required this.stroke, required this.isActive}) {
+  StrokeTile(
+      {super.key,
+      required this.stroke,
+      required this.isActive,
+      required this.onTap}) {
     switch (stroke) {
       case Stroke.FREE_STYLE:
         color = Colors.green;
@@ -181,6 +241,8 @@ class StrokeTile extends StatelessWidget {
   final Stroke stroke;
   final bool isActive;
 
+  final Function(Stroke) onTap;
+
   late final Color color;
   late final String strokeName;
 
@@ -191,30 +253,28 @@ class StrokeTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox.square(
-              // constraints: BoxConstraints(
-              //   maxWidth: 350,
-              //   maxHeight: 350,
-              //   minHeight: 150,
-              //   minWidth: 150,
-              // ),
               dimension: min(
                   max(min(constraints.maxWidth, constraints.maxHeight) / 2, 50),
                   150),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                    color: color,
-                    border: Border.all(color: Colors.white, width: 3.0),
-                    borderRadius: BorderRadius.all(Radius.circular(6.0))),
-                child: null,
+              child: GestureDetector(
+                onTap: () => onTap(stroke),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                      color: color,
+                      border: Border.all(
+                          color: isActive ? Colors.white38 : Colors.white24,
+                          width: isActive ? 8.0 : 3.0),
+                      borderRadius: BorderRadius.all(Radius.circular(6.0))),
+                  child: null,
+                ),
               )),
           Padding(
             padding: const EdgeInsets.only(top: 5.0),
             child: Text(
               strokeName,
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6
-                  ?.copyWith(color: Colors.white),
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                  color: Colors.white,
+                  fontWeight: isActive ? FontWeight.bold : FontWeight.normal),
               overflow: TextOverflow.fade,
             ),
           ),
