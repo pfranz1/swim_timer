@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
-import 'dart:math';
+import 'package:swim_timer/managers/database_manager.dart';
 
 class CreatePage extends StatelessWidget {
   const CreatePage({super.key});
@@ -18,16 +18,15 @@ class CreatePage extends StatelessWidget {
         centerTitle: true,
       ),
       body: Center(
-        child:
-            ElevatedButton(onPressed: () => {this.handleCreate()}, child: Text('Create Practice')),
+        child: ElevatedButton(
+            onPressed: () => {handleCreate(context)},
+            child: Text('Create Practice')),
       ),
     );
   }
 
-  void handleCreate()
-  {
-    int randomNum = Random.secure().nextInt(1000);
-    DatabaseReference dbRef = FirebaseDatabase.instance.reference().child("TestUser");
-    dbRef..child("Practice ${randomNum}").set("Practice ${randomNum}");
+  void handleCreate(BuildContext context) async {
+    await DatabaseManager.createOrganization("Org2");
+    context.go('/');
   }
 }
