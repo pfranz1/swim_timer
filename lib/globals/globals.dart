@@ -10,6 +10,7 @@ DatabaseReference dbPracticesRef = FirebaseDatabase.instance.ref();
 DatabaseReference dbCoachesRef = FirebaseDatabase.instance.ref();
 DatabaseReference dbCodeRef = FirebaseDatabase.instance.ref();
 DatabaseReference dbNameRef = FirebaseDatabase.instance.ref();
+DatabaseReference dbRootRef = FirebaseDatabase.instance.ref();
 
 class Globals {
   Globals();

@@ -26,7 +26,7 @@ class CreatePage extends StatelessWidget {
   }
 
   void handleCreate(BuildContext context) async {
-    await DatabaseManager.createPractice("TestPractice");
+    await DatabaseManager.createOrganization("Org2");
     context.go('/');
   }
 }
