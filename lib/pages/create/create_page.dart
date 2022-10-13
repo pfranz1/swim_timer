@@ -27,8 +27,6 @@ class CreatePage extends StatelessWidget {
 
   void handleCreate(BuildContext context) async {
     await DatabaseManager.createPractice("TestPractice");
-    DataSnapshot name = await DatabaseManager.getPracticeName("TestPractice");
-    print("$name has been created");
     context.go('/');
   }
 }

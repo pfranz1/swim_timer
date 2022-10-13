@@ -1,4 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
+import "package:swim_timer/globals/globals.dart" as globals;
+import "package:swim_timer/globals/common.dart" as common;
 
 class DatabaseManager {
   /*
@@ -15,32 +17,20 @@ class DatabaseManager {
     @param1: Username of the user
   */
   static Future<void> createPractice(String name) async {
-    DatabaseReference organizationReference =
-        FirebaseDatabase.instance.ref().child("TestOrganization"); //child);
-
-    List<String> emptyList = [];
-    emptyList.add("Swimmer 1");
-    final String practicekey = "Practice:$name";
-
-    organizationReference
-        .child(practicekey)
-        .child("name")
-        .set(name); //Set value for name node
-    organizationReference
-        .child(practicekey)
-        .child("SwimmerList")
-        .set(emptyList); //Initialize swimmer list node
+    globals.dbPracticesRef
+        .child(name)
+        .set({'title': name, 'code': common.codeGenerator()});
   }
 
   /*
   */
-  static Future<DataSnapshot> getPracticeName(String key) async {
-    DatabaseReference dbRef = FirebaseDatabase.instance
-        .ref()
-        .child("TestOrganization")
-        .child("Practice:$key"); //child);
-
-    //final data = new Map
-    return dbRef.child("name").get();
+  static String getOrganizationCode(String key) {
+    String data = "";
+    globals.dbCodeRef.get().then((value) {
+      if (value.value != null) {
+        data = value.value as String;
+      }
+    });
+    return data;
   }
 }
