@@ -10,6 +10,7 @@ DatabaseReference dbPracticesRef = FirebaseDatabase.instance.ref();
 DatabaseReference dbCoachesRef = FirebaseDatabase.instance.ref();
 DatabaseReference dbCodeRef = FirebaseDatabase.instance.ref();
 DatabaseReference dbNameRef = FirebaseDatabase.instance.ref();
+DatabaseReference dbSwimmersRef = FirebaseDatabase.instance.ref();
 DatabaseReference dbRootRef = FirebaseDatabase.instance.ref();
 
 class Globals {
@@ -26,12 +27,14 @@ class Globals {
     coach = "Coach1";
     organization = "Organization1";
 
-    dbCodeRef = FirebaseDatabase.instance.ref().child("$organization/Code");
-    dbNameRef = FirebaseDatabase.instance.ref().child("$organization/Name");
-    dbOrgRef = FirebaseDatabase.instance.ref().child(organization);
+    dbCodeRef = dbRootRef.child("$organization/Code");
+    dbNameRef = dbRootRef.child("$organization/Name");
+    dbOrgRef = dbRootRef.child(organization);
     dbPracticesRef =
-        FirebaseDatabase.instance.ref().child("$organization/Practices");
+        dbRootRef.child("$organization/Practices");
     dbCoachesRef =
-        FirebaseDatabase.instance.ref().child("$organization/Coaches");
+        dbRootRef.child("$organization/Coaches");
+    dbSwimmersRef = dbRootRef.child("$organization/Swimmers");
+    
   }
 }

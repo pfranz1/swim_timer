@@ -13,6 +13,14 @@ String codeGenerator() {
   int randomNumber = random.nextInt(10000) + 1000;
   return randomNumber.toString();
 }
+
+String todaysDate()
+{
+  DateTime now = DateTime.now();
+  DateTime date = DateTime(now.year, now.month, now.day);
+  String monthdayyear = date.month.toString()+"/"+date.day.toString()+"/"+date.year.toString(); 
+  return monthdayyear;
+}
 /*
 canModifyPractice
 canCreatePractice
