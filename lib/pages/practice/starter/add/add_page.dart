@@ -11,9 +11,14 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class AddSwimmerPage extends StatefulWidget {
-  AddSwimmerPage({super.key, required this.backLocation});
+  AddSwimmerPage({
+    super.key,
+    required this.backLocation,
+    this.editSwimmer,
+  });
 
   final String backLocation;
+  final Swimmer? editSwimmer;
 
   @override
   State<AddSwimmerPage> createState() => _AddSwimmerPageState();
@@ -29,7 +34,15 @@ Map<Stroke, String> strokeToString = {
 
 class _AddSwimmerPageState extends State<AddSwimmerPage> {
   final TextEditingController _nameController = TextEditingController();
-  Stroke? selectedStroke = null;
+  Stroke? selectedStroke;
+
+  @override
+  void initState() {
+    final TextEditingController _nameController =
+        TextEditingController(text: widget.editSwimmer?.name);
+    selectedStroke = widget.editSwimmer?.stroke;
+    super.initState();
+  }
 
   void _handleStrokeTap(Stroke stroke) {
     print('Handle $stroke ${_nameController.text}');
@@ -39,7 +52,7 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
   }
 
   void _handleAddTap() async {
-    if (_nameController.value.text.length > 0 && selectedStroke != null) {
+    if (_nameController.value.text.isNotEmpty && selectedStroke != null) {
       await context.read<PracticeRepository>().addSwimmer(
           Swimmer(name: _nameController.text, stroke: selectedStroke));
 
@@ -65,11 +78,35 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
     }
   }
 
+  void _handleEditTap() async {
+    if (selectedStroke != null) {
+      await context
+          .read<PracticeRepository>()
+          .setStroke(widget.editSwimmer!.id, selectedStroke!);
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Row(
+        children: [
+          Text(
+              '${widget.editSwimmer!.name} => ${strokeToString[selectedStroke]}')
+        ],
+        mainAxisAlignment: MainAxisAlignment.center,
+      )));
+      context.go(widget.backLocation);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Row(
+        children: [Text('Please specify stroke')],
+        mainAxisAlignment: MainAxisAlignment.center,
+      )));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add"),
+        title: Text((widget.editSwimmer == null) ? "Add" : "Edit"),
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
@@ -111,6 +148,8 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
                             top: 48.0,
                           ),
                           child: TextFormField(
+                            // Enabled when adding
+                            enabled: widget.editSwimmer == null,
                             controller: _nameController,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
@@ -119,7 +158,9 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
                                 ),
                                 filled: true,
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                hintText: "Swimmer name",
+                                hintText: widget.editSwimmer == null
+                                    ? "Swimmer name"
+                                    : widget.editSwimmer!.name,
                                 fillColor: Colors.white),
                           ),
                         ),
@@ -189,7 +230,10 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
                 padding: const EdgeInsets.all(16.0),
                 // Check to add swimmer button
                 child: FloatingActionButton(
-                    child: Icon(Icons.check), onPressed: _handleAddTap),
+                    child: Icon(Icons.check),
+                    onPressed: (widget.editSwimmer == null)
+                        ? _handleAddTap
+                        : _handleEditTap),
               )
             ],
           )

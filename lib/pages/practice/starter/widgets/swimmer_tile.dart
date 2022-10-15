@@ -5,11 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 
 class SwimmerTile extends StatelessWidget {
+  // TODO: Centeralize this color information
   final Map<Stroke, Color> colors = const {
     Stroke.FREE_STYLE: Colors.green,
-    Stroke.BACK_STROKE: Colors.blue,
-    Stroke.BREAST_STROKE: Colors.red,
-    Stroke.BUTTERFLY: Colors.purple
+    Stroke.BACK_STROKE: Colors.red,
+    Stroke.BREAST_STROKE: Colors.orange,
+    Stroke.BUTTERFLY: Colors.lightBlue
   };
 
   const SwimmerTile({

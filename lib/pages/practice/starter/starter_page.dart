@@ -16,9 +16,13 @@ class StarterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<StarterBloc>(
-      create: (context) =>
-          StarterBloc(practiceRepository: context.read<PracticeRepository>())
-            ..add(SubscriptionRequested()),
+      create: (context) => StarterBloc(
+        practiceRepository: context.read<PracticeRepository>(),
+        editNavigationCallBack: ((editSwimmer) {
+          String baseAddress = context.read<String>();
+          context.go(baseAddress + 'add', extra: editSwimmer);
+        }),
+      )..add(SubscriptionRequested()),
       child: const StarterView(),
     );
   }
@@ -92,9 +96,10 @@ class StarterView extends StatelessWidget {
                                 icon: Icon(Icons.add),
                                 isSelected: false),
                             IconActionButton(
-                              onPressed: () => context
-                                  .read<StarterBloc>()
-                                  .add(TapAction(action: SelectedAction.edit)),
+                              onPressed: () {
+                                context.read<StarterBloc>().add(
+                                    TapAction(action: SelectedAction.edit));
+                              },
                               icon: Icon(Icons.edit),
                               isSelected:
                                   state.selectedAction == SelectedAction.edit,

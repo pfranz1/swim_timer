@@ -54,7 +54,10 @@ class RoutingInformation {
             state.location.substring(0, state.location.lastIndexOf('/')) +
                 '/starter';
         return makeBottomSlideUpTransition(
-            child: AddSwimmerPage(backLocation: backLocation))(context, state);
+            child: AddSwimmerPage(
+          backLocation: backLocation,
+          editSwimmer: (state.extra is Swimmer) ? state.extra as Swimmer : null,
+        ))(context, state);
       },
     ),
 

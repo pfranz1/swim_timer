@@ -12,8 +12,11 @@ export 'starter_event.dart';
 export 'starter_state.dart';
 
 class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
-  StarterBloc({required PracticeRepository practiceRepository})
-      : _practiceRepository = practiceRepository,
+  StarterBloc({
+    required PracticeRepository practiceRepository,
+    required void Function(Swimmer editSwimmer) editNavigationCallBack,
+  })  : _practiceRepository = practiceRepository,
+        _editNavigationCallBack = editNavigationCallBack,
         super(const StarterState()) {
     on<SubscriptionRequested>(_onSubscriptionRequested);
     on<TapLane>(_onTapLane);
@@ -27,6 +30,8 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
   }
 
   final PracticeRepository _practiceRepository;
+
+  final void Function(Swimmer editSwimmer) _editNavigationCallBack;
 
   static const Duration undoFadeDuration = Duration(seconds: 5);
 
@@ -62,7 +67,7 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
       // If the lane has a swimmer in it
       if (tapLane.swimmer != null) {
         // Apply action to swimmer
-        _handleAction(state.selectedAction, tapLane.swimmer!.id);
+        _handleAction(state.selectedAction, tapLane.swimmer!);
       }
       emit(state.clearAllSelections());
     }
@@ -121,7 +126,7 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     // If there is action selected to resolve
     if (state.selectedAction != null && tapSwimmer.swimmer != null) {
       // Resolve action on tapped on swimmer
-      _handleAction(state.selectedAction, tapSwimmer.swimmer!.id);
+      _handleAction(state.selectedAction, tapSwimmer.swimmer!);
 
       // Clear selected action
       emit(state.copyWith(
@@ -140,7 +145,10 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     // If a swimmer is already selected
     if (state.selectedSwimmer != null) {
       // Handle the action on the swimmer
-      _handleAction(tapAction.action, state.selectedSwimmer!.id);
+      _handleAction(
+        tapAction.action,
+        state.selectedSwimmer!,
+      );
       // Clear the selection of swimmer and emit
       emit(state.copyWith(
         selectedSwimmer: () => null,
@@ -153,24 +161,27 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
     }
   }
 
-  Future<void> _handleAction(SelectedAction? action, String id) async {
+  Future<void> _handleAction(SelectedAction? action, Swimmer swimmer) async {
     switch (action) {
       case SelectedAction.edit:
-        _handleEdit(id);
+        _handleEdit(swimmer);
         break;
       case SelectedAction.delete:
-        _handleDelete(id);
+        _handleDelete(swimmer.id);
         break;
       case SelectedAction.deblock:
-        _handleDeblock(id);
+        _handleDeblock(swimmer.id);
         break;
       case null:
         break;
     }
   }
 
-  Future<void> _handleEdit(String id) async {
-    print("EDIT SWIMMER: $id");
+  Future<void> _handleEdit(Swimmer swimmer) async {
+    print("EDIT SWIMMER: $swimmer.id");
+    // The UI element (the button clicked on), is responsible for changing navigation
+    emit(state.clearAllSelections());
+    _editNavigationCallBack(swimmer);
   }
 
   Future<void> _handleDeblock(String id) async {
