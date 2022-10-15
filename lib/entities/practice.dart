@@ -1,7 +1,7 @@
-import "Swimmer.dart";
+import "package:swim_timer/entities/swimmer.dart";
 
 class Practice {
-  String title = "";
+  late String title = "";
   List<Swimmer> swimmerlist = [];
   late String code = "";
   late String date;
