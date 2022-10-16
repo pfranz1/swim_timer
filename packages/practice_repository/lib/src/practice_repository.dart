@@ -34,7 +34,10 @@ class PracticeRepository {
         (event) => _filterSwimmers(_filterDeckSwimmer, event),
       );
 
-  ///TODO: sort swimmers by idle time (idle time = no end time or least recent end time) ask peter abt this hahahaha
+  /// TODO: Get swimmers on the deck by idle time 
+  ///
+  /// (idle time = no end time or least recent end time) 
+  /// note:ask peter abt this hahahaha
   Stream <List <Swimmer>> getIdleDeckSwimmers() => _practiceApi.getSwimmers().map(
         (event) => _filterSwimmers(_filterIdleDeckSwimmer, event),
       );
