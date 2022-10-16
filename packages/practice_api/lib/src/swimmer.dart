@@ -89,14 +89,4 @@ class Swimmer extends Equatable /*implements Comparable<Swimmer>*/ {
   String toString() {
     return "{$name : $stroke : $lane}";
   }
-
-  // @override
-  // int compareTo(Swimmer other) {
-  //   if (endTime?.compareTo(other.endTime) > 0) {
-  //     return 1;
-  //     }
-  //   else if (endTime?.compareTo(other.endTime) < 0) {
-  //     return -1;
-  //   }
-  // }
 }
