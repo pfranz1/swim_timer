@@ -33,11 +33,11 @@ class DatabaseManager {
     and is a child itself to an organization
     @param1: Creates a practice in the current global organization
   */
-  static Future<void> createSwimmer(String name, int age) async {
+  static Future<void> createSwimmer(String name, String stroke) async {
     globals.dbOrgRef
         .child("Swimmers")
         .child(name)
-        .set({'name': name, 'age': age});
+        .set({'name': name, 'stroke': stroke});
   }
 
   /*
@@ -102,8 +102,8 @@ class DatabaseManager {
       if (value.value != null) {swimmerName = value.value as String;}});
     await globals.dbSwimmersRef.child('$name/stroke').get().then((value) {
       if (value.value != null) {stroke = value.value as String;}});
-    await globals.dbSwimmersRef.child('$name/age').get().then((value) {
-      if (value.value != null) {age = value.value as int;}});
+    //await globals.dbSwimmersRef.child('$name/age').get().then((value) {
+      //if (value.value != null) {age = value.value as int;}});
 
     return Swimmer(swimmerName, age, stroke);
   }

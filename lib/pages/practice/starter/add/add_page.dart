@@ -9,6 +9,7 @@ import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:swim_timer/managers/database_manager.dart';
 
 class AddSwimmerPage extends StatefulWidget {
   AddSwimmerPage({
@@ -79,7 +80,7 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
   }
 
   void _handleEditTap() async {
-    if (selectedStroke != null) {
+    if (selectedStroke != null) { //ON check mark tap!!
       await context
           .read<PracticeRepository>()
           .setStroke(widget.editSwimmer!.id, selectedStroke!);
