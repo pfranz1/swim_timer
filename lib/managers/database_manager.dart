@@ -1,9 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:swim_timer/entities/coach.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:swim_timer/entities/practice.dart';
-import 'package:swim_timer/entities/swimmer.dart';
+import 'package:practice_api/practice_api.dart';
 import "package:swim_timer/globals/globals.dart" as globals;
 import "package:swim_timer/globals/common.dart" as common;
+
 
 class DatabaseManager {
   /*
@@ -97,7 +99,7 @@ class DatabaseManager {
   static Future<Swimmer> getSwimmer(String name) async {
     String swimmerName = "";
     String stroke = "";
-    int age = 0;
+    
     await globals.dbSwimmersRef.child('$name/name').get().then((value) {
       if (value.value != null) {swimmerName = value.value as String;}});
     await globals.dbSwimmersRef.child('$name/stroke').get().then((value) {
@@ -105,7 +107,7 @@ class DatabaseManager {
     //await globals.dbSwimmersRef.child('$name/age').get().then((value) {
       //if (value.value != null) {age = value.value as int;}});
 
-    return Swimmer(swimmerName, age, stroke);
+    return Swimmer(name: swimmerName);
   }
 
   static Future<Coach> getCoach(String name) async {
