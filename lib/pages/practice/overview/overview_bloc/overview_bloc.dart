@@ -15,6 +15,42 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
       : _practiceRepository = praticeRepository,
         super(const OverviewState()) {
     on<SubscriptionRequested>(_subscriptionRequested);
+    on<StrokeFilterTapped>(_strokeFilterTapped);
+  }
+
+  bool entryMeetsFilter(FinisherEntry entry) {
+    switch (entry.stroke) {
+      case Stroke.FREE_STYLE:
+        return state.showFree;
+      case Stroke.BACK_STROKE:
+        return state.showBack;
+      case Stroke.BREAST_STROKE:
+        return state.showBreast;
+      case Stroke.BUTTERFLY:
+        return state.showFly;
+      default:
+        return true;
+    }
+  }
+
+  Future<void> _strokeFilterTapped(
+      StrokeFilterTapped event, Emitter<OverviewState> emit) async {
+    switch (event.stroke) {
+      case Stroke.FREE_STYLE:
+        emit(state.copyWith(showFree: !event.isAdding));
+        // emit(state.copyWith(entries: state.entries.where(entryMeetsFilter).toList());
+        break;
+      case Stroke.BACK_STROKE:
+        emit(state.copyWith(showBack: !event.isAdding));
+        break;
+      case Stroke.BREAST_STROKE:
+        emit(state.copyWith(showBreast: !event.isAdding));
+        break;
+      case Stroke.BUTTERFLY:
+        emit(state.copyWith(showFly: !event.isAdding));
+        break;
+      default:
+    }
   }
 
   Future<void> _subscriptionRequested(
@@ -23,8 +59,9 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
 
     await emit.forEach<List<FinisherEntry>>(
       _practiceRepository.getEntries(),
-      onData: (List<FinisherEntry> data) =>
-          state.copyWith(entries: () => data, status: OverviewStatus.succsess),
+      onData: (List<FinisherEntry> data) => state.copyWith(
+          entries: () => data.where(entryMeetsFilter).toList(),
+          status: OverviewStatus.succsess),
       onError: (error, stackTrace) =>
           state.copyWith(status: OverviewStatus.failure),
     );
