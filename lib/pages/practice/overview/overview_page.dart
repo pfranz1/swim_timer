@@ -41,7 +41,7 @@ class OverviewView extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: EntriesCard(entries: state.entries),
                   ),
-                  flex: 4,
+                  flex: 6,
                 ),
                 Expanded(
                   flex: 1,
