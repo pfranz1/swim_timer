@@ -38,19 +38,31 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
     switch (event.stroke) {
       case Stroke.FREE_STYLE:
         emit(state.copyWith(showFree: !event.isAdding));
-        // emit(state.copyWith(entries: state.entries.where(entryMeetsFilter).toList());
+        emit(state.copyWith(
+            entries: () => state.entries!.where(entryMeetsFilter).toList()));
         break;
       case Stroke.BACK_STROKE:
         emit(state.copyWith(showBack: !event.isAdding));
+        emit(state.copyWith(
+            entries: () => state.entries!.where(entryMeetsFilter).toList()));
         break;
       case Stroke.BREAST_STROKE:
         emit(state.copyWith(showBreast: !event.isAdding));
+        emit(state.copyWith(
+            entries: () => state.entries!.where(entryMeetsFilter).toList()));
         break;
       case Stroke.BUTTERFLY:
         emit(state.copyWith(showFly: !event.isAdding));
         break;
       default:
     }
+
+    final updatedEntries = (await _practiceRepository.getEntries().first)
+        .where(entryMeetsFilter)
+        .toList();
+    emit(state.copyWith(
+      entries: () => updatedEntries,
+    ));
   }
 
   Future<void> _subscriptionRequested(
