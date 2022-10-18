@@ -101,7 +101,7 @@ class EntryCard extends StatelessWidget {
                   flex: 8,
                   child: Text(
                     entry?.name ?? "---",
-                    style: Theme.of(context).textTheme.displaySmall,
+                    style: Theme.of(context).textTheme.headline5,
                   ),
                 )
               ]),
@@ -121,7 +121,7 @@ class EntryCard extends StatelessWidget {
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline6
                           ?.copyWith(fontWeight: FontWeight.w300),
                     ),
                   ),
