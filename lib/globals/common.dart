@@ -14,11 +14,20 @@ String codeGenerator() {
   return randomNumber.toString();
 }
 
-String todaysDate()
-{
+String idGenerator() {
+  Random random = Random();
+  int randomNumber = random.nextInt(100000) + 10000;
+  return "ID" + randomNumber.toString();
+}
+
+String todaysDate() {
   DateTime now = DateTime.now();
   DateTime date = DateTime(now.year, now.month, now.day);
-  String monthdayyear = date.month.toString()+"/"+date.day.toString()+"/"+date.year.toString(); 
+  String monthdayyear = date.month.toString() +
+      "/" +
+      date.day.toString() +
+      "/" +
+      date.year.toString();
   return monthdayyear;
 }
 /*

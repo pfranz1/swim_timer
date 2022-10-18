@@ -56,7 +56,8 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
     if (_nameController.value.text.isNotEmpty && selectedStroke != null) {
       await context.read<PracticeRepository>().addSwimmer(
           Swimmer(name: _nameController.text, stroke: selectedStroke));
-
+      DatabaseManager.createSwimmer(
+          _nameController.text, strokeToString[selectedStroke].toString());
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
         children: [
@@ -80,7 +81,7 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
   }
 
   void _handleEditTap() async {
-    if (selectedStroke != null) { //ON check mark tap!!
+    if (selectedStroke != null) {
       await context
           .read<PracticeRepository>()
           .setStroke(widget.editSwimmer!.id, selectedStroke!);

@@ -51,6 +51,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^1.22.0
   firebase_database: ^9.1.4
+  very_good_cli: ^0.8.1
 
 dev_dependencies:
   flutter_test:

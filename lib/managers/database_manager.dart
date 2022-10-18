@@ -18,9 +18,11 @@ class DatabaseManager {
     @param1: name of new practice
   */
   static Future<void> createPractice(String name) async {
-    globals.dbPracticesRef
-        .child(name)
-        .set({'title': name, 'code': common.codeGenerator(), 'date': common.todaysDate()});
+    globals.dbPracticesRef.child(name).set({
+      'title': name,
+      'code': common.codeGenerator(),
+      'date': common.todaysDate()
+    });
   }
 
   /*
@@ -34,10 +36,17 @@ class DatabaseManager {
     @param1: Creates a practice in the current global organization
   */
   static Future<void> createSwimmer(String name, String stroke) async {
+    String swimmerID = common.idGenerator();
     globals.dbOrgRef
         .child("Swimmers")
-        .child(name)
-        .set({'name': name, 'stroke': stroke});
+        .child(swimmerID)
+        .set({'name': name, "id": swimmerID});
+
+    globals.dbPracticesRef
+        .child("Practice1")
+        .child("records")
+        .child(swimmerID)
+        .set({'stroke': stroke, "id": swimmerID});
   }
 
   /*
@@ -76,7 +85,6 @@ class DatabaseManager {
         .child(orgName)
         .set({'code': common.codeGenerator(), 'name': orgName});
   }
-  
 
   /*
   retrieves an orgnization's code *MUST AWAIT*
@@ -99,11 +107,17 @@ class DatabaseManager {
     String stroke = "";
     int age = 0;
     await globals.dbSwimmersRef.child('$name/name').get().then((value) {
-      if (value.value != null) {swimmerName = value.value as String;}});
+      if (value.value != null) {
+        swimmerName = value.value as String;
+      }
+    });
     await globals.dbSwimmersRef.child('$name/stroke').get().then((value) {
-      if (value.value != null) {stroke = value.value as String;}});
+      if (value.value != null) {
+        stroke = value.value as String;
+      }
+    });
     //await globals.dbSwimmersRef.child('$name/age').get().then((value) {
-      //if (value.value != null) {age = value.value as int;}});
+    //if (value.value != null) {age = value.value as int;}});
 
     return Swimmer(swimmerName, age, stroke);
   }
@@ -114,11 +128,20 @@ class DatabaseManager {
     String role = "";
 
     await globals.dbCoachesRef.child('$name/name').get().then((value) {
-      if (value.value != null) {coachName = value.value as String;}});
+      if (value.value != null) {
+        coachName = value.value as String;
+      }
+    });
     await globals.dbCoachesRef.child('$name/email').get().then((value) {
-      if (value.value != null) {email = value.value as String;}});
+      if (value.value != null) {
+        email = value.value as String;
+      }
+    });
     await globals.dbCoachesRef.child('$name/role').get().then((value) {
-      if (value.value != null) {role = value.value as String;}});
+      if (value.value != null) {
+        role = value.value as String;
+      }
+    });
 
     return Coach(coachName, email, role);
   }
@@ -130,11 +153,20 @@ class DatabaseManager {
     String date = "";
 
     await globals.dbPracticesRef.child('$title/title').get().then((value) {
-      if (value.value != null) {name = value.value as String;}});
+      if (value.value != null) {
+        name = value.value as String;
+      }
+    });
     await globals.dbPracticesRef.child('$title/code').get().then((value) {
-      if (value.value != null) {code = value.value as String;}});
+      if (value.value != null) {
+        code = value.value as String;
+      }
+    });
     await globals.dbPracticesRef.child('$title/date').get().then((value) {
-      if (value.value != null) {date = value.value as String;}});
+      if (value.value != null) {
+        date = value.value as String;
+      }
+    });
 
     return Practice(name, code, date);
   }
