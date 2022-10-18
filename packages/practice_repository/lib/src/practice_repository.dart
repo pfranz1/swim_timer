@@ -1,6 +1,6 @@
 import 'package:practice_api/practice_api.dart';
-import 'package:swim_timer/managers/database_manager.dart';
-import 'package:swim_timer/pages/practice/starter/add/add_page.dart' show strokeToString;
+// import 'package:swim_timer/managers/database_manager.dart';
+// import 'package:swim_timer/pages/practice/starter/add/add_page.dart' show strokeToString;
 
 class StarterData {
   /// Swimmers on the block
@@ -162,10 +162,11 @@ class PracticeRepository {
   }
 
   /// Adds a swimmer
-  Future<void> addSwimmer(Swimmer swimmer)  
-  { 
-    DatabaseManager.createSwimmer(swimmer.name,
-      strokeToString[swimmer.stroke].toString(),);
+  Future<void> addSwimmer(Swimmer swimmer) {
+    // DatabaseManager.createSwimmer(
+    //   swimmer.name,
+    //   strokeToString[swimmer.stroke].toString(),
+    // );
     return _practiceApi.addSwimmer(swimmer);
   }
 
