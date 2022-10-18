@@ -80,7 +80,8 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
   }
 
   void _handleEditTap() async {
-    if (selectedStroke != null) { //ON check mark tap!!
+    if (selectedStroke != null) {
+      //ON check mark tap!!
       await context
           .read<PracticeRepository>()
           .setStroke(widget.editSwimmer!.id, selectedStroke!);
@@ -294,14 +295,47 @@ class StrokeTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox.square(
-              dimension: min(
-                  max(min(constraints.maxWidth, constraints.maxHeight) / 2, 50),
-                  150),
-              child: GestureDetector(
+      if (MediaQuery.of(context).viewInsets.bottom == 0) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox.square(
+                dimension: min(
+                    max(min(constraints.maxWidth, constraints.maxHeight) / 2,
+                        50),
+                    150),
+                child: GestureDetector(
+                  onTap: () => onTap(stroke),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        color: color,
+                        border: Border.all(
+                            color: isActive ? Colors.white38 : Colors.white24,
+                            width: isActive ? 8.0 : 3.0),
+                        borderRadius: BorderRadius.all(Radius.circular(6.0))),
+                    child: null,
+                  ),
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0),
+              child: Text(
+                strokeName,
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                    color: Colors.white,
+                    fontWeight: isActive ? FontWeight.bold : FontWeight.normal),
+                overflow: TextOverflow.fade,
+              ),
+            ),
+          ],
+        );
+      } else {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SizedBox.expand(
+                  child: GestureDetector(
                 onTap: () => onTap(stroke),
                 child: DecoratedBox(
                   decoration: BoxDecoration(
@@ -310,21 +344,20 @@ class StrokeTile extends StatelessWidget {
                           color: isActive ? Colors.white38 : Colors.white24,
                           width: isActive ? 8.0 : 3.0),
                       borderRadius: BorderRadius.all(Radius.circular(6.0))),
-                  child: null,
+                  child: Text(
+                    strokeName,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight:
+                            isActive ? FontWeight.bold : FontWeight.normal),
+                    overflow: TextOverflow.fade,
+                  ),
                 ),
               )),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: Text(
-              strokeName,
-              style: Theme.of(context).textTheme.headline6?.copyWith(
-                  color: Colors.white,
-                  fontWeight: isActive ? FontWeight.bold : FontWeight.normal),
-              overflow: TextOverflow.fade,
             ),
-          ),
-        ],
-      );
+          ],
+        );
+      }
     });
   }
 }
