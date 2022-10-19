@@ -1,11 +1,13 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'package:swim_timer/entities/coach.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:swim_timer/entities/practice.dart';
-import 'package:practice_api/practice_api.dart';
-import "package:swim_timer/globals/globals.dart" as globals;
-import "package:swim_timer/globals/common.dart" as common;
+// ignore_for_file: omit_local_variable_types, public_member_api_docs, always_use_package_imports, cast_nullable_to_non_nullable
 
+library database;
+
+import 'package:practice_api/practice_api.dart';
+
+import 'coach.dart';
+import 'globals/common.dart' as common;
+import 'package:swim_timer/globals.dart' as globals;
+import 'practice.dart';
 
 class DatabaseManager {
   /*
@@ -20,7 +22,7 @@ class DatabaseManager {
     @param1: name of new practice
   */
   static Future<void> createPractice(String name) async {
-    globals.dbPracticesRef.child(name).set({
+    await globals.dbPracticesRef.child(name).set({
       'title': name,
       'code': common.codeGenerator(),
       'date': common.todaysDate()
@@ -38,17 +40,17 @@ class DatabaseManager {
     @param1: Creates a practice in the current global organization
   */
   static Future<void> createSwimmer(String name, String stroke) async {
-    String swimmerID = common.idGenerator();
-    globals.dbOrgRef
-        .child("Swimmers")
+    final String swimmerID = common.idGenerator();
+    await globals.dbOrgRef
+        .child('Swimmers')
         .child(swimmerID)
-        .set({'name': name, "id": swimmerID});
+        .set({'name': name, 'id': swimmerID});
 
-    globals.dbPracticesRef
-        .child("Practice1")
-        .child("records")
+    await globals.dbPracticesRef
+        .child('Practice1')
+        .child('records')
         .child(swimmerID)
-        .set({'stroke': stroke, "id": swimmerID});
+        .set({'stroke': stroke, 'id': swimmerID});
   }
 
   /*
@@ -63,10 +65,15 @@ class DatabaseManager {
     @param1: Creates a coach in the organization's coach list
   */
   static Future<void> createCoach(
-      String name, String email, String password) async {
-    globals.dbCoachesRef
-        .child(name)
-        .set({'name': name, 'email': email, 'password': password});
+    String name,
+    String email,
+    String password,
+  ) async {
+    await globals.dbCoachesRef.child(name).set({
+      'name': name,
+      'email': email,
+      'password': password,
+    });
   }
 
   /*
@@ -79,11 +86,11 @@ class DatabaseManager {
   */
 
   static Future<void> createOrganization(String orgName) async {
-    globals.dbRootRef
+    await globals.dbRootRef
         .child(orgName)
         .set({'Coaches', 'Practices', 'Swimmers', 'code', 'name'});
 
-    globals.dbRootRef
+    await globals.dbRootRef
         .child(orgName)
         .set({'code': common.codeGenerator(), 'name': orgName});
   }
@@ -92,8 +99,8 @@ class DatabaseManager {
   retrieves an orgnization's code *MUST AWAIT*
   */
   static Future<String> getOrganizationCode(String key) async {
-    String data = "";
-    globals.dbCodeRef.get().then((value) {
+    String data = '';
+    await globals.dbCodeRef.get().then((value) {
       if (value.value != null) {
         data = value.value as String;
       }
@@ -105,9 +112,9 @@ class DatabaseManager {
   *for testing purposes* retrieves an orgnization's code
   */
   static Future<Swimmer> getSwimmer(String name) async {
-    String swimmerName = "";
-    String stroke = "";
-    
+    String swimmerName = '';
+    String stroke = '';
+
     await globals.dbSwimmersRef.child('$name/name').get().then((value) {
       if (value.value != null) {
         swimmerName = value.value as String;
@@ -125,9 +132,9 @@ class DatabaseManager {
   }
 
   static Future<Coach> getCoach(String name) async {
-    String coachName = "";
-    String email = "";
-    String role = "";
+    var coachName = '';
+    String email = '';
+    String role = '';
 
     await globals.dbCoachesRef.child('$name/name').get().then((value) {
       if (value.value != null) {
@@ -150,9 +157,9 @@ class DatabaseManager {
 
 //  needs work on practice object and getter!!!
   static Future<Practice> getPractice(String title) async {
-    String name = "";
-    String code = "";
-    String date = "";
+    String name = '';
+    String code = '';
+    String date = '';
 
     await globals.dbPracticesRef.child('$title/title').get().then((value) {
       if (value.value != null) {

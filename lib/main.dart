@@ -1,3 +1,4 @@
+import 'package:firebase_organization_api/firebase_organization_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_storage_practice_api/local_storage_practice_api.dart';
@@ -8,16 +9,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:swim_timer/routing_information.dart';
 import 'firebase_options.dart';
 import 'package:go_router/go_router.dart';
-import 'package:swim_timer/globals/globals.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await Globals.loadGlobals();
 
   // Set default value so issues reading from empty shared preference
   // https://stackoverflow.com/q/50687801
   // SharedPreferences.setMockInitialValues({});
+
+  //move to after login
+  final organizationApi = FirebaseOrganizationApi(orgID: "Organization1");
 
   final practiceApi =
       LocalStoragePracticeApi(plugin: await SharedPreferences.getInstance());

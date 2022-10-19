@@ -44,7 +44,10 @@ dependencies:
     path: packages/practice_api
   practice_repository:
     path: packages/practice_repository
-
+  organization_api:
+    path: packages/organization_api
+  firebase_organization_api:
+    path: packages/firebase_organization_api
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

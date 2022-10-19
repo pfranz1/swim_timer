@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs
+
 library globals;
 
 import 'package:firebase_database/firebase_database.dart';
@@ -24,17 +26,14 @@ class Globals {
 
   static Future<void> loadGlobals() async {
     loaded = true;
-    coach = "Coach1";
-    organization = "Organization1";
+    coach = 'Coach1';
+    organization = 'Organization1';
 
-    dbCodeRef = dbRootRef.child("$organization/Code");
-    dbNameRef = dbRootRef.child("$organization/Name");
+    dbCodeRef = dbRootRef.child('$organization/Code');
+    dbNameRef = dbRootRef.child('$organization/Name');
     dbOrgRef = dbRootRef.child(organization);
-    dbPracticesRef =
-        dbRootRef.child("$organization/Practices");
-    dbCoachesRef =
-        dbRootRef.child("$organization/Coaches");
-    dbSwimmersRef = dbRootRef.child("$organization/Swimmers");
-    
+    dbPracticesRef = dbRootRef.child('$organization/Practices');
+    dbCoachesRef = dbRootRef.child('$organization/Coaches');
+    dbSwimmersRef = dbRootRef.child('$organization/Swimmers');
   }
 }

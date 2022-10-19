@@ -9,7 +9,6 @@ import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:swim_timer/managers/database_manager.dart';
 
 class AddSwimmerPage extends StatefulWidget {
   AddSwimmerPage({
@@ -56,8 +55,7 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
     if (_nameController.value.text.isNotEmpty && selectedStroke != null) {
       await context.read<PracticeRepository>().addSwimmer(
           Swimmer(name: _nameController.text, stroke: selectedStroke));
-      DatabaseManager.createSwimmer(
-          _nameController.text, strokeToString[selectedStroke].toString());
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Row(
         children: [

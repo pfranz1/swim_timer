@@ -1,4 +1,4 @@
-import "package:swim_timer/entities/swimmer.dart";
+import "package:swim_timer/packages/firebase_code/lib/src/entitites/swimmer.dart";
 
 class Practice {
   late String title = "";
@@ -7,6 +7,8 @@ class Practice {
   late String date;
 
   Practice(String title, String code, String date) {
-    this.title = title;this.code=code;this.date=date;
+    this.title = title;
+    this.code = code;
+    this.date = date;
   }
 }
