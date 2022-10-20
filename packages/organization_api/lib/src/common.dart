@@ -1,8 +1,8 @@
-// ignore_for_file: omit_local_variable_types, public_member_api_docs
+// ignore_for_file: omit_local_variable_types
 
 library common;
 
-import 'dart:math';
+import 'package:uuid/uuid.dart';
 
 Map<String, List<bool>> permissions = {
   'head': [true, true, true],
@@ -11,15 +11,14 @@ Map<String, List<bool>> permissions = {
 };
 
 String codeGenerator() {
-  final Random random = Random();
-  final int randomNumber = random.nextInt(10000) + 1000;
-  return randomNumber.toString();
+  final uuid = Uuid();
+  String code = uuid.v1();
+  return code.substring(0, 7);
 }
 
 String idGenerator() {
-  final Random random = Random();
-  final int randomNumber = random.nextInt(100000) + 10000;
-  return 'ID$randomNumber';
+  final uuid = Uuid();
+  return uuid.v1();
 }
 
 String todaysDate() {
@@ -28,8 +27,3 @@ String todaysDate() {
   final String monthdayyear = '${date.month}/${date.day}/${date.year}';
   return monthdayyear;
 }
-/*
-canModifyPractice
-canCreatePractice
-canDeletePractice
-*/

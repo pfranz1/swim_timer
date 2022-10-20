@@ -5,6 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+// ignore_for_file: public_member_api_docs
+
 import 'package:firebase_practice_api/firebase_practice_api.dart';
 import 'package:practice_api/practice_api.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -13,18 +15,17 @@ import 'package:firebase_database/firebase_database.dart';
 /// A Very Good Project created by Very Good CLI.
 /// {@endtemplate}
 class FirebasePracticeApi extends PracticeApi {
+  FirebasePracticeApi({
+    required String this.practiceID,
+    required String this.orgID,
+  }) {
+    root = FirebaseDatabase.instance.ref().child(orgID).child(practiceID);
+  }
+
   /// {@macro firebase_practice_api}
   final String practiceID;
   final String orgID;
   late final DatabaseReference root;
-
-  FirebasePracticeApi(
-      {required String this.practiceID, required String this.orgID}) {
-    this.root = FirebaseDatabase.instance
-        .ref()
-        .child(this.orgID)
-        .child(this.practiceID);
-  }
   //implement whatever
   Future<void> addSwimmer(Swimmer swimmer) async {
     await root.child('swimmers').child(swimmer.id).set(swimmer.toJson());

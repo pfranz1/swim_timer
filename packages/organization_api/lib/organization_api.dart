@@ -9,4 +9,4 @@
 library organization_api;
 
 export 'src/organization_api.dart';
-export 'src/ogranization_swimmer.dart';
+export 'src/organization_swimmer.dart';
