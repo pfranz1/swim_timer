@@ -10,9 +10,9 @@ import 'package:firebase_practice_api/firebase_practice_api.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('FirebasePracticeApi', () {
-    test('can be instantiated', () {
-      expect(FirebasePracticeApi(), isNotNull);
-    });
-  });
+  // group('FirebasePracticeApi', () {
+  //   test('can be instantiated', () {
+  //     expect(FirebasePracticeApi(), isNotNull);
+  //   });
+  // });
 }

@@ -2,8 +2,7 @@
 import 'package:organization_api/src/common.dart' as common;
 
 class Practice {
-  Practice(
-      {required String this.title) {
+  Practice({required String this.title}) {
     ID = common.codeGenerator();
   }
   final String title;

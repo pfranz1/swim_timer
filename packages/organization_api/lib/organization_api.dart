@@ -10,3 +10,6 @@ library organization_api;
 
 export 'src/organization_api.dart';
 export 'src/organization_swimmer.dart';
+export 'src/organization_coach.dart';
+export 'src/practice.dart';
+export 'src/record.dart';

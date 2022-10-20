@@ -10,9 +10,9 @@ import 'package:organization_api/organization_api.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('OrganizationApi', () {
-    test('can be instantiated', () {
-      expect(OrganizationApi(), isNotNull);
-    });
-  });
+  // group('OrganizationApi', () {
+  //   test('can be instantiated', () {
+  //     expect(OrganizationApi(), isNotNull);
+  //   });
+  // });
 }
