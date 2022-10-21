@@ -16,7 +16,7 @@ abstract class OrganizationApi {
 
   Future<void> storeSwimmer(OrgSwimmer swimmer);
 
-  Future<void> storePractice();
+  Future<void> storePractice(Practice practice);
 
   Future<void> storeCoach(OrgCoach coach);
 

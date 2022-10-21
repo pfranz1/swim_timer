@@ -42,9 +42,18 @@ class FirebaseOrganizationApi extends OrganizationApi {
   }
 
   @override
-  Future<void> storePractice() {
-    // TODO: implement createPractice
-    throw UnimplementedError();
+  Future<void> storePractice(Practice practice) async {
+    await root.child('Practices').child(practice.ID).set({
+      'id': practice.ID,
+      'title': practice.title,
+      'code': practice.code,
+      'active': practice.active,
+      'date': {
+        'day': practice.date.day,
+        'month': practice.date.month,
+        'year': practice.date.year,
+      }
+    });
   }
 
   @override

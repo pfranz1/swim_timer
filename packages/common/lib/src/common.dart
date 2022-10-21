@@ -32,10 +32,8 @@ class Common {
     return uuid.v1();
   }
 
-  static String todaysDate() {
+  static DateTime todaysDate() {
     final DateTime now = DateTime.now();
-    final DateTime date = DateTime(now.year, now.month, now.day);
-    final String monthdayyear = '${date.month}/${date.day}/${date.year}';
-    return monthdayyear;
+    return now;
   }
 }
