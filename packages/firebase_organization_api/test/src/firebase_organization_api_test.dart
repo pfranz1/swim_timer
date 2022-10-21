@@ -9,10 +9,4 @@
 import 'package:test/test.dart';
 import 'package:firebase_organization_api/firebase_organization_api.dart';
 
-void main() {
-  group('FirebaseOrganizationApi', () {
-    test('can be instantiated', () {
-      expect(FirebaseOrganizationApi(), isNotNull);
-    });
-  });
-}
+void main() {}

@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:page_transition/page_transition.dart';
 import 'package:swim_timer/pages/loading/loading_page.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +26,7 @@ class RoutingInformation {
     // Join
     GoRoute(
         path: '/join',
-        pageBuilder: makeBottomSlideUpTransition(child: const JoinPage())),
+        pageBuilder: makeBottomSlideUpTransition(child: JoinPage())),
 
     // Create
     GoRoute(
