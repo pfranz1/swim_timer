@@ -25,7 +25,7 @@ class RoutingInformation {
     // Join
     GoRoute(
         path: '/join',
-        pageBuilder: makeBottomSlideUpTransition(child: const JoinPage())),
+        pageBuilder: makeBottomSlideUpTransition(child: JoinPage())),
 
     // Create
     GoRoute(
