@@ -47,12 +47,14 @@ class FirebaseOrganizationApi extends OrganizationApi {
       'id': practice.ID,
       'title': practice.title,
       'code': practice.code,
-      'active': practice.active,
+      //'active': practice.active,
+      /*
       'date': {
         'day': practice.date.day,
         'month': practice.date.month,
         'year': practice.date.year,
       }
+      */
     });
   }
 
