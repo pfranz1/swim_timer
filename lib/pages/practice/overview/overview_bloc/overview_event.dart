@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:entities/entities.dart';
 
 class OverviewEvent extends Equatable {
   OverviewEvent();

@@ -8,6 +8,10 @@ environment:
 
 dependencies:
   uuid: ^3.0.6
+  entities: 
+    path: ../entities
+  common: 
+    path: ../common
 
 dev_dependencies:
   mocktail: ^0.3.0

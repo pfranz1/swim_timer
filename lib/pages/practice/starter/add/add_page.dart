@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:practice_api/practice_api.dart';
+import 'package:entities/entities.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/main.dart';
 import 'package:go_router/go_router.dart';

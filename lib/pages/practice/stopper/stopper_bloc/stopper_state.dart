@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:practice_api/practice_api.dart';
+import 'package:entities/entities.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_bloc/stopper_bloc.dart';
 
 enum StopperStatus { inital, loading, success, failure }

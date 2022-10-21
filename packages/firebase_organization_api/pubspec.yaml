@@ -12,6 +12,10 @@ dependencies:
   firebase_core: ^1.22.0
   firebase_database: ^9.1.4
   uuid: ^3.0.6
+  common: 
+    path: '../common'
+  entities: 
+    path: '../entities'
 
 
 dev_dependencies:

@@ -1,5 +1,5 @@
 import 'package:flutter/animation.dart';
-import 'package:practice_api/practice_api.dart';
+import 'package:entities/entities.dart';
 import 'package:flutter/material.dart';
 
 class SwimmerTile extends StatelessWidget {

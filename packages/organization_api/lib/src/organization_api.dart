@@ -5,8 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:organization_api/src/organization_swimmer.dart';
-import 'package:organization_api/src/organization_coach.dart';
+import 'package:entities/entities.dart';
 
 /// {@template organization_api}
 /// A Very Good Project created by Very Good CLI.

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_api/practice_api.dart';
-import 'package:practice_api/src/stroke.dart';
+import 'package:entities/entities.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_event.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_state.dart';

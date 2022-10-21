@@ -15,6 +15,7 @@ import 'package:swim_timer/pages/practice/starter/starter_page.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_page.dart';
 import 'package:swim_timer/pages/records/records_page.dart';
 import 'package:go_router/go_router.dart';
+import 'package:entities/entities.dart';
 
 class RoutingInformation {
   static final GoRouter myRouter = GoRouter(routes: [

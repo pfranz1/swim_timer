@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:entities/entities.dart';
 
 class EntriesCard extends StatelessWidget {
   const EntriesCard({Key? key, this.entries}) : super(key: key);

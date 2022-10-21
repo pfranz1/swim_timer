@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:entities/entities.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_bloc/stopper_event.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_bloc/stopper_state.dart';
 

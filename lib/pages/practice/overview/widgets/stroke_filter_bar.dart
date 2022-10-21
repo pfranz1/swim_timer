@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/overview/overview_bloc/overview_bloc.dart';
+import 'package:entities/entities.dart';
 
 class StrokeFilterBar extends StatelessWidget {
   const StrokeFilterBar({super.key});

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 import 'package:swim_timer/pages/practice/starter/widgets/swimmer_tile.dart';
+import 'package:entities/entities.dart';
 
 class Deck extends StatelessWidget {
   const Deck(

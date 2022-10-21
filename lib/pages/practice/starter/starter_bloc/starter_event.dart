@@ -2,6 +2,7 @@
 
 import 'package:equatable/equatable.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:entities/entities.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
 
 abstract class StarterBlocEvent extends Equatable {

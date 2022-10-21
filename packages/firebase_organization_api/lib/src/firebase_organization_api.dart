@@ -5,11 +5,10 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:organization_api/src/organization_swimmer.dart';
-import 'package:organization_api/src/organization_coach.dart';
+import 'package:entities/entities.dart';
+import 'package:common/common.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:organization_api/organization_api.dart';
-import 'package:organization_api/src/common.dart' as common;
 
 /// {@template firebase_organization_api}
 /// A Very Good Project created by Very Good CLI.
@@ -50,7 +49,7 @@ class FirebaseOrganizationApi extends OrganizationApi {
 
   @override
   Future<void> storeOrganization(String name) async {
-    final orgID = common.idGenerator();
+    final orgID = Common.idGenerator();
     await FirebaseDatabase.instance
         .ref()
         .child(orgID)
@@ -60,11 +59,11 @@ class FirebaseOrganizationApi extends OrganizationApi {
         .ref()
         .child(orgID)
         .child('code')
-        .set(common.codeGenerator());
+        .set(Common.codeGenerator());
     await FirebaseDatabase.instance
         .ref()
         .child(orgID)
         .child('id')
-        .set(common.idGenerator());
+        .set(Common.idGenerator());
   }
 }

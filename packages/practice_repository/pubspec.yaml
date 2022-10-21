@@ -9,6 +9,8 @@ environment:
 dependencies: 
   practice_api:
     path: ../practice_api
+  common: 
+    path: ../common
 
 dev_dependencies:
   mocktail: ^0.3.0

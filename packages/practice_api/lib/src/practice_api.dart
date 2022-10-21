@@ -1,6 +1,4 @@
-import 'package:practice_api/src/finisher_entry.dart';
-import 'package:practice_api/src/stroke.dart';
-import 'package:practice_api/src/swimmer.dart';
+import 'package:entities/entities.dart';
 
 /// {@template practice_api}
 /// The interface and models proving accsess to the swimmers durring a practice

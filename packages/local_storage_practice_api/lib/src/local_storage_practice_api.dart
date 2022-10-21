@@ -3,10 +3,9 @@ import 'dart:html';
 
 import 'package:flutter/cupertino.dart';
 import 'package:practice_api/practice_api.dart';
-import 'package:practice_api/src/swimmer.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:practice_api/src/finisher_entry.dart' hide Stroke;
+import 'package:entities/entities.dart';
 
 /// {@template local_storage_practice_api}
 /// A Flutter implementation of the PracticeApi that uses local storage.

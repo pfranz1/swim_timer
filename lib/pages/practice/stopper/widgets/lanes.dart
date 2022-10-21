@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:entities/entities.dart';
 import 'package:swim_timer/pages/practice/stopper/stopper_bloc/stopper_bloc.dart';
 import 'package:swim_timer/pages/practice/stopper/widgets/swimmer_tile.dart';
 import 'package:provider/provider.dart';

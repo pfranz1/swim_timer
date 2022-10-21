@@ -10,6 +10,7 @@
 import 'package:firebase_practice_api/firebase_practice_api.dart';
 import 'package:practice_api/practice_api.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:entities/entities.dart';
 
 /// {@template firebase_practice_api}
 /// A Very Good Project created by Very Good CLI.

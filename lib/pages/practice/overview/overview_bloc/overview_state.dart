@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:practice_api/practice_api.dart';
+import 'package:entities/entities.dart';
 
 enum OverviewStatus { inital, loading, succsess, failure }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:swim_timer/pages/practice/starter/starter_bloc/starter_bloc.dart';
+import 'package:entities/entities.dart';
 
 class SwimmerTile extends StatelessWidget {
   // TODO: Centeralize this color information

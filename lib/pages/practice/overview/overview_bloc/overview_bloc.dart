@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:entities/entities.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:async';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/pages/practice/overview/overview_bloc/overview_event.dart';
 import 'package:swim_timer/pages/practice/overview/overview_bloc/overview_state.dart';
+import 'package:entities/entities.dart';
 
 export 'overview_state.dart';
 export 'overview_event.dart';
