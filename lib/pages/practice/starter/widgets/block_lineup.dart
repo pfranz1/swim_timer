@@ -121,7 +121,7 @@ class BlockTile extends StatelessWidget {
       onTap: () =>
           context.read<StarterBloc>().add(TapLane(laneNumber, swimmer)),
       child: Container(
-          color: Colors.lightBlue,
+          color: Color(0xFFE1FCFF),
           child: Center(
               child: swimmer != null
                   ? SwimmerTile(

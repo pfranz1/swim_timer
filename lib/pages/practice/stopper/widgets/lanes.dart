@@ -111,7 +111,7 @@ class Lane extends StatelessWidget {
       height: 100,
       width: 33,
       child: Container(
-          color: Theme.of(context).primaryColor,
+          color: Color(0xFFE1FCFF),
           child: Stack(children: [
             Align(
               alignment: Alignment.topCenter,

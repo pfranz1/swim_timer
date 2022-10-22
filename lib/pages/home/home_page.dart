@@ -9,62 +9,71 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        title: Text(
-          "Home",
-          style: Theme.of(context).textTheme.headline4,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          elevation: 0,
+          title: Text("Home",
+              style: TextStyle(
+                  color: Color(0xFF10465F),
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600)),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
         ),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-      ),
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxHeight: 400),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ActionButton(
-                  onTap: () => context.go('/create'),
-                  backgroundColor: Colors.green,
-                  icon: Icon(
-                    Icons.add_circle,
-                    size: 60,
-                    color: Colors.green,
-                  ),
-                  text: "Create",
-                ),
-                ActionButton(
-                  onTap: () => context.go('/join'),
-                  backgroundColor: Colors.blue,
-                  icon: Icon(
-                    Icons.groups_rounded,
-                    size: 60,
-                    color: Colors.blue,
-                  ),
-                  text: "Join",
-                ),
-                ActionButton(
-                  onTap: () => context.go('/records'),
-                  backgroundColor: Colors.orange,
-                  icon: Icon(
-                    Icons.menu_book,
-                    size: 60.0,
-                    color: Colors.orange,
-                  ),
-                  text: "Records ",
-                ),
-              ],
+        backgroundColor: Colors.pink,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
-        ),
-      ),
-    );
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxHeight: 400),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ActionButton(
+                      onTap: () => context.go('/create'),
+                      backgroundColor: Color(0xFF56FFB8),
+                      icon: Icon(
+                        Icons.add_circle,
+                        size: 60,
+                        color: Color(0xFF56FFB8),
+                      ),
+                      text: "Create",
+                    ),
+                    ActionButton(
+                      onTap: () => context.go('/join'),
+                      backgroundColor: Colors.blue,
+                      icon: Icon(
+                        Icons.groups_rounded,
+                        size: 60,
+                        color: Colors.blue,
+                      ),
+                      text: "Join",
+                    ),
+                    ActionButton(
+                      onTap: () => context.go('/records'),
+                      backgroundColor: Color(0xFF0677BA),
+                      icon: Icon(
+                        Icons.menu_book,
+                        size: 60.0,
+                        color: Color(0xFF0677BA),
+                      ),
+                      text: "Records ",
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ));
   }
 }
 

@@ -59,7 +59,17 @@ class StarterView extends StatelessWidget {
               return GestureDetector(
                 onTap: () => context.read<StarterBloc>().add(TapAway()),
                 child: Container(
-                  color: Theme.of(context).backgroundColor,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFFC7EDFF),
+                        Color(0xFF62CFF9),
+                        Color(0xFFAAF6FF)
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
                   child: Column(
                     children: [
                       Expanded(

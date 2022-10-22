@@ -26,28 +26,36 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      // appBar: AppBar(
-      //   title: Text("Loading..."),
-      //   centerTitle: true,
-      //   leading: IconButton(
-      //     icon: Icon(Icons.chevron_left),
-      //     onPressed: () => context.go('/'),
-      //   ),
-      // ),
-      body: Center(
-        child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).backgroundColor,
+        // appBar: AppBar(
+        //   title: Text("Loading..."),
+        //   centerTitle: true,
+        //   leading: IconButton(
+        //     icon: Icon(Icons.chevron_left),
+        //     onPressed: () => context.go('/'),
+        //   ),
+        // ),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(50.0),
-              child: CircularProgressIndicator(
-                color: Colors.orange,
-              ),
-            )),
-      ),
-    );
+          ),
+          child: Center(
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(50.0),
+                  child: CircularProgressIndicator(
+                    color: Colors.orange,
+                  ),
+                )),
+          ),
+        ));
   }
 }
