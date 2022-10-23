@@ -10,30 +10,39 @@
 /// {@template common}
 /// Common
 /// {@endtemplate}
+import 'package:entities/entities.dart';
 import 'package:uuid/uuid.dart';
 
 class Common {
   /// {@macro common}
 
-  static Map<String, List<bool>> permissions = {
-    'head': [true, true, true],
-    'stopper': [false, false, false],
-    'starter': [false, false, false]
-  };
-
   static String codeGenerator() {
-    final uuid = Uuid();
-    String code = uuid.v1();
+    const uuid = Uuid();
+    final String code = uuid.v4();
     return code.substring(0, 7);
   }
 
   static String idGenerator() {
     const uuid = Uuid();
-    return uuid.v1();
+    return uuid.v4();
   }
 
   static DateTime todaysDate() {
     final DateTime now = DateTime.now();
     return now;
   }
+
+  static Map<Stroke, String> strokeToString = {
+    Stroke.FREE_STYLE: 'Free',
+    Stroke.BACK_STROKE: 'Back',
+    Stroke.BREAST_STROKE: 'Breast',
+    Stroke.BUTTERFLY: 'Fly'
+  };
+
+  //todo: fix and document this
+  static Map<String, List<bool>> permissions = {
+    'head': [true, true, true],
+    'stopper': [false, false, false],
+    'starter': [false, false, false]
+  };
 }

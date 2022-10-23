@@ -1,15 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:practice_api/practice_api.dart';
 import 'package:entities/entities.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:swim_timer/main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:common/common.dart';
 
 class AddSwimmerPage extends StatefulWidget {
   AddSwimmerPage({
@@ -24,14 +22,6 @@ class AddSwimmerPage extends StatefulWidget {
   @override
   State<AddSwimmerPage> createState() => _AddSwimmerPageState();
 }
-
-// TODO: Do this is a centeralized spot
-Map<Stroke, String> strokeToString = {
-  Stroke.FREE_STYLE: "Free",
-  Stroke.BACK_STROKE: "Back",
-  Stroke.BREAST_STROKE: "Breast",
-  Stroke.BUTTERFLY: "Fly"
-};
 
 class _AddSwimmerPageState extends State<AddSwimmerPage> {
   final TextEditingController _nameController = TextEditingController();
@@ -61,7 +51,7 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
           content: Row(
         children: [
           Text(
-              'Added ${_nameController.text}, Swimming ${strokeToString[selectedStroke]}')
+              'Added ${_nameController.text}, Swimming ${Common.strokeToString[selectedStroke]}')
         ],
         mainAxisAlignment: MainAxisAlignment.center,
       )));
@@ -90,7 +80,7 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
           content: Row(
         children: [
           Text(
-              '${widget.editSwimmer!.name} => ${strokeToString[selectedStroke]}')
+              '${widget.editSwimmer!.name} => ${Common.strokeToString[selectedStroke]}')
         ],
         mainAxisAlignment: MainAxisAlignment.center,
       )));
