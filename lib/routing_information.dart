@@ -31,7 +31,7 @@ class RoutingInformation {
     // Create
     GoRoute(
         path: '/create',
-        pageBuilder: makeBottomSlideUpTransition(child: const CreatePage())),
+        pageBuilder: makeBottomSlideUpTransition(child: CreatePage())),
 
     // Records
     GoRoute(
