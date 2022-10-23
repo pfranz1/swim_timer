@@ -47,7 +47,7 @@ class IconStartButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
           padding: const EdgeInsets.all(30),
-          backgroundColor: Colors.orange),
+          backgroundColor: Color(0xFF10465F)),
       child: Center(
         child: canUndoStart
             ? Icon(Icons.fast_rewind_rounded)

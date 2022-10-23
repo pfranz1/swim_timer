@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class SwimmerTile extends StatelessWidget {
   //TODO: Move these colors somewhere central
   final Map<Stroke, Color> colors = const {
-    Stroke.FREE_STYLE: Colors.green,
-    Stroke.BACK_STROKE: Colors.blue,
-    Stroke.BREAST_STROKE: Colors.red,
-    Stroke.BUTTERFLY: Colors.purple
+    Stroke.FREE_STYLE: Color(0xFF62CA50),
+    Stroke.BACK_STROKE: Color(0xFFD42A34),
+    Stroke.BREAST_STROKE: Color(0xFFF78C37),
+    Stroke.BUTTERFLY: Color(0xFF0677BA)
   };
 
   const SwimmerTile({

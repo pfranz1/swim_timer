@@ -53,19 +53,19 @@ class EntryCard extends StatelessWidget {
     late final Color color;
     switch (stroke) {
       case Stroke.FREE_STYLE:
-        color = Colors.green;
+        color = Color(0xFF62CA50);
         text = "FR";
         break;
       case Stroke.BACK_STROKE:
-        color = Colors.red;
+        color = Color(0xFFD42A34);
         text = "BA";
         break;
       case Stroke.BREAST_STROKE:
-        color = Colors.orange;
+        color = Color(0xFFF78C37);
         text = "BR";
         break;
       case Stroke.BUTTERFLY:
-        color = Colors.lightBlue;
+        color = Color(0xFF0677BA);
         text = "FL";
         break;
       default:

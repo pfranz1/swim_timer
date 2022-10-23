@@ -51,23 +51,34 @@ class StopperView extends StatelessWidget {
               );
             }
             return Container(
-              color: Theme.of(context).colorScheme.background,
-              child: Column(
-                children: [
-                  Expanded(
-                      flex: 8,
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Lanes(
-                              swimmersByLane: state.lanesOfSwimmers,
-                              latestFinishers: state.latestFinishers),
-                        ),
-                      )),
-                ],
-              ),
-            );
-
+                color: Theme.of(context).colorScheme.background,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFFC7EDFF),
+                        Color(0xFF62CFF9),
+                        Color(0xFFAAF6FF)
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Expanded(
+                          flex: 8,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Lanes(
+                                  swimmersByLane: state.lanesOfSwimmers,
+                                  latestFinishers: state.latestFinishers),
+                            ),
+                          )),
+                    ],
+                  ),
+                ));
             return Center(
                 child: Text(state.lanesOfSwimmers.sublist(1).toString()));
           }

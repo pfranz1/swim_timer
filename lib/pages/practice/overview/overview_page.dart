@@ -27,7 +27,15 @@ class OverviewView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<OverviewBloc, OverviewState>(
+        body: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFFC7EDFF), Color(0xFF62CFF9), Color(0xFFAAF6FF)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+      ),
+      child: BlocBuilder<OverviewBloc, OverviewState>(
         builder: ((context, state) {
           if (state.status == OverviewStatus.loading) {
             return const Center(
@@ -52,7 +60,6 @@ class OverviewView extends StatelessWidget {
           }
         }),
       ),
-      backgroundColor: Theme.of(context).backgroundColor,
-    );
+    ));
   }
 }

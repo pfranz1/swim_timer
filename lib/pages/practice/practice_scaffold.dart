@@ -74,6 +74,7 @@ class PracticeScaffold extends StatelessWidget {
         ),
         body: child,
         bottomNavigationBar: BottomAppBar(
+          color: Color(0xFF10465F),
           shape: const CircularNotchedRectangle(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
