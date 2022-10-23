@@ -90,4 +90,5 @@ class SwimmerNotAssignedLaneException implements Exception {}
 /// Error thrown when a [Swimmer] is finished without being already
 class SwimmerNotStartedException implements Exception {}
 
+///
 class SwapFailure implements Exception {}

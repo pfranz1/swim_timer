@@ -5,6 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:html';
+
 import 'package:entities/entities.dart';
 import 'package:common/common.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -76,5 +78,50 @@ class FirebaseOrganizationApi extends OrganizationApi {
         .child(orgID)
         .child('id')
         .set(Common.idGenerator());
+  }
+
+  @override
+  Future<void> removeCoach(String id) async {
+    await root.child('Coaches').child(id).remove();
+  }
+
+  @override
+  Future<void> removePractice(String id) async {
+    await root.child('Practices').child(id).remove();
+  }
+
+  @override
+  Future<void> removeSwimmer(String id) async {
+    await root.child('Swimmers').child(id).remove();
+  }
+
+  @override
+  Stream<List<Practice>> getActivePractices() {
+    // TODO: implement getActivePractices
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<OrgCoach>> getCoaches() {
+    // TODO: implement getCoaches
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<OrgSwimmer>> getOrganizationSwimmers() {
+    // TODO: implement getOrganizationSwimmers
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<Practice>> getPractices() {
+    // TODO: implement getPractices
+    throw UnimplementedError();
+  }
+
+  @override
+  Stream<List<Entry>> getRecords() {
+    // TODO: implement getRecords
+    throw UnimplementedError();
   }
 }

@@ -5,6 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+import 'dart:html';
+
 import 'package:entities/entities.dart';
 
 /// {@template organization_api}
@@ -21,4 +23,20 @@ abstract class OrganizationApi {
   Future<void> storeCoach(OrgCoach coach);
 
   Future<void> storeOrganization(String name);
+
+  Future<void> removeSwimmer(String id);
+
+  Future<void> removePractice(String id);
+
+  Future<void> removeCoach(String id);
+
+  Stream<List<OrgSwimmer>> getOrganizationSwimmers();
+
+  Stream<List<OrgCoach>> getCoaches();
+
+  Stream<List<Practice>> getPractices();
+
+  Stream<List<Practice>> getActivePractices();
+
+  Stream<List<Entry>> getRecords();
 }
