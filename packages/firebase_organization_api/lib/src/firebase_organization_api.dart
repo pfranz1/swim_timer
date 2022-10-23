@@ -47,15 +47,15 @@ class FirebaseOrganizationApi extends OrganizationApi {
       'id': practice.ID,
       'title': practice.title,
       'code': practice.code,
-      //'active': practice.active,
-      /*
-      'date': {
-        'day': practice.date.day,
-        'month': practice.date.month,
-        'year': practice.date.year,
-      }
-      */
+      'lanes': practice.lanes,
+      'active': practice.active,
     });
+
+    await root
+        .child('Practices')
+        .child(practice.ID)
+        .child('date')
+        .set(practice.date);
   }
 
   @override
