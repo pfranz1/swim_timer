@@ -5,8 +5,6 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'dart:html';
-
 import 'package:entities/entities.dart';
 import 'package:common/common.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -120,7 +118,7 @@ class FirebaseOrganizationApi extends OrganizationApi {
   }
 
   @override
-  Stream<List<Entry>> getRecords() {
+  Stream<List<FinisherEntry>> getRecords() {
     // TODO: implement getRecords
     throw UnimplementedError();
   }

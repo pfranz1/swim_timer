@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'dart:html';
+// import 'dart:html';
 
 import 'package:entities/entities.dart';
 
@@ -38,5 +38,5 @@ abstract class OrganizationApi {
 
   Stream<List<Practice>> getActivePractices();
 
-  Stream<List<Entry>> getRecords();
+  Stream<List<FinisherEntry>> getRecords();
 }
