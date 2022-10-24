@@ -18,7 +18,7 @@ class LaneSettingsView extends StatefulWidget {
 class _LaneSettingsViewState extends State<LaneSettingsView>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation _fadeAnimation;
+  late final CurvedAnimation _fadeAnimation;
 
   @override
   void initState() {
@@ -28,8 +28,9 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
       duration: const Duration(milliseconds: 500),
     );
 
-    _fadeAnimation =
-        CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
+    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+
+    _controller.forward();
   }
 
   @override
@@ -67,7 +68,8 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
           children: [
             FloatingActionButton(
               heroTag: null,
-              onPressed: () {
+              onPressed: () async {
+                await _controller.reverse();
                 context
                     .read<CreateBloc>()
                     .add(CreateEvent_SetStep(step: CreateStep.name));
@@ -99,19 +101,28 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
       //   }),
       // ),
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Lanes:',
-              style: Theme.of(context).textTheme.headline5,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+            vertical: 156,
+          ),
+          child: FadeTransition(
+            opacity: _fadeAnimation,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  'Lanes:',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                Text(
+                  '-      6     +',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+              ],
             ),
-            Text(
-              '-      6     +',
-              style: Theme.of(context).textTheme.headline5,
-            ),
-          ],
+          ),
         ),
       ),
     );
