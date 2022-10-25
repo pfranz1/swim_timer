@@ -34,7 +34,7 @@ class PracticeRepository {
         (event) => _filterSwimmers(_filterDeckSwimmer, event),
       );
 
-  /// TODO: Get swimmers on the deck by idle time
+  /// TODO: Accomodate for null endTime
   ///
   /// (idle time = no end time or least recent end time)
   /// note:ask peter abt this hahahaha
