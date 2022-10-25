@@ -62,16 +62,21 @@ class PracticeScaffold extends StatelessWidget {
       value: _baseAddress,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(currentLocation),
+          title: Text(
+            currentLocation,
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
           leading: IconButton(
               onPressed: () => context.go('/'),
               icon: Icon(
                 Icons.chevron_left,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Colors.black,
               )),
         ),
+        extendBodyBehindAppBar: true,
         body: child,
         bottomNavigationBar: BottomAppBar(
           color: Color(0xFF10465F),

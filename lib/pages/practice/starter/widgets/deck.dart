@@ -17,8 +17,8 @@ class Deck extends StatelessWidget {
   final List<Swimmer> swimmersOnDeck;
   final Swimmer? activeSwimmer;
 
-  static const minTiles = 3;
-  static const maxTiles = 6;
+  static const minTiles = 4;
+  static const maxTiles = 7;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,7 @@ class Deck extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: GridView.builder(
+            padding: EdgeInsets.zero,
             itemCount: swimmersOnDeck.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: max(

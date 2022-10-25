@@ -72,6 +72,9 @@ class StarterView extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: AppBar().preferredSize.height,
+                      ),
                       Expanded(
                         flex: 4,
                         child: Center(

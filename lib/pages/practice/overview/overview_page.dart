@@ -44,6 +44,9 @@ class OverviewView extends StatelessWidget {
           } else {
             return Column(
               children: [
+                SizedBox(
+                  height: AppBar().preferredSize.height,
+                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
