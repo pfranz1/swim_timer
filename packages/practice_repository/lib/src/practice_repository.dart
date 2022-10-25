@@ -34,17 +34,18 @@ class PracticeRepository {
         (event) => _filterSwimmers(_filterDeckSwimmer, event),
       );
 
-  /// TODO: Get swimmers on the deck by idle time 
+  /// TODO: Get swimmers on the deck by idle time
   ///
-  /// (idle time = no end time or least recent end time) 
+  /// (idle time = no end time or least recent end time)
   /// note:ask peter abt this hahahaha
-  Stream <List <Swimmer>> getIdleDeckSwimmers() => _practiceApi.getSwimmers().map(
-        (event) => _filterSwimmers(_filterIdleDeckSwimmer, event),
-      );
-
-  bool _filterIdleDeckSwimmer(Swimmer swimmer){
-    return _filterDeckSwimmer(swimmer) && swimmer.endTime == null ;
+  void sortIdleDeckSwimmers(List<Swimmer> swimmers) {
+    return swimmers.sort((a, b) => a.endTime!.compareTo(b.endTime!));
   }
+
+  bool _filterIdleDeckSwimmer(Swimmer swimmer) {
+    return _filterDeckSwimmer(swimmer) && swimmer.endTime == null;
+  }
+
   /// Keep if the swimmers lane is 0 or they dont have one
   ///
   /// Deck Filter
