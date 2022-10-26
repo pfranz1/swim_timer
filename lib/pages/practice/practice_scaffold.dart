@@ -62,16 +62,21 @@ class PracticeScaffold extends StatelessWidget {
       value: _baseAddress,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(currentLocation),
+          title: Text(
+            currentLocation,
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
           leading: IconButton(
               onPressed: () => context.go('/'),
               icon: Icon(
                 Icons.chevron_left,
-                color: Theme.of(context).colorScheme.onBackground,
+                color: Colors.black,
               )),
         ),
+        extendBodyBehindAppBar: true,
         body: child,
         bottomNavigationBar: BottomAppBar(
           color: Color(0xFF10465F),
@@ -84,20 +89,20 @@ class PracticeScaffold extends StatelessWidget {
                     context.go(_popAndReplace("starter"), extra: indexOfTab),
                 groupValue: selectedTab,
                 value: PracticeTab.starter,
-                icon: Icon(Icons.play_circle_outline_rounded),
+                icon: Icon(Icons.play_arrow_rounded),
               ),
               _PracticeTabButton(
                   onPressed: () =>
                       context.go(_popAndReplace("stopper"), extra: indexOfTab),
                   groupValue: selectedTab,
                   value: PracticeTab.stopper,
-                  icon: Icon(Icons.stop_circle_outlined)),
+                  icon: Icon(Icons.stop)),
               _PracticeTabButton(
                   onPressed: () =>
                       context.go(_popAndReplace("overview"), extra: indexOfTab),
                   groupValue: selectedTab,
                   value: PracticeTab.overview,
-                  icon: Icon(Icons.list)),
+                  icon: Icon(Icons.bar_chart)),
             ],
           ),
         ),
@@ -121,12 +126,11 @@ class _PracticeTabButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color _color = Color(0xFF58CDFF);
     return IconButton(
         onPressed: onPressed,
-        iconSize: 32,
-        color: groupValue != value
-            ? null
-            : Theme.of(context).colorScheme.secondary,
+        iconSize: 48,
+        color: groupValue != value ? _color.withOpacity(0.25) : _color,
         icon: icon);
   }
 }
