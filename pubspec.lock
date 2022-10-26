@@ -239,6 +239,13 @@ packages:
       relative: true
     source: path
     version: "0.1.0+1"
+  firebase_practice_api:
+    dependency: "direct main"
+    description:
+      path: "packages/firebase_practice_api"
+      relative: true
+    source: path
+    version: "0.1.0+1"
   flutter:
     dependency: "direct main"
     description: flutter

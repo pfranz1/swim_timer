@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:swim_timer/routing_information.dart';
 import 'firebase_options.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_practice_api/firebase_practice_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

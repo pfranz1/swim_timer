@@ -5,12 +5,15 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-// ignore_for_file: omit_local_variable_types
+// ignore_for_file: omit_local_variable_types, unused_local_variable, lines_longer_than_80_chars, cast_nullable_to_non_nullable
+
+import 'dart:convert';
 
 import 'package:common/common.dart';
 // ignore_for_file: public_member_api_docs, type_init_formals
 
 import 'package:entities/entities.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:practice_api/practice_api.dart';
 
@@ -48,8 +51,18 @@ class FirebasePracticeApi extends PracticeApi {
 
   @override
   Stream<List<Swimmer>> getSwimmers() {
-    // TODO: implement getSwimmers
-    throw UnimplementedError();
+    final DatabaseReference swimmersRef = root.child('swimmers');
+
+    return swimmersRef.orderByKey().onValue.asyncMap<List<Swimmer>>((event) {
+      return (event.snapshot.value as Map<String, String>)
+          .values
+          .map((swimmerJSON) {
+        final mySwimmer = Swimmer.fromJson(
+          jsonDecode(swimmerJSON) as Map<String, dynamic>,
+        );
+        return mySwimmer;
+      }).toList();
+    });
   }
 
   @override

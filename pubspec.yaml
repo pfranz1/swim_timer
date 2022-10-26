@@ -49,6 +49,8 @@ dependencies:
     path: packages/organization_api
   firebase_organization_api:
     path: packages/firebase_organization_api
+  firebase_practice_api:
+    path: packages/firebase_practice_api
   entities:
     path: packages/entities
   common:

@@ -38,11 +38,6 @@ class CreatePage extends StatelessWidget {
           },
         ));
   }
-
-  void handleCreate(BuildContext context) async {
-    //This is just being used for testing purposes lol
-    context.go('/');
-  }
 }
 
 // class CreateView extends StatefulWidget {

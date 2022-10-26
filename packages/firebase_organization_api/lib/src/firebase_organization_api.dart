@@ -5,8 +5,10 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:entities/entities.dart';
+// ignore_for_file: omit_local_variable_types, prefer_final_locals
+
 import 'package:common/common.dart';
+import 'package:entities/entities.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:organization_api/organization_api.dart';
 
@@ -14,12 +16,16 @@ import 'package:organization_api/organization_api.dart';
 /// A Very Good Project created by Very Good CLI.
 /// {@endtemplate}
 class FirebaseOrganizationApi extends OrganizationApi {
-  FirebaseOrganizationApi({required String this.orgID}) {
+  // ignore: lines_longer_than_80_chars
+  ///Constructor: initializes the root reference given the organization ID as a String
+  FirebaseOrganizationApi({required this.orgID}) {
     root = FirebaseDatabase.instance.ref().child(orgID);
   }
 
   /// {@macro firebase_organization_api}
   final String orgID;
+
+  /// root: reference to the provided organization node
   late final DatabaseReference root;
 
   @override
@@ -95,7 +101,6 @@ class FirebaseOrganizationApi extends OrganizationApi {
 
   @override
   Stream<List<Practice>> getActivePractices() {
-    // TODO: implement getActivePractices
     throw UnimplementedError();
   }
 
@@ -107,7 +112,7 @@ class FirebaseOrganizationApi extends OrganizationApi {
 
   @override
   Stream<List<OrgSwimmer>> getOrganizationSwimmers() {
-    // TODO: implement getOrganizationSwimmers
+    var orgSwimmerRef = root.child('Swimmers').orderByKey();
     throw UnimplementedError();
   }
 
