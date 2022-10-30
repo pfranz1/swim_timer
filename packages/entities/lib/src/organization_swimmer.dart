@@ -3,14 +3,14 @@
 
 import 'package:common/common.dart';
 import 'package:entities/src/record.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 
+@immutable
+@JsonSerializable()
 class OrgSwimmer {
   OrgSwimmer({required String this.name, String? id, this.records = const []}) {
-    if (id == null) {
-      this.ID = Common.codeGenerator();
-    } else {
-      this.ID = id;
-    }
+    this.ID = id ?? Common.idGenerator();
   }
   final String name;
   List<Record> records;
