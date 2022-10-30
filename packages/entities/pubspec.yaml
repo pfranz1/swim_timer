@@ -9,7 +9,8 @@ environment:
 dependencies:
   common: 
     path: ../common
-  json_annotation: ^4.7.0
+  json_serializable: ^6.5.4
+  build_runner: ^2.3.2
   equatable: ^2.0.5
   build_runner: ^2.3.2
 
