@@ -6,6 +6,9 @@ import 'package:meta/meta.dart';
 
 part 'finisher_entry.g.dart';
 
+/// The role of this object is for the front end tiles that show a swimmers
+/// stats for a lap during a practice
+
 @JsonSerializable()
 @immutable
 class FinisherEntry extends Equatable {
@@ -36,6 +39,15 @@ class FinisherEntry extends Equatable {
   /// The DateTime the time was achieved
   final DateTime dateAchieved;
 
+  /// The difference in time between the current achieved time and previously
+  /// achieved time
+  ///
+  ///
+  /// difference > 0 => the time was slower
+  /// difference < 0 => the time was faster
+  /// (current time - last time);
+  final double? differenceWithLastTime;
+
   /// The object that stores a swimmer's result after a lap
   const FinisherEntry({
     required this.id,
@@ -43,6 +55,7 @@ class FinisherEntry extends Equatable {
     required this.time,
     required this.stroke,
     required this.dateAchieved,
+    this.differenceWithLastTime,
   });
 
   ///  Deserializes the given [Map] into a [FinisherEntry].
@@ -53,7 +66,8 @@ class FinisherEntry extends Equatable {
   Map<String, dynamic> toJson() => _$FinisherEntryToJson(this);
 
   @override // For equatable
-  List<Object> get props => [stroke, id, name, time, dateAchieved];
+  List<Object?> get props =>
+      [stroke, id, name, time, dateAchieved, differenceWithLastTime];
 
   @override
   String toString() {

@@ -54,16 +54,17 @@ class LocalStoragePracticeApi extends PracticeApi {
 
     if (practiceResultsJson != null) {
       // I want to convert to string, PracticeResult
-      final map = jsonDecode(practiceResultsJson) as Map<String, String>;
+      final map = jsonDecode(practiceResultsJson) as Map<String, dynamic>;
 
       // TODO: Debug and remove this
       final map2 = map.map(
         (key, value) => MapEntry(
           key,
-          PracticeResult.fromJson(jsonDecode(value) as Map<String, dynamic>),
+          PracticeResult.fromJson(value as Map<String, dynamic>),
         ),
       );
 
+      // _entryStreamController.add(map2);
       _entryStreamController.add(map2);
 
       // // final entries =

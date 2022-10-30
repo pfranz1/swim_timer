@@ -39,14 +39,18 @@ class PracticeRepository {
           return a.dateAchieved.compareTo(b.dateAchieved);
         });
         for (final practiceResult in event.values) {
+          int? prev = null;
           for (final lapResult in practiceResult.lapResults) {
             descendingEntries.add(FinisherEntry(
-              stroke: lapResult.stroke,
-              time: lapResult.duration,
-              dateAchieved: lapResult.endTime,
-              id: practiceResult.swimmerId,
-              name: practiceResult.swimmerName,
-            ));
+                stroke: lapResult.stroke,
+                time: lapResult.duration,
+                dateAchieved: lapResult.endTime,
+                id: practiceResult.swimmerId,
+                name: practiceResult.swimmerName,
+                differenceWithLastTime: prev == null
+                    ? null
+                    : (lapResult.duration.inMilliseconds - prev) / 1000));
+            prev = lapResult.duration.inMilliseconds;
           }
         }
 
