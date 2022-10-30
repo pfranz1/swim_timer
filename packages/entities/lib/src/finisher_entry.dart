@@ -17,6 +17,7 @@ class FinisherEntry extends Equatable {
       name: swimmer.name,
       time: time,
       stroke: swimmer.stroke,
+      dateAchieved: swimmer.endTime!,
     );
   }
 
@@ -32,12 +33,16 @@ class FinisherEntry extends Equatable {
   /// The stroke the swimmer was swimming
   final Stroke stroke;
 
+  /// The DateTime the time was achieved
+  final DateTime dateAchieved;
+
   /// The object that stores a swimmer's result after a lap
   const FinisherEntry({
     required this.id,
     required this.name,
     required this.time,
     required this.stroke,
+    required this.dateAchieved,
   });
 
   ///  Deserializes the given [Map] into a [FinisherEntry].
@@ -48,7 +53,7 @@ class FinisherEntry extends Equatable {
   Map<String, dynamic> toJson() => _$FinisherEntryToJson(this);
 
   @override // For equatable
-  List<Object> get props => [stroke, id, name, time];
+  List<Object> get props => [stroke, id, name, time, dateAchieved];
 
   @override
   String toString() {

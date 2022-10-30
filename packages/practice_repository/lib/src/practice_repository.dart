@@ -1,5 +1,6 @@
 import 'package:entities/entities.dart';
 import 'package:practice_api/practice_api.dart';
+import 'package:sorted_list/sorted_list.dart';
 // import 'package:swim_timer/managers/database_manager.dart';
 // import 'package:swim_timer/pages/practice/starter/add/add_page.dart' show strokeToString;
 
@@ -32,7 +33,25 @@ class PracticeRepository {
   String sessionId = "DEFAULTID";
 
   /// Returns a stream of all the entries the api has
-  Stream<List<FinisherEntry>> getEntries() => _practiceApi.getEntries();
+  Stream<List<FinisherEntry>> getEntries() =>
+      _practiceApi.getEntries().map((event) {
+        final descendingEntries = SortedList<FinisherEntry>((a, b) {
+          return a.dateAchieved.compareTo(b.dateAchieved);
+        });
+        for (final practiceResult in event.values) {
+          for (final lapResult in practiceResult.lapResults) {
+            descendingEntries.add(FinisherEntry(
+              stroke: lapResult.stroke,
+              time: lapResult.duration,
+              dateAchieved: lapResult.endTime,
+              id: practiceResult.swimmerId,
+              name: practiceResult.swimmerName,
+            ));
+          }
+        }
+
+        return descendingEntries;
+      });
 
   /// Returns a stream of all swimmers the API has
   Stream<List<Swimmer>> getSwimmers() => _practiceApi.getSwimmers();
