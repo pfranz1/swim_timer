@@ -11,7 +11,7 @@ abstract class PracticeApi {
   Stream<List<Swimmer>> getSwimmers();
 
   /// Provides a [Stream] of [FinisherEntry]
-  Stream<List<FinisherEntry>> getEntries();
+  Stream<Map<String, PracticeResult>> getEntries();
 
   /// Adds a swimmer to the current swimmers.
   Future<void> addSwimmer(Swimmer swimmer);

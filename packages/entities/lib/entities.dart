@@ -16,3 +16,5 @@ export 'src/practice.dart';
 export 'src/record.dart';
 export 'src/stroke.dart';
 export 'src/swimmer.dart';
+export 'src/lap_result.dart';
+export 'src/practice_result.dart';

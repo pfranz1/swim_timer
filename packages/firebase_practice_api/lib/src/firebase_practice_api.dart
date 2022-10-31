@@ -43,7 +43,7 @@ class FirebasePracticeApi extends PracticeApi {
   }
 
   @override
-  Stream<List<FinisherEntry>> getEntries() {
+  Stream<Map<String, PracticeResult>> getEntries() {
     // TODO: implement getEntries
     root.child('finisher_entries').onValue.listen((event) {});
     throw UnimplementedError();

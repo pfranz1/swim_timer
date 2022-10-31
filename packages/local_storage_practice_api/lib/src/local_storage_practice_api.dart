@@ -21,7 +21,7 @@ class LocalStoragePracticeApi extends PracticeApi {
       BehaviorSubject<List<Swimmer>>.seeded(const []);
 
   final _entryStreamController =
-      BehaviorSubject<List<FinisherEntry>>.seeded(const []);
+      BehaviorSubject<Map<String, PracticeResult>>.seeded(const {});
 
   @visibleForTesting
 
@@ -50,17 +50,54 @@ class LocalStoragePracticeApi extends PracticeApi {
       _swimmerStreamController.add(const []);
     }
 
-    final entryJson = _getValue(entryCollectionKey);
+    final practiceResultsJson = _getValue(entryCollectionKey);
 
-    if (entryJson != null) {
-      final entries =
-          List<Map<dynamic, dynamic>>.from(jsonDecode(entryJson) as List)
-              .map((jsonMap) =>
-                  FinisherEntry.fromJson(Map<String, dynamic>.from(jsonMap)))
-              .toList();
-      _entryStreamController.add(entries);
+    if (practiceResultsJson != null) {
+      // I want to convert to string, PracticeResult
+      final map = jsonDecode(practiceResultsJson) as Map<String, dynamic>;
+
+      // TODO: Debug and remove this
+      final map2 = map.map(
+        (key, value) => MapEntry(
+          key,
+          PracticeResult.fromJson(value as Map<String, dynamic>),
+        ),
+      );
+
+      // _entryStreamController.add(map2);
+      _entryStreamController.add(map2);
+
+      // // final entries =
+      // //     List<Map<dynamic, dynamic>>.from(jsonDecode(lapResults as Map)
+      // //         .map((jsonMap) =>
+      // //             FinisherEntry.fromJson(Map<String, dynamic>.from(jsonMap)))
+      // //         .toList();
+      // // _entryStreamController.add(entries);
+
+      // // final lapResults = Map<String, dynamic>.from(
+      // //   jsonDecode(lapResultsJson) as Map<dynamic, dynamic>,
+      // // );
+
+      // final map = jsonDecode(lapResultsJson) as Map<String, String>;
+
+      // // List rejected = json.decode(response.body);
+      // // return rejected.map((e) => RejectedModel.fromJson(e)).toList();
+
+      // final practiceResults =
+      //     jsonDecode(lapResultsJson) as Map<String, dynamic>;
+
+      //  practiceResults.map((key, value){return {key: value}});
+
+      // final List<PracticeResult> lapResults = [];
+
+      // for (final key in map.values) {
+      //   lapResults.add(PracticeResult.fromJson(
+      //       jsonDecode(map[key]!) as Map<String, dynamic>));
+      // }
+
+      // _entryStreamController.add(lapResults);
     } else {
-      _entryStreamController.add(const []);
+      _entryStreamController.add({});
     }
   }
 
@@ -93,7 +130,7 @@ class LocalStoragePracticeApi extends PracticeApi {
       _swimmerStreamController.asBroadcastStream();
 
   @override
-  Stream<List<FinisherEntry>> getEntries() =>
+  Stream<Map<String, PracticeResult>> getEntries() =>
       _entryStreamController.asBroadcastStream();
 
   @override
@@ -229,15 +266,38 @@ class LocalStoragePracticeApi extends PracticeApi {
     }
   }
 
+  static const _meterPreset = 50;
+
   Future<void> _saveSwimmerFinisherEntry(Swimmer finisher) {
-    // Create new entry
-    final newEntry = FinisherEntry.swimmer(finisher);
-    // Make growable list and modify it
-    final entries = _entryStreamController.value.toList()..add(newEntry);
-    // Add entries to stream controller
-    _entryStreamController.add(entries);
-    // Set value in the storage
-    return _setValue(entryCollectionKey, json.encode(entries));
+    final newLapResult = LapResult.fromSwimmer(finisher);
+
+    final lapResults = _entryStreamController.value
+      ..update(
+        finisher.id,
+        (value) {
+          return value.addLapResult(LapResult.fromSwimmer(finisher));
+        },
+        ifAbsent: () {
+          return PracticeResult(
+              swimmerId: finisher.id,
+              swimmerName: finisher.name,
+              meters: _meterPreset,
+              lapResults: [newLapResult]);
+        },
+      );
+
+    _entryStreamController.add(lapResults);
+
+    return _setValue(entryCollectionKey, json.encode(lapResults));
+
+    // // Create new entry
+    // final newEntry = FinisherEntry.swimmer(finisher);
+    // // Make growable list and modify it
+    // final entries = _entryStreamController.value.toList()..add(newEntry);
+    // // Add entries to stream controller
+    // _entryStreamController.add(entries);
+    // // Set value in the storage
+    // return _setValue(entryCollectionKey, json.encode(entries));
   }
 
   @override

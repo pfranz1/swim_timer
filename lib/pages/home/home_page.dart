@@ -11,7 +11,20 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          titleSpacing: 0,
           elevation: 0,
+          actions: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.settings,
+                    color: Color(0xFF10465F),
+                  )),
+            )
+          ],
           title: Text("Home",
               style: TextStyle(
                   color: Color(0xFF10465F),
@@ -46,7 +59,7 @@ class HomePage extends StatelessWidget {
                         size: 60,
                         color: Color(0xFF56FFB8),
                       ),
-                      text: "Create",
+                      text: "New Practice",
                     ),
                     ActionButton(
                       onTap: () => context.go('/join'),
@@ -54,19 +67,19 @@ class HomePage extends StatelessWidget {
                       icon: Icon(
                         Icons.groups_rounded,
                         size: 60,
-                        color: Colors.blue,
+                        color: Color(0xFF2ABFFF),
                       ),
-                      text: "Join",
+                      text: "Join Practice",
                     ),
                     ActionButton(
                       onTap: () => context.go('/records'),
                       backgroundColor: Color(0xFF0677BA),
                       icon: Icon(
-                        Icons.menu_book,
+                        Icons.ssid_chart_sharp,
                         size: 60.0,
                         color: Color(0xFF0677BA),
                       ),
-                      text: "Records ",
+                      text: "View Records",
                     ),
                   ],
                 ),
@@ -141,12 +154,12 @@ class _ActionButtonState extends State<ActionButton> {
                       child: Center(
                         child: Text(
                           widget.text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5
-                              ?.copyWith(
-                                  fontWeight:
-                                      _isHovered ? FontWeight.bold : null),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Color(0xFF10465F),
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
