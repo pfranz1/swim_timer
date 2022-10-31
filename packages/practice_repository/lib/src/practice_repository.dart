@@ -38,12 +38,9 @@ class PracticeRepository {
   ///
   /// (idle time = no end time or least recent end time)
   /// note:ask peter abt this hahahaha
-  void sortIdleDeckSwimmers(List<Swimmer> swimmers) =>
-      swimmers.sort((a, b) => a.endTime!.compareTo(b.endTime!));
-
-  // bool _filterIdleDeckSwimmer(Swimmer swimmer) {
-  //   return _filterDeckSwimmer(swimmer) && swimmer.endTime == null;
-  // }
+  void sortIdleDeckSwimmers(List<Swimmer> swimmers) {
+    return swimmers.sort((a, b) => a.endTime == null ? 0 : 1);
+  }
 
   /// Keep if the swimmers lane is 0 or they dont have one
   ///
