@@ -9,8 +9,8 @@ environment:
 dependencies:
   organization_api: 
     path: '../organization_api'
-  firebase_core: ^1.22.0
-  firebase_database: ^9.1.4
+  firebase_core: ^2.1.1
+  firebase_database: ^10.0.3
   uuid: ^3.0.6
   common: 
     path: '../common'
