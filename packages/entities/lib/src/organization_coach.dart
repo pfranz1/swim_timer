@@ -1,4 +1,4 @@
-// ignore_for_file: public_member_api_docs, unnecessary_this
+// ignore_for_file: public_member_api_docs, unnecessary_this, type_init_formals
 import 'package:common/common.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
