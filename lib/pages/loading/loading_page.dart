@@ -46,13 +46,13 @@ class _LoadingPageState extends State<LoadingPage> {
           child: Center(
             child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Theme.of(context).colorScheme.primary,
+                  borderRadius: BorderRadius.circular(20.0),
+                  color: const Color(0xFF10465F),
                 ),
-                child: Padding(
+                child: const Padding(
                   padding: const EdgeInsets.all(50.0),
                   child: CircularProgressIndicator(
-                    color: Colors.orange,
+                    color: Color(0xFF77D6FF),
                   ),
                 )),
           ),
