@@ -127,7 +127,18 @@ class _NameViewState extends State<NameView>
                     child: TextField(
                       textAlign: TextAlign.center,
                       controller: widget.nameController,
-                      style: TextStyle(),
+                      autofocus: true,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFF10465F),
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
+                      ),
+                      onSubmitted: (value) async {
+                        await _controller.reverse();
+                        context.read<CreateBloc>().add(
+                            CreateEvent_SetStep(step: CreateStep.laneSettings));
+                      },
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
