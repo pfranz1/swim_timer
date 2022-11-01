@@ -54,6 +54,7 @@ class _NameViewState extends State<NameView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -89,41 +90,50 @@ class _NameViewState extends State<NameView>
           size: 50,
         ),
       ),
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: Center(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 156),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'Practice Name:',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                      maxWidth:
-                          min(500, MediaQuery.of(context).size.width * 3 / 4)),
-                  child: TextField(
-                    textAlign: TextAlign.center,
-                    controller: widget.nameController,
-                    style: TextStyle(),
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        filled: true,
-                        hintStyle: TextStyle(color: Colors.grey[800]),
-                        fillColor: Colors.white),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 156),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Practice Name:',
+                    style: Theme.of(context).textTheme.headline6,
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 25,
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: min(
+                            500, MediaQuery.of(context).size.width * 3 / 4)),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      controller: widget.nameController,
+                      style: TextStyle(),
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          filled: true,
+                          hintStyle: TextStyle(color: Colors.grey[800]),
+                          fillColor: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

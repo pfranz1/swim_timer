@@ -106,27 +106,37 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
             ],
           )),
       // Body
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 156,
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'Lane Count:',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                CounterBar(),
-              ],
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 156,
+            ),
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Lane Count:',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  CounterBar(),
+                ],
+              ),
             ),
           ),
         ),
