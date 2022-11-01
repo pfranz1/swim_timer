@@ -123,7 +123,7 @@ class _ActionButtonState extends State<ActionButton> {
           setState(() {
             _isHovered = true;
           });
-          Future.delayed(Duration(milliseconds: 250))
+          Future.delayed(Duration(milliseconds: 75))
               .then((value) => widget.onTap());
         },
         onHover: (value) => setState(() {

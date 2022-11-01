@@ -26,14 +26,19 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 350),
+      reverseDuration: const Duration(milliseconds: 425),
     );
 
-    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOutCirc,
+      reverseCurve: Curves.ease,
+    );
 
     // _controller.forward();
 
-    Future.delayed(Duration(milliseconds: 500))
+    Future.delayed(Duration(milliseconds: 250))
         .then((value) => _controller.forward());
   }
 

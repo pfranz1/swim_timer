@@ -21,8 +21,7 @@ class NameView extends StatefulWidget {
 class _NameViewState extends State<NameView>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _fadeAnimation;
-  late final CurvedAnimation _curvedAnimation;
+  late final CurvedAnimation _fadeAnimation;
 
   static const _delayForNavigationTransitionTime = Duration(milliseconds: 250);
 
@@ -31,13 +30,14 @@ class _NameViewState extends State<NameView>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 350),
+      reverseDuration: const Duration(milliseconds: 425),
     );
 
-    _curvedAnimation =
-        CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-
-    _fadeAnimation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+    _fadeAnimation = CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOutCirc,
+        reverseCurve: Curves.ease);
 
     Future.delayed(_delayForNavigationTransitionTime)
         .then((value) => _controller.forward());
@@ -83,7 +83,7 @@ class _NameViewState extends State<NameView>
         ),
       ),
       body: FadeTransition(
-        opacity: _curvedAnimation,
+        opacity: _fadeAnimation,
         child: Center(
           child: Padding(
             padding:

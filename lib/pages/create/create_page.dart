@@ -16,7 +16,6 @@ class CreatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Widget child;
     return BlocProvider(
         create: (context) => CreateBloc(),
         child: BlocBuilder<CreateBloc, CreateState>(
