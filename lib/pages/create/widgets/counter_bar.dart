@@ -21,7 +21,10 @@ class CounterBar extends StatefulWidget {
 class _CounterBarState extends State<CounterBar> {
   late int count;
 
-  AnimatedDigitController _controller = AnimatedDigitController(6);
+  final AnimatedDigitController _controller = AnimatedDigitController(6);
+
+  static const _maxCount = 6;
+  static const _minCount = 1;
 
   @override
   void initState() {
@@ -43,35 +46,45 @@ class _CounterBarState extends State<CounterBar> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SideButton(
-          color: Colors.red,
+          color: count != _minCount ? Colors.red : Colors.red.shade300,
           icon: Icon(
             Icons.remove,
             color: Colors.white,
           ),
           onTap: () {
             setState(() {
-              count = max(1, count - 1);
+              count = max(_minCount, count - 1);
             });
           },
         ),
         Padding(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width / 6),
-          child: Text(
-            count.toString(),
-            style: Theme.of(context).textTheme.headline3,
+          child: SizedBox(
+            width: 100,
+            child: Center(
+              child: Text(
+                count.toString(),
+                style: TextStyle(
+                  fontSize: 56,
+                  color: Color(0xFF10465F),
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
           ),
         ),
         SideButton(
           //TODO Real color
-          color: Colors.green,
+          color: count != _maxCount ? Colors.green : Colors.green.shade300,
           icon: Icon(
             Icons.add,
             color: Colors.white,
           ),
           onTap: () {
             setState(() {
-              count = min(6, count + 1);
+              count = min(_maxCount, count + 1);
             });
           },
         ),
@@ -98,6 +111,7 @@ class SideButton extends StatelessWidget {
       color: color,
       borderRadius: BorderRadius.all(Radius.circular(16.0)),
       child: InkWell(
+        borderRadius: BorderRadius.all(Radius.circular(16.0)),
         onTap: onTap,
         child: Container(
           child: Padding(
