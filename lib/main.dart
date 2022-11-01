@@ -59,7 +59,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       routerConfig: RoutingInformation.myRouter,
       title: "Swim Timer",
     );
