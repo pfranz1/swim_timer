@@ -57,7 +57,7 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Create',
           //TODO Replace with real color
           style: TextStyle(
@@ -94,7 +94,8 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
                       .read<CreateBloc>()
                       .add(CreateEvent_SetStep(step: CreateStep.name));
                 },
-                child: const Icon(Icons.forward,
+                backgroundColor: Color(0xFF10465F),
+                child: const Icon(Icons.arrow_forward_outlined,
                     size: 50, textDirection: TextDirection.rtl),
               ),
               FloatingActionButton(
@@ -102,13 +103,14 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
                   onPressed: () {
                     context.go("/practice/fromCreate${Random().nextInt(25)}");
                   },
+                  backgroundColor: Color(0xFF10465F),
                   child: const Icon(Icons.check, size: 50)),
             ],
           )),
       // Body
       extendBodyBehindAppBar: true,
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
             begin: Alignment.topCenter,
@@ -126,7 +128,7 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                children: const [
                   Text(
                     'Lane Count:',
                     style: TextStyle(

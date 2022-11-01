@@ -58,7 +58,7 @@ class _NameViewState extends State<NameView>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Create',
           style: TextStyle(
             fontSize: 20,
@@ -85,8 +85,9 @@ class _NameViewState extends State<NameView>
               .read<CreateBloc>()
               .add(CreateEvent_SetStep(step: CreateStep.laneSettings));
         }),
-        child: Icon(
-          Icons.forward,
+        backgroundColor: const Color(0xFF10465F),
+        child: const Icon(
+          Icons.arrow_forward_outlined,
           size: 50,
         ),
       ),
