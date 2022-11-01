@@ -110,7 +110,12 @@ class _NameViewState extends State<NameView>
                 children: [
                   Text(
                     'Practice Name:',
-                    style: Theme.of(context).textTheme.headline6,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF10465F),
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   SizedBox(
                     height: 25,
