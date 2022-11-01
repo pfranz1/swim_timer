@@ -12,12 +12,13 @@ class EntriesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: const Color(0xFF10465F),
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: entries != null
             ? ListView.builder(
+                padding: EdgeInsets.zero,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(
@@ -63,7 +64,7 @@ class EntryCard extends StatelessWidget {
       child: Container(
         height: MediaQuery.of(context).size.height / 10,
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorLight,
+            color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10.0))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -146,7 +147,16 @@ class StrokeIcon extends StatelessWidget {
     return Container(
       width: 60,
       height: 60,
-      child: Center(child: Text(text)),
+      child: Center(
+          child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      )),
       decoration: BoxDecoration(shape: BoxShape.circle, color: color),
     );
   }
