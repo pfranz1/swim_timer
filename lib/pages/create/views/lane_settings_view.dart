@@ -57,9 +57,16 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Create',
-            //TODO Replace with real color
-            style: TextStyle(color: Color.fromARGB(255, 12, 87, 148))),
+        title: Text(
+          'Create',
+          //TODO Replace with real color
+          style: TextStyle(
+            fontSize: 20,
+            color: Color(0xFF10465F),
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
             onPressed: () async {
