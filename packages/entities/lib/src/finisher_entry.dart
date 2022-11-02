@@ -12,18 +12,6 @@ part 'finisher_entry.g.dart';
 @JsonSerializable()
 @immutable
 class FinisherEntry extends Equatable {
-  /// Builds an entry from a swimmer that has all feilds
-  factory FinisherEntry.swimmer(Swimmer swimmer) {
-    final time = swimmer.endTime!.difference(swimmer.startTime!);
-    return FinisherEntry(
-      id: swimmer.id,
-      name: swimmer.name,
-      time: time,
-      stroke: swimmer.stroke,
-      dateAchieved: swimmer.endTime!,
-    );
-  }
-
   /// The name of the swimmer
   final String name;
 
