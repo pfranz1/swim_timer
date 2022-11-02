@@ -5,8 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-// ignore_for_file: omit_local_variable_types, prefer_final_locals
-
+// ignore_for_file: omit_local_variable_types, prefer_final_locals, cast_nullable_to_non_nullable
+import 'dart:convert';
 import 'package:common/common.dart';
 import 'package:entities/entities.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -106,24 +106,67 @@ class FirebaseOrganizationApi extends OrganizationApi {
 
   @override
   Stream<List<OrgCoach>> getCoaches() {
-    // TODO: implement getCoaches
-    throw UnimplementedError();
+    final DatabaseReference coachesRef = root.child('Coaches');
+
+    return coachesRef.orderByKey().onValue.asyncMap<List<OrgCoach>>((event) {
+      return (event.snapshot.value as Map<String, String>)
+          .values
+          .map((orgcoachJSON) {
+        final myOrgCoach = OrgCoach.fromJson(
+          jsonDecode(orgcoachJSON) as Map<String, dynamic>,
+        );
+        return myOrgCoach;
+      }).toList();
+    });
   }
 
   @override
   Stream<List<OrgSwimmer>> getOrganizationSwimmers() {
-    var orgSwimmerRef = root.child('Swimmers').orderByKey();
-    throw UnimplementedError();
+    final DatabaseReference swimmersRef = root.child('Swimmers');
+
+    return swimmersRef.orderByKey().onValue.asyncMap<List<OrgSwimmer>>((event) {
+      return (event.snapshot.value as Map<String, String>)
+          .values
+          .map((orgswimmerJSON) {
+        final myOrgSwimmer = OrgSwimmer.fromJson(
+          jsonDecode(orgswimmerJSON) as Map<String, dynamic>,
+        );
+        return myOrgSwimmer;
+      }).toList();
+    });
   }
 
   @override
   Stream<List<Practice>> getPractices() {
-    // TODO: implement getPractices
-    throw UnimplementedError();
+    final DatabaseReference practicesRef = root.child('Practices');
+
+    return practicesRef.orderByKey().onValue.asyncMap<List<Practice>>((event) {
+      return (event.snapshot.value as Map<String, String>)
+          .values
+          .map((practiceJSON) {
+        final myPractice = Practice.fromJson(
+          jsonDecode(practiceJSON) as Map<String, dynamic>,
+        );
+        return myPractice;
+      }).toList();
+    });
   }
 
   @override
   Stream<List<FinisherEntry>> getRecords() {
+    final DatabaseReference practicesRef = root.child('Practices');
+/*
+    return practicesRef.orderByKey().onValue.asyncMap<List<Practice>>((event) {
+      return (event.snapshot.value as Map<String, String>)
+          .values
+          .map((practiceJSON) {
+        final myPractice = Practice.fromJson(
+          jsonDecode(practiceJSON) as Map<String, dynamic>,
+        );
+        return myPractice;
+      }).toList();
+    });
+*/
     // TODO: implement getRecords
     throw UnimplementedError();
   }
