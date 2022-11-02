@@ -72,7 +72,16 @@ class HomePage extends StatelessWidget {
                       text: "Join Practice",
                     ),
                     ActionButton(
-                      onTap: () => context.go('/records'),
+                      onTap: () {
+                        // context.go('/records'),
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Records coming soon!'),
+                          ],
+                        )));
+                      },
                       backgroundColor: Color(0xFF0677BA),
                       icon: Icon(
                         Icons.ssid_chart_sharp,
