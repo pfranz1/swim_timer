@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:practice_repository/practice_repository.dart';
@@ -44,37 +46,27 @@ class EntryCard extends StatelessWidget {
 
   final FinisherEntry entry;
 
-  String _prettyPrintDuration(Duration? duration) {
-    if (duration == null) return "---";
-
-    final output = duration.toString();
-
-    return output.substring(output.indexOf(":") + 1);
-  }
-
-  String _prettyPrintDifference(double? diff) {
-    if (diff == null) return "---";
-    return diff.toStringAsPrecision(2);
-  }
-
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: 75, maxHeight: 175),
       child: Container(
         height: MediaQuery.of(context).size.height / 10,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(10.0))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            // Name + Spacer
             Expanded(
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                // Spacer
                 Expanded(
                   child: Container(),
                   flex: 2,
                 ),
+                // Name
                 Expanded(
                   flex: 8,
                   child: Text(
@@ -90,12 +82,15 @@ class EntryCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child:
+                    // Times
                     Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  // Lap Time
                   Expanded(
                       flex: 3,
                       child: LapTimeText(
                         duration: entry.time,
                       )),
+                  // Difference with last time
                   Expanded(
                     child: Container(
                         child: DifferenceText(
@@ -118,7 +113,6 @@ class StrokeIcon extends StatelessWidget {
   const StrokeIcon({super.key, required this.stroke});
 
   final Stroke? stroke;
-
   @override
   Widget build(BuildContext context) {
     late final String text;
@@ -168,7 +162,7 @@ class DifferenceText extends StatelessWidget {
 
   static String _formatDiffDouble(double? difference) {
     if (difference == null) return "---";
-    return (difference.sign > 0 ? "+" : "") + difference.toStringAsPrecision(2);
+    return (difference.sign > 0 ? "+" : "") + difference.toStringAsFixed(2);
   }
 
   final String differenceText;
@@ -183,10 +177,14 @@ class LapTimeText extends StatelessWidget {
   LapTimeText({super.key, required this.duration})
       : durationText = _formatDuration(duration);
 
-  static String _formatDuration(Duration duration) {
-    final output = duration.toString();
+  static final matchTailZeros = RegExp("0+\$");
+  static final matchLeadingZeroAndColons = RegExp("^0+((:0*)?)*");
 
-    return output.substring(output.indexOf(":") + 1);
+  static String _formatDuration(Duration duration) {
+    return duration
+        .toString()
+        .replaceAll(matchTailZeros, "")
+        .replaceAll(matchLeadingZeroAndColons, "");
   }
 
   final Duration duration;
