@@ -79,26 +79,30 @@ class EntryCard extends StatelessWidget {
             ),
             StrokeIcon(stroke: entry.stroke),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child:
-                    // Times
-                    Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  // Lap Time
+              child: Row(
+                children: [
                   Expanded(
-                      flex: 3,
-                      child: LapTimeText(
-                        duration: entry.time,
-                      )),
-                  // Difference with last time
-                  Expanded(
-                    child: Container(
-                        child: DifferenceText(
-                      difference: entry.differenceWithLastTime,
-                    )),
-                    flex: 2,
+                    flex: 8,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // Lap Time
+                        LapTimeText(
+                          duration: entry.time,
+                        ),
+                        // Difference with last time
+                        DifferenceText(
+                          difference: entry.differenceWithLastTime,
+                        ),
+                      ],
+                    ),
                   ),
-                ]),
+                  Expanded(
+                    flex: 2,
+                    child: Container(),
+                  ),
+                ],
               ),
               flex: 4,
             ),
@@ -158,18 +162,33 @@ class StrokeIcon extends StatelessWidget {
 
 class DifferenceText extends StatelessWidget {
   DifferenceText({super.key, double? difference})
-      : differenceText = _formatDiffDouble(difference);
+      : differenceText = _formatDiffDouble(difference),
+        color = _colorFromDiff(difference);
 
   static String _formatDiffDouble(double? difference) {
     if (difference == null) return "---";
     return (difference.sign > 0 ? "+" : "") + difference.toStringAsFixed(2);
   }
 
+  static Color _colorFromDiff(double? difference) {
+    if (difference == null || difference == null) return Colors.black;
+    return (difference < 0) ? Colors.green : Colors.red;
+  }
+
   final String differenceText;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Text(differenceText);
+    return Text(
+      differenceText,
+      style: TextStyle(
+        color: color,
+        fontSize: 13,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.bold,
+      ),
+    );
   }
 }
 
@@ -192,6 +211,13 @@ class LapTimeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(durationText);
+    return Text(
+      durationText,
+      style: TextStyle(
+        fontSize: 20,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w300,
+      ),
+    );
   }
 }
