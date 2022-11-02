@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:practice_api/practice_api.dart';
 
 /// {@template practice_repository}
@@ -38,9 +40,8 @@ class PracticeRepository {
   ///
   /// (idle time = no end time or least recent end time)
   /// note:ask peter abt this hahahaha
-  void sortIdleDeckSwimmers(List<Swimmer> swimmers) {
-    return swimmers.sort((a, b) => a.endTime == null ? 0 : 1);
-  }
+  void sortIdleDeckSwimmers(List<Swimmer> swimmers) =>
+      swimmers.sort((a, b) => a.endTime == null ? 0 : 1);
 
   /// Keep if the swimmers lane is 0 or they dont have one
   ///
@@ -169,4 +170,16 @@ class PracticeRepository {
 
   Future<void> undoStart(String id, DateTime? oldEndTime) =>
       _practiceApi.undoStart(id, oldEndTime);
+}
+
+void main() {
+  //Test
+  List<Swimmer> test = new List.empty();
+  Swimmer s1 = new Swimmer(name: "A", endTime: null);
+  Swimmer s2 = new Swimmer(name: "B", endTime: DateTime.now());
+  Swimmer s3 = new Swimmer(name: "C", endTime: DateTime.now());
+  test.addAll([s2, s3, s1]);
+  PracticeApi practiceApi;
+  PracticeRepository r = new PracticeRepository(practiceApi: practiceApi);
+  r.sortIdleDeckSwimmers(test);
 }

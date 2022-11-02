@@ -1,0 +1,58 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+        {
+            "name": "swim_timer",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "swim_timer (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "swim_timer (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "local_storage_practice_api",
+            "cwd": "packages\\local_storage_practice_api",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "local_storage_practice_api (profile mode)",
+            "cwd": "packages\\local_storage_practice_api",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "local_storage_practice_api (release mode)",
+            "cwd": "packages\\local_storage_practice_api",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "practice_api",
+            "cwd": "packages\\practice_api",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "practice_repository",
+            "cwd": "packages\\practice_repository",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}
