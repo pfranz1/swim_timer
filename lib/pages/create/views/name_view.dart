@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -21,8 +22,7 @@ class NameView extends StatefulWidget {
 class _NameViewState extends State<NameView>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
-  late final Animation<double> _fadeAnimation;
-  late final CurvedAnimation _curvedAnimation;
+  late final CurvedAnimation _fadeAnimation;
 
   static const _delayForNavigationTransitionTime = Duration(milliseconds: 250);
 
@@ -31,13 +31,14 @@ class _NameViewState extends State<NameView>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 350),
+      reverseDuration: const Duration(milliseconds: 425),
     );
 
-    _curvedAnimation =
-        CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-
-    _fadeAnimation = Tween(begin: 0.0, end: 1.0).animate(_controller);
+    _fadeAnimation = CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOutCirc,
+        reverseCurve: Curves.ease);
 
     Future.delayed(_delayForNavigationTransitionTime)
         .then((value) => _controller.forward());
@@ -53,12 +54,19 @@ class _NameViewState extends State<NameView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Create',
-            //TODO Replace with real color
-            style: TextStyle(color: Color.fromARGB(255, 12, 87, 148))),
+        title: const Text(
+          'Create',
+          style: TextStyle(
+            fontSize: 20,
+            color: Color(0xFF10465F),
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
             onPressed: () async {
@@ -77,42 +85,72 @@ class _NameViewState extends State<NameView>
               .read<CreateBloc>()
               .add(CreateEvent_SetStep(step: CreateStep.laneSettings));
         }),
-        child: Icon(
-          Icons.forward,
+        backgroundColor: const Color(0xFF10465F),
+        child: const Icon(
+          Icons.arrow_forward_outlined,
           size: 50,
         ),
       ),
-      body: FadeTransition(
-        opacity: _curvedAnimation,
-        child: Center(
-          child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 156),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'Practice Name:',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                TextField(
-                  textAlign: TextAlign.center,
-                  controller: widget.nameController,
-                  style: TextStyle(),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 156),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    'Practice Name:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF10465F),
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                        maxWidth: min(
+                            500, MediaQuery.of(context).size.width * 3 / 4)),
+                    child: TextField(
+                      textAlign: TextAlign.center,
+                      controller: widget.nameController,
+                      autofocus: true,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xFF10465F),
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
                       ),
-                      filled: true,
-                      hintStyle: TextStyle(color: Colors.grey[800]),
-                      hintText: "Practice Name",
-                      fillColor: Colors.white),
-                ),
-              ],
+                      onSubmitted: (value) async {
+                        await _controller.reverse();
+                        context.read<CreateBloc>().add(
+                            CreateEvent_SetStep(step: CreateStep.laneSettings));
+                      },
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          filled: true,
+                          hintStyle: TextStyle(color: Colors.grey[800]),
+                          fillColor: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

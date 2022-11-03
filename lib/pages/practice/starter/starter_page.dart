@@ -71,18 +71,22 @@ class StarterView extends StatelessWidget {
                     ),
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // I cannot figure out the reason there is a gap between
+                      // the block lineup and the app bar that the scaffold
+                      // is making
+
+                      // Hence a magic number is born
                       SizedBox(
-                        height: AppBar().preferredSize.height,
+                        height: AppBar().preferredSize.height * 0.65,
                       ),
                       Expanded(
                         flex: 4,
-                        child: Center(
-                          child: BlockLineup(
-                            blockSwimmersByLane: state.blockSwimmersByLane,
-                            selectedSwimmer: state.selectedSwimmer,
-                            // key: ObjectKey(DateTime.now()),
-                          ),
+                        child: BlockLineup(
+                          blockSwimmersByLane: state.blockSwimmersByLane,
+                          selectedSwimmer: state.selectedSwimmer,
+                          // key: ObjectKey(DateTime.now()),
                         ),
                       ),
                       Expanded(

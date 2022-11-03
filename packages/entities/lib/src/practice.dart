@@ -4,10 +4,17 @@ import 'package:entities/entities.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
+part 'practice.g.dart';
+
 @immutable
 @JsonSerializable()
 class Practice {
-  Practice({required this.title, required this.lanes, String? id, String? code, DateTime? date}) {
+  Practice(
+      {required this.title,
+      required this.lanes,
+      String? id,
+      String? code,
+      DateTime? date}) {
     this.ID = id ?? Common.idGenerator();
     this.code = code ?? Common.codeGenerator();
     this.date = date ?? Common.todaysDate();
@@ -21,4 +28,12 @@ class Practice {
   final int lanes;
   List<Swimmer> swimmers = [];
   List<FinisherEntry> entries = [];
+
+  /// Connect the generated [_$PracticeFromJson] function to the `fromJson`
+  /// factory.
+  factory Practice.fromJson(Map<String, dynamic> json) =>
+      _$PracticeFromJson(json);
+
+  /// Connect the generated [_$PracticeToJson] function to the `toJson` method.
+  Map<String, dynamic> toJson() => _$PracticeToJson(this);
 }

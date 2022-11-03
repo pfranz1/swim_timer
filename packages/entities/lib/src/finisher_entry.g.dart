@@ -12,6 +12,9 @@ FinisherEntry _$FinisherEntryFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String,
       time: Duration(microseconds: json['time'] as int),
       stroke: $enumDecode(_$StrokeEnumMap, json['stroke']),
+      dateAchieved: DateTime.parse(json['dateAchieved'] as String),
+      differenceWithLastTime:
+          (json['differenceWithLastTime'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$FinisherEntryToJson(FinisherEntry instance) =>
@@ -20,6 +23,8 @@ Map<String, dynamic> _$FinisherEntryToJson(FinisherEntry instance) =>
       'id': instance.id,
       'time': instance.time.inMicroseconds,
       'stroke': _$StrokeEnumMap[instance.stroke]!,
+      'dateAchieved': instance.dateAchieved.toIso8601String(),
+      'differenceWithLastTime': instance.differenceWithLastTime,
     };
 
 const _$StrokeEnumMap = {

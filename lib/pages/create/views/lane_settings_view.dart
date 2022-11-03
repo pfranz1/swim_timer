@@ -26,14 +26,19 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 350),
+      reverseDuration: const Duration(milliseconds: 425),
     );
 
-    _fadeAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOutCirc,
+      reverseCurve: Curves.ease,
+    );
 
     // _controller.forward();
 
-    Future.delayed(Duration(milliseconds: 500))
+    Future.delayed(Duration(milliseconds: 250))
         .then((value) => _controller.forward());
   }
 
@@ -52,9 +57,16 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('Create',
-            //TODO Replace with real color
-            style: TextStyle(color: Color.fromARGB(255, 12, 87, 148))),
+        title: const Text(
+          'Create',
+          //TODO Replace with real color
+          style: TextStyle(
+            fontSize: 20,
+            color: Color(0xFF10465F),
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w600,
+          ),
+        ),
         centerTitle: true,
         leading: IconButton(
             onPressed: () async {
@@ -82,7 +94,8 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
                       .read<CreateBloc>()
                       .add(CreateEvent_SetStep(step: CreateStep.name));
                 },
-                child: const Icon(Icons.forward,
+                backgroundColor: Color(0xFF10465F),
+                child: const Icon(Icons.arrow_forward_outlined,
                     size: 50, textDirection: TextDirection.rtl),
               ),
               FloatingActionButton(
@@ -90,31 +103,47 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
                   onPressed: () {
                     context.go("/practice/fromCreate${Random().nextInt(25)}");
                   },
+                  backgroundColor: Color(0xFF10465F),
                   child: const Icon(Icons.check, size: 50)),
             ],
           )),
       // Body
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-            vertical: 156,
+      extendBodyBehindAppBar: true,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  'Lane Count:',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                SizedBox(
-                  height: 25,
-                ),
-                CounterBar(),
-              ],
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 156,
+            ),
+            child: FadeTransition(
+              opacity: _fadeAnimation,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Text(
+                    'Lane Count:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color(0xFF10465F),
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  CounterBar(),
+                ],
+              ),
             ),
           ),
         ),

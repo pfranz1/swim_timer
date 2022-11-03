@@ -64,7 +64,11 @@ class PracticeScaffold extends StatelessWidget {
         appBar: AppBar(
           title: Text(
             currentLocation,
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(
+              color: Color(0xFF10465F),
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.bold,
+            ),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,

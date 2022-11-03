@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:practice_repository/practice_repository.dart';
@@ -12,21 +14,25 @@ class EntriesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: const Color(0xFF10465F),
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemBuilder: (context, index) {
-            return Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.0),
-              // Subtracting from length to reverse order entries are shown
-              child: EntryCard(entry: entries?[entries!.length - 1 - index]),
-            );
-          },
-          itemCount: entries?.length ?? 0,
-        ),
+        child: entries != null
+            ? ListView.builder(
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 3.0),
+                    // Subtracting from length to reverse order entries are shown
+                    child:
+                        EntryCard(entry: entries![entries!.length - 1 - index]),
+                  );
+                },
+                itemCount: entries?.length ?? 0,
+              )
+            : Center(child: Text("No times recorded yet...")),
       ),
     );
   }
@@ -38,17 +44,81 @@ class EntryCard extends StatelessWidget {
     required this.entry,
   }) : super(key: key);
 
-  final FinisherEntry? entry;
+  final FinisherEntry entry;
 
-  String _prettyPrintDuration(Duration? duration) {
-    if (duration == null) return "---";
-
-    final output = duration.toString();
-
-    return output.substring(output.indexOf(":") + 1);
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: 75, maxHeight: 175),
+      child: Container(
+        height: MediaQuery.of(context).size.height / 10,
+        decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(10.0))),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // Name + Spacer
+            Expanded(
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                // Spacer
+                Expanded(
+                  child: Container(),
+                  flex: 2,
+                ),
+                // Name
+                Expanded(
+                  flex: 8,
+                  child: Text(
+                    entry.name,
+                    style: Theme.of(context).textTheme.headline5,
+                  ),
+                )
+              ]),
+              flex: 4,
+            ),
+            StrokeIcon(stroke: entry.stroke),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        // Lap Time
+                        LapTimeText(
+                          duration: entry.time,
+                        ),
+                        // Difference with last time
+                        DifferenceText(
+                          difference: entry.differenceWithLastTime,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(),
+                  ),
+                ],
+              ),
+              flex: 4,
+            ),
+          ],
+        ),
+      ),
+    );
   }
+}
 
-  Widget? _StrokeIcon(Stroke? stroke) {
+class StrokeIcon extends StatelessWidget {
+  const StrokeIcon({super.key, required this.stroke});
+
+  final Stroke? stroke;
+  @override
+  Widget build(BuildContext context) {
     late final String text;
     late final Color color;
     switch (stroke) {
@@ -69,71 +139,84 @@ class EntryCard extends StatelessWidget {
         text = "FL";
         break;
       default:
+        color = Colors.grey;
+        text = "?";
     }
     return Container(
       width: 60,
       height: 60,
-      child: Center(child: Text(text)),
+      child: Center(
+          child: Text(
+        text,
+        style: TextStyle(
+          color: Colors.white,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      )),
       decoration: BoxDecoration(shape: BoxShape.circle, color: color),
     );
   }
+}
+
+class DifferenceText extends StatelessWidget {
+  DifferenceText({super.key, double? difference})
+      : differenceText = _formatDiffDouble(difference),
+        color = _colorFromDiff(difference);
+
+  static String _formatDiffDouble(double? difference) {
+    if (difference == null) return "---";
+    return (difference.sign > 0 ? "+" : "") + difference.toStringAsFixed(2);
+  }
+
+  static Color _colorFromDiff(double? difference) {
+    if (difference == null || difference == null) return Colors.black;
+    return (difference < 0) ? Colors.green : Colors.red;
+  }
+
+  final String differenceText;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(minHeight: 75, maxHeight: 175),
-      child: Container(
-        height: MediaQuery.of(context).size.height / 10,
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColorLight,
-            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Expanded(
-                  child: Container(),
-                  flex: 2,
-                ),
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                    entry?.name ?? "---",
-                    style: Theme.of(context).textTheme.headline5,
-                  ),
-                )
-              ]),
-              flex: 4,
-            ),
-            _StrokeIcon(entry?.stroke) ?? Container(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Expanded(
-                    flex: 8,
-                    child: Text(
-                      _prettyPrintDuration(entry?.time),
-                      textAlign: TextAlign.end,
-                      overflow: TextOverflow.clip,
-                      maxLines: 1,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          ?.copyWith(fontWeight: FontWeight.w300),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(),
-                    flex: 2,
-                  ),
-                ]),
-              ),
-              flex: 4,
-            ),
-          ],
-        ),
+    return Text(
+      differenceText,
+      style: TextStyle(
+        color: color,
+        fontSize: 13,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+}
+
+class LapTimeText extends StatelessWidget {
+  LapTimeText({super.key, required this.duration})
+      : durationText = _formatDuration(duration);
+
+  static final matchTailZeros = RegExp("0+\$");
+  static final matchLeadingZeroAndColons = RegExp("^0+((:0*)?)*");
+
+  static String _formatDuration(Duration duration) {
+    return duration
+        .toString()
+        .replaceAll(matchTailZeros, "")
+        .replaceAll(matchLeadingZeroAndColons, "");
+  }
+
+  final Duration duration;
+  final String durationText;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      durationText,
+      style: TextStyle(
+        fontSize: 20,
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w300,
       ),
     );
   }

@@ -13,7 +13,6 @@ import 'package:common/common.dart';
 // ignore_for_file: public_member_api_docs, type_init_formals
 
 import 'package:entities/entities.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:practice_api/practice_api.dart';
 
@@ -43,7 +42,7 @@ class FirebasePracticeApi extends PracticeApi {
   }
 
   @override
-  Stream<List<FinisherEntry>> getEntries() {
+  Stream<Map<String, PracticeResult>> getEntries() {
     // TODO: implement getEntries
     root.child('finisher_entries').onValue.listen((event) {});
     throw UnimplementedError();
@@ -148,11 +147,12 @@ class FirebasePracticeApi extends PracticeApi {
   }
 
   @override
-  Future<bool> trySwapLanes(
-      {required String firstId,
-      required int firstLane,
-      required String secondId,
-      required int secondLane}) {
+  Future<bool> trySwapLanes({
+    required String firstId,
+    required int firstLane,
+    required String secondId,
+    required int secondLane,
+  }) {
     // TODO: implement trySwapLanes
     throw UnimplementedError();
   }

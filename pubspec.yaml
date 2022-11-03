@@ -4,7 +4,7 @@ description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
+uses-material-design: true
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
 
   flutter_bloc: ^8.0.1
   provider: ^6.0.3
@@ -60,13 +61,14 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  firebase_core: ^1.22.0
-  firebase_database: ^9.1.4
+  firebase_core: ^2.1.1
+  firebase_database: ^10.0.3
   very_good_cli: ^0.8.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # build_runner: ^2.3.2
   bloc_test: ^9.0.1
   mockingjay: ^0.3.0
   mocktail: ^0.3.0
