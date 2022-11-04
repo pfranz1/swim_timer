@@ -338,4 +338,16 @@ class LocalStoragePracticeApi extends PracticeApi {
 
     return true;
   }
+
+  @override
+  Future<bool> activatePractice() {
+    // TODO: implement activatePractice
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> deactivatePractice() {
+    // TODO: implement deactivatePractice
+    throw UnimplementedError();
+  }
 }

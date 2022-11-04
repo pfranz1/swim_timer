@@ -9,16 +9,21 @@ part 'practice.g.dart';
 @immutable
 @JsonSerializable()
 class Practice {
-  Practice(
-      {required this.title,
-      required this.lanes,
-      String? id,
-      String? code,
-      DateTime? date}) {
+  Practice({
+    required this.title,
+    required this.lanes,
+    String? id,
+    String? code,
+    DateTime? date,
+    List<FinisherEntry>? finisher_entries,
+    List<Swimmer>? swimmers,
+  }) {
     this.ID = id ?? Common.idGenerator();
     this.code = code ?? Common.codeGenerator();
     this.date = date ?? Common.todaysDate();
     this.active = true;
+    this.finisher_entries = finisher_entries ?? [];
+    this.swimmers = swimmers ?? [];
   }
   final String title;
   late String code;
@@ -27,7 +32,7 @@ class Practice {
   late final DateTime date;
   final int lanes;
   List<Swimmer> swimmers = [];
-  List<FinisherEntry> entries = [];
+  List<FinisherEntry> finisher_entries = [];
 
   /// Connect the generated [_$PracticeFromJson] function to the `fromJson`
   /// factory.

@@ -43,9 +43,23 @@ class FirebasePracticeApi extends PracticeApi {
 
   @override
   Stream<Map<String, PracticeResult>> getEntries() {
-    // TODO: implement getEntries
-    root.child('finisher_entries').onValue.listen((event) {});
     throw UnimplementedError();
+    /*
+    return root
+        .child('finisher_entries')
+        .orderByKey()
+        .onValue
+        .asyncMap<List<FinisherEntry>>((event) {
+      return (event.snapshot.value as Map<String, String>)
+          .values
+          .map((entryJSON) {
+        final myFinisherEntry = FinisherEntry.fromJson(
+          jsonDecode(entryJSON) as Map<String, dynamic>,
+        );
+        return myFinisherEntry;
+      }).toList();
+    });
+    */
   }
 
   @override
@@ -105,19 +119,15 @@ class FirebasePracticeApi extends PracticeApi {
 
   @override
   Future<bool> tryEndSwimmer(String id, DateTime endTime) async {
-    String start = '';
     await root.child('swimmers').child(id).child('start').get().then(
-          (value) => {
-            if (value.value != null)
-              start = value.value as String
+          (value) async => {
+            if (value.value != null && value.value != '')
+              {await root.child('swimmers').child('end').set(endTime)}
             else
               {throw SwimmerNotStartedException()}
           },
         );
-    if (start == '') {
-      throw SwimmerNotStartedException();
-    }
-    return true;
+    return false;
   }
 
   @override
@@ -130,20 +140,15 @@ class FirebasePracticeApi extends PracticeApi {
 
   @override
   Future<bool> tryStartSwimmer(String id, DateTime startTime) async {
-    int lane = -1;
     await root.child('swimmers').child(id).child('lane').get().then(
-          (value) => {
-            if (value.value != null)
-              lane = value.value as int
+          (value) async => {
+            if (value.value != null && value.value != -1)
+              {await root.child('swimmers').child('start').set(startTime)}
             else
               {throw SwimmerNotAssignedLaneException()}
           },
         );
-    if (lane == -1) {
-      throw SwimmerNotAssignedLaneException();
-    } else {
-      return true;
-    }
+    return false;
   }
 
   @override
@@ -162,5 +167,35 @@ class FirebasePracticeApi extends PracticeApi {
     await root.child(id).child('start').set('');
     await root.child(id).child('end').set(oldEndTime);
     return true;
+  }
+
+  @override
+  Future<bool> activatePractice() async {
+    await root.child('active').get().then(
+      (value) async {
+        if (value.value != null && value.value != true) {
+          await root.child('active').set(false);
+          return true;
+        } else {
+          throw PracticeAlreadyToggled();
+        }
+      },
+    );
+    return false;
+  }
+
+  @override
+  Future<bool> deactivatePractice() async {
+    await root.child('active').get().then(
+      (value) async {
+        if (value.value != null && value.value != false) {
+          await root.child('active').set(true);
+          return true;
+        } else {
+          throw PracticeAlreadyToggled();
+        }
+      },
+    );
+    return false;
   }
 }

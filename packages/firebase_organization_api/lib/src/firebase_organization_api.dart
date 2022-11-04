@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-// ignore_for_file: omit_local_variable_types, prefer_final_locals, cast_nullable_to_non_nullable
+// ignore_for_file: omit_local_variable_types, prefer_final_locals, cast_nullable_to_non_nullable, lines_longer_than_80_chars
 import 'dart:convert';
 import 'package:common/common.dart';
 import 'package:entities/entities.dart';
@@ -101,7 +101,18 @@ class FirebaseOrganizationApi extends OrganizationApi {
 
   @override
   Stream<List<Practice>> getActivePractices() {
-    throw UnimplementedError();
+    final DatabaseReference practicesRef = root.child('Practices');
+
+    return practicesRef.orderByKey().onValue.asyncMap<List<Practice>>((event) {
+      return (event.snapshot.value as Map<String, String>)
+          .values
+          .map((practiceJSON) {
+        final myPractice = Practice.fromJson(
+          jsonDecode(practiceJSON) as Map<String, dynamic>,
+        );
+        return myPractice;
+      }).toList();
+    });
   }
 
   @override
@@ -156,18 +167,19 @@ class FirebaseOrganizationApi extends OrganizationApi {
   Stream<List<FinisherEntry>> getRecords() {
     final DatabaseReference practicesRef = root.child('Practices');
 /*
-    return practicesRef.orderByKey().onValue.asyncMap<List<Practice>>((event) {
+    return practicesRef
+        .orderByKey()
+        .onValue
+        .asyncMap<List<FinisherEntry>>((event) {
       return (event.snapshot.value as Map<String, String>)
-          .values
           .map((practiceJSON) {
-        final myPractice = Practice.fromJson(
-          jsonDecode(practiceJSON) as Map<String, dynamic>,
-        );
-        return myPractice;
+        var myPractice = Practice.fromJson(
+            (jsonDecode(practiceJSON) as Map<String, dynamic>));
+
+        return myEntries;
       }).toList();
     });
-*/
-    // TODO: implement getRecords
+    */
     throw UnimplementedError();
   }
 }

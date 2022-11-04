@@ -76,6 +76,12 @@ abstract class PracticeApi {
     String id,
     DateTime? oldEndTime,
   );
+
+//toggles target practice to inactive
+  Future<bool> deactivatePractice();
+
+//toggles target practice to active
+  Future<bool> activatePractice();
 }
 
 /// Error thrown when a [Swimmer] with a given id is not found
@@ -92,3 +98,6 @@ class SwimmerNotStartedException implements Exception {}
 
 ///
 class SwapFailure implements Exception {}
+
+///
+class PracticeAlreadyToggled implements Exception {}
