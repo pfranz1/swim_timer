@@ -76,6 +76,12 @@ class PracticeRepository {
         (event) => _filterSwimmers(_filterDeckSwimmer, event),
       );
 
+  /// Sort list of swimmers by idle time
+  ///
+  /// Deck Sorting
+  void sortDeckSwimmersByIdleTime(List<Swimmer> swimmers) =>
+      swimmers.sort((a, b) => a.endTime == null ? 0 : 1);
+
   /// Keep if the swimmers lane is 0 or they dont have one
   ///
   /// Deck Filter
