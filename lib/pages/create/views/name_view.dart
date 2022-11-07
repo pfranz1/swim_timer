@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swim_timer/CustomColors.dart';
 import 'package:swim_timer/main.dart';
 import 'package:swim_timer/pages/create/create_bloc/create_bloc.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +63,7 @@ class _NameViewState extends State<NameView>
           'Create',
           style: TextStyle(
             fontSize: 20,
-            color: Color(0xFF10465F),
+            color: CustomColors.primeColor,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w600,
           ),
@@ -113,7 +114,7 @@ class _NameViewState extends State<NameView>
                     'Practice Name:',
                     style: TextStyle(
                       fontSize: 20,
-                      color: Color(0xFF10465F),
+                      color: CustomColors.primeColor,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                     ),
@@ -131,7 +132,7 @@ class _NameViewState extends State<NameView>
                       autofocus: true,
                       style: TextStyle(
                         fontSize: 15,
-                        color: Color(0xFF10465F),
+                        color: CustomColors.primeColor,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
                       ),

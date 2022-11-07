@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:swim_timer/CustomColors.dart';
 import 'package:swim_timer/pages/create/create_bloc/create_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:swim_timer/pages/create/create_bloc/create_event.dart';
@@ -62,7 +63,7 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
           //TODO Replace with real color
           style: TextStyle(
             fontSize: 20,
-            color: Color(0xFF10465F),
+            color: CustomColors.primeColor,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w600,
           ),
@@ -94,7 +95,7 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
                       .read<CreateBloc>()
                       .add(CreateEvent_SetStep(step: CreateStep.name));
                 },
-                backgroundColor: Color(0xFF10465F),
+                backgroundColor: CustomColors.primeColor,
                 child: const Icon(Icons.arrow_forward_outlined,
                     size: 50, textDirection: TextDirection.rtl),
               ),
@@ -103,7 +104,7 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
                   onPressed: () {
                     context.go("/practice/fromCreate${Random().nextInt(25)}");
                   },
-                  backgroundColor: Color(0xFF10465F),
+                  backgroundColor: CustomColors.primeColor,
                   child: const Icon(Icons.check, size: 50)),
             ],
           )),
@@ -133,7 +134,7 @@ class _LaneSettingsViewState extends State<LaneSettingsView>
                     'Lane Count:',
                     style: TextStyle(
                       fontSize: 20,
-                      color: Color(0xFF10465F),
+                      color: CustomColors.primeColor,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                     ),

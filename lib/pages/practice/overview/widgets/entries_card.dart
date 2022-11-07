@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:entities/entities.dart';
+import 'package:swim_timer/CustomColors.dart';
 
 class EntriesCard extends StatelessWidget {
   const EntriesCard({Key? key, this.entries}) : super(key: key);
@@ -14,7 +15,7 @@ class EntriesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: const Color(0xFF10465F),
+          color: CustomColors.primeColor,
           borderRadius: BorderRadius.all(Radius.circular(10.0))),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -172,7 +173,9 @@ class DifferenceText extends StatelessWidget {
 
   static Color _colorFromDiff(double? difference) {
     if (difference == null || difference == null) return Colors.black;
-    return (difference < 0) ? Colors.green : Colors.red;
+    return (difference < 0)
+        ? CustomColors.primaryGreen
+        : CustomColors.primaryRed;
   }
 
   final String differenceText;

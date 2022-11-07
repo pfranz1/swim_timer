@@ -7,6 +7,9 @@ class CustomColors {
   static const Color breastStroke = Color(0xFFF78C37);
   static const Color butterfly = Color(0xFF0677BA);
 
+  static const primaryRed = Color(0xFFD42A34);
+  static const primaryGreen = Color(0xFF62CA50);
+
   static const LinearGradient backgroundGradient = LinearGradient(
     colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
     begin: Alignment.topCenter,
@@ -18,5 +21,5 @@ class CustomColors {
     end: Alignment.bottomCenter,
   );
 
-  static const bottomNavigationBar = Color(0xFF10465F);
+  static const primeColor = Color(0xFF10465F);
 }

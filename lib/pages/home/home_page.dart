@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
+import 'package:swim_timer/customcolors.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -21,19 +22,18 @@ class HomePage extends StatelessWidget {
                   onPressed: () {},
                   icon: Icon(
                     Icons.settings,
-                    color: Color(0xFF10465F),
+                    color: CustomColors.primeColor,
                   )),
             )
           ],
           title: Text("Home",
               style: TextStyle(
-                  color: Color(0xFF10465F),
+                  color: CustomColors.primeColor,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600)),
           centerTitle: true,
           backgroundColor: Colors.transparent,
         ),
-        backgroundColor: Colors.pink,
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -165,7 +165,7 @@ class _ActionButtonState extends State<ActionButton> {
                           widget.text,
                           style: TextStyle(
                             fontSize: 15,
-                            color: Color(0xFF10465F),
+                            color: CustomColors.primeColor,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,
                           ),
