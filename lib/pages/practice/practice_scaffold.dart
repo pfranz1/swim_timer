@@ -70,7 +70,7 @@ class PracticeScaffold extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          backgroundColor: Colors.transparent,
+          backgroundColor: Color(0xFFC7EDFF),
           elevation: 0,
           centerTitle: true,
           leading: IconButton(
@@ -80,7 +80,7 @@ class PracticeScaffold extends StatelessWidget {
                 color: Colors.black,
               )),
         ),
-        extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: false,
         body: child,
         bottomNavigationBar: BottomAppBar(
           color: Color(0xFF10465F),
