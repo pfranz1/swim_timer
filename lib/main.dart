@@ -62,6 +62,9 @@ class AppView extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routerConfig: RoutingInformation.myRouter,
       title: "Swim Timer",
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+      ),
     );
   }
 }
