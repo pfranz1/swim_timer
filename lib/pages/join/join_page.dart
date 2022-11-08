@@ -75,9 +75,14 @@ class JoinPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: const Text("Join"),
         leading: IconButton(
-            onPressed: () => {context.go('/')}, icon: Icon(Icons.chevron_left)),
+            onPressed: () => {context.go('/')},
+            icon: const Icon(
+              Icons.chevron_left,
+              color: Colors.black,
+            )),
         centerTitle: true,
       ),
       body: Center(
