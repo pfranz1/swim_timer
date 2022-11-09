@@ -122,17 +122,93 @@ class BlockTile extends StatelessWidget {
           context.read<StarterBloc>().add(TapLane(laneNumber, swimmer)),
       child: Container(
           color: Color(0xFFE1FCFF),
-          child: Center(
-              child: swimmer != null
-                  ? SwimmerTile(
-                      swimmer: swimmer!,
-                      isActiveSwimmer: isSwimmerSelected,
-                      isOnBlock: true,
-                      onTap: () => context
-                          .read<StarterBloc>()
-                          .add(TapLane(laneNumber, swimmer)),
-                    )
-                  : null)),
+          child: LayoutBuilder(builder: (context, constraints) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 6.0, right: 6.0),
+                  child: Text(laneNumber.toString(),
+                      style: const TextStyle(
+                          fontFamily: 'working sans',
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black54)),
+                ),
+                if (swimmer != null)
+                  SwimmerCard(
+                    height: constraints.maxHeight * 0.66,
+                    swimmer: swimmer!,
+                    isSelected: isSwimmerSelected,
+                  )
+              ],
+            );
+          })
+
+          // Center(
+          //     child: swimmer != null
+          //         ? SwimmerTile(
+          //             swimmer: swimmer!,
+          //             isActiveSwimmer: isSwimmerSelected,
+          //             isOnBlock: true,
+          //             onTap: () => context
+          //                 .read<StarterBloc>()
+          //                 .add(TapLane(laneNumber, swimmer)),
+          //           )
+          //         : null)
+
+          ),
+    );
+  }
+}
+
+class SwimmerCard extends StatelessWidget {
+  const SwimmerCard({
+    Key? key,
+    required this.height,
+    required this.swimmer,
+    required this.isSelected,
+  }) : super(key: key);
+
+  final double height;
+  final Swimmer swimmer;
+  final bool isSelected;
+
+  // TODO: Centeralize this color information
+  final Map<Stroke, Color> stokeColors = const {
+    Stroke.FREE_STYLE: Color(0xFF62CA50),
+    Stroke.BACK_STROKE: Color(0xFFD42A34),
+    Stroke.BREAST_STROKE: Color(0xFFF78C37),
+    Stroke.BUTTERFLY: Color(0xFF0677BA)
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: stokeColors[swimmer.stroke],
+          border: Border.all(
+              color: isSelected ? Colors.black : Colors.white, width: 5.0)),
+      height: height,
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          FittedBox(
+            fit: BoxFit.fitWidth,
+            child: Text(
+              swimmer.name.replaceAll(" ", "\n"),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  fontSize: 16,
+                  overflow: TextOverflow.fade),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
