@@ -43,6 +43,7 @@ class SwimmerTile extends StatelessWidget {
         child: Text(
           swimmer.name.replaceAll(" ", "\n"),
           style: TextStyle(fontSize: 100, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
         ),
       ),
     );
