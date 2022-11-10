@@ -33,7 +33,7 @@ void main() async {
         practiceRepository: practiceRepository,
       ));
     },
-    blocObserver: MyGlobalObserver(),
+    // blocObserver: MyGlobalObserver(),
   );
 }
 
