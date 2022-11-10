@@ -64,9 +64,6 @@ class StopperView extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: AppBar().preferredSize.height,
-                  ),
                   Expanded(
                       flex: 8,
                       child: Center(

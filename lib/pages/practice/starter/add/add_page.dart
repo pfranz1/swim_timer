@@ -28,6 +28,8 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
   final TextEditingController _nameController = TextEditingController();
   Stroke? selectedStroke;
 
+  static const snackBarDuration = Duration(milliseconds: 1500);
+
   @override
   void initState() {
     final TextEditingController _nameController =
@@ -49,13 +51,15 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
           Swimmer(name: _nameController.text, stroke: selectedStroke));
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Row(
-        children: [
-          Text(
-              'Added ${_nameController.text}, Swimming ${Common.strokeToString[selectedStroke]}')
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
-      )));
+        content: Row(
+          children: [
+            Text(
+                'Added ${_nameController.text}, Swimming ${Common.strokeToString[selectedStroke]}')
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        duration: snackBarDuration,
+      ));
 
       setState(() {
         selectedStroke = null;
@@ -63,10 +67,12 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Row(
-        children: [Text('Please specify name and stroke')],
-        mainAxisAlignment: MainAxisAlignment.center,
-      )));
+        content: Row(
+          children: [Text('Please specify name and stroke')],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        duration: snackBarDuration,
+      ));
     }
   }
 
@@ -78,20 +84,24 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
           .setStroke(widget.editSwimmer!.id, selectedStroke!);
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Row(
-        children: [
-          Text(
-              '${widget.editSwimmer!.name} => ${Common.strokeToString[selectedStroke]}')
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
-      )));
+        content: Row(
+          children: [
+            Text(
+                '${widget.editSwimmer!.name} => ${Common.strokeToString[selectedStroke]}')
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        duration: snackBarDuration,
+      ));
       context.go(widget.backLocation);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Row(
-        children: [Text('Please specify stroke')],
-        mainAxisAlignment: MainAxisAlignment.center,
-      )));
+        content: Row(
+          children: [Text('Please specify stroke')],
+          mainAxisAlignment: MainAxisAlignment.center,
+        ),
+        duration: snackBarDuration,
+      ));
     }
   }
 

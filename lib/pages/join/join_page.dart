@@ -75,32 +75,23 @@ class JoinPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 0,
           title: const Text("Join"),
           leading: IconButton(
               onPressed: () => {context.go('/')},
-              icon: Icon(Icons.chevron_left)),
+              icon: const Icon(
+                Icons.chevron_left,
+                color: Colors.black,
+              )),
           centerTitle: true,
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+        body: Center(child: ListView.builder(itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: PracticeTile(
+              practice: practices[index],
             ),
-          ),
-          child: Center(
-              child: ListView.builder(
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PracticeTile(
-                  practice: practices[index],
-                ),
-              );
-            },
-            itemCount: practices.length,
-          )),
-        ));
+          );
+        })));
   }
 }

@@ -47,8 +47,10 @@ class StopperBloc extends Bloc<StopperEvent, StopperState> {
       if (value == true) {
         // Try-On to handle error when the swimmer was ended but bloc dead
         try {
-          emit(state.registerFinisher(
-              finisher: event.swimmer, finisherLane: event.lane));
+          // TODO: Renable undo feature when issue with andrioid
+          // not rebuilding
+          // emit(state.registerFinisher(
+          //     finisher: event.swimmer, finisherLane: event.lane));
         } on StateError {
           print(
               'NON ISSUE - State Error Occured - Probably a transition to diffrent route');

@@ -71,16 +71,9 @@ class StarterView extends StatelessWidget {
                     ),
                   ),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      // I cannot figure out the reason there is a gap between
-                      // the block lineup and the app bar that the scaffold
-                      // is making
-
-                      // Hence a magic number is born
-                      SizedBox(
-                        height: AppBar().preferredSize.height * 0.65,
-                      ),
                       Expanded(
                         flex: 4,
                         child: BlockLineup(

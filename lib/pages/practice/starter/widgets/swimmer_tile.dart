@@ -38,7 +38,14 @@ class SwimmerTile extends StatelessWidget {
               color: Colors.black, width: isActiveSwimmer ? 5.0 : 2.0)),
       onPressed: onTap,
       // context.read<StarterBloc>().add(TapSwimmer(swimmer, isOnBlock)),
-      child: Text(swimmer.name),
+      child: FittedBox(
+        fit: BoxFit.fitHeight,
+        child: Text(
+          swimmer.name.replaceAll(" ", "\n"),
+          style: TextStyle(fontSize: 100, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
+        ),
+      ),
     );
   }
 }

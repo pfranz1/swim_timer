@@ -54,18 +54,27 @@ class LocalStoragePracticeApi extends PracticeApi {
 
     if (practiceResultsJson != null) {
       // I want to convert to string, PracticeResult
-      final map = jsonDecode(practiceResultsJson) as Map<String, dynamic>;
 
-      // TODO: Debug and remove this
-      final map2 = map.map(
-        (key, value) => MapEntry(
-          key,
-          PracticeResult.fromJson(value as Map<String, dynamic>),
-        ),
-      );
+      try {
+        final map = jsonDecode(practiceResultsJson) as Map<String, dynamic>;
 
-      // _entryStreamController.add(map2);
-      _entryStreamController.add(map2);
+        // TODO: Debug and remove this
+        final map2 = map.map(
+          (key, value) => MapEntry(
+            key,
+            PracticeResult.fromJson(value as Map<String, dynamic>),
+          ),
+        );
+
+        // _entryStreamController.add(map2);
+        _entryStreamController.add(map2);
+      }
+      // If there is an error while loading cookie
+      catch (e) {
+        // Just clear out the error prone value
+        _setValue(entryCollectionKey, '{}');
+        _entryStreamController.add({});
+      }
 
       // // final entries =
       // //     List<Map<dynamic, dynamic>>.from(jsonDecode(lapResults as Map)
