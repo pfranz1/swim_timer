@@ -82,6 +82,26 @@ class Swimmer extends Equatable {
   @override // For equatable
   List<Object?> get props => [id, name, lane, stroke];
 
+  /// Compares swimmers and returns a positive number if a is dryer than b
+  ///
+  /// Assume that start time is before end time.
+  /// Assume that if end time is null, so is start time.
+  static int compareMostDry(Swimmer a, Swimmer b) {
+    // If both people haven't swam yet
+    if (a.endTime == null && b.endTime == null) {
+      return a.name.compareTo(b.name);
+    }
+    // If one person hasn't swam yet
+    else if (a.endTime == null || b.endTime == null) {
+      // most dry person will be the person with no end time yet
+      return a.endTime == null ? -1 : 1;
+    }
+    // If both people have swam
+    else {
+      return a.endTime!.compareTo(b.endTime!);
+    }
+  }
+
   @override
   String toString() {
     return "{$name : $stroke : $lane}";

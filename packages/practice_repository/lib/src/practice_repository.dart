@@ -73,7 +73,8 @@ class PracticeRepository {
   ///
   /// Deck Stream
   Stream<List<Swimmer>> getDeckSwimmers() => _practiceApi.getSwimmers().map(
-        (event) => _filterSwimmers(_filterDeckSwimmer, event),
+        (event) => _filterSwimmers(_filterDeckSwimmer, event)
+          ..sort(Swimmer.compareMostDry),
       );
 
   /// Sort list of swimmers by idle time
@@ -154,7 +155,8 @@ class PracticeRepository {
           final blockSwimmers = _filterSwimmers(_filterBlockSwimmer, swimmers);
           return StarterData(
             blockSwimmers: blockSwimmers,
-            deckSwimmers: _filterSwimmers(_filterDeckSwimmer, swimmers),
+            deckSwimmers: _filterSwimmers(_filterDeckSwimmer, swimmers)
+              ..sort(Swimmer.compareMostDry),
             blockSwimmersByLane: _groupByLane(blockSwimmers),
           );
         },
