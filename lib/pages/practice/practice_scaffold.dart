@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
+import 'package:swim_timer/CustomColors.dart';
 import 'package:swim_timer/pages/practice/practice_cubit/practice_cubit.dart';
 import 'package:provider/provider.dart';
 
@@ -65,7 +66,7 @@ class PracticeScaffold extends StatelessWidget {
           title: Text(
             currentLocation,
             style: TextStyle(
-              color: Color(0xFF10465F),
+              color: CustomColors.primeColor,
               fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
             ),
@@ -83,7 +84,7 @@ class PracticeScaffold extends StatelessWidget {
         extendBodyBehindAppBar: false,
         body: child,
         bottomNavigationBar: BottomAppBar(
-          color: Color(0xFF10465F),
+          color: CustomColors.primeColor,
           shape: const CircularNotchedRectangle(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

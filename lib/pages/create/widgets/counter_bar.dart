@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
+import 'package:swim_timer/CustomColors.dart';
 
 class CounterBar extends StatefulWidget {
   final int initialCount;
@@ -46,7 +47,9 @@ class _CounterBarState extends State<CounterBar> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SideButton(
-          color: count != _minCount ? Colors.red : Colors.red.shade300,
+          color: count != _minCount
+              ? CustomColors.primaryRed
+              : CustomColors.primaryRed,
           icon: Icon(
             Icons.remove,
             color: Colors.white,
@@ -67,7 +70,7 @@ class _CounterBarState extends State<CounterBar> {
                 count.toString(),
                 style: TextStyle(
                   fontSize: 56,
-                  color: Color(0xFF10465F),
+                  color: CustomColors.primeColor,
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w600,
                 ),
@@ -77,7 +80,9 @@ class _CounterBarState extends State<CounterBar> {
         ),
         SideButton(
           //TODO Real color
-          color: count != _maxCount ? Colors.green : Colors.green.shade300,
+          color: count != _maxCount
+              ? CustomColors.primaryGreen
+              : CustomColors.primaryGreen,
           icon: Icon(
             Icons.add,
             color: Colors.white,

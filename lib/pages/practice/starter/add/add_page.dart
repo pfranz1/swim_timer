@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:practice_api/practice_api.dart';
 import 'package:entities/entities.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:swim_timer/CustomColors.dart';
 import 'package:swim_timer/main.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -117,7 +118,7 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
               },
               icon: Icon(
                 Icons.chevron_left,
-                color: Color(0xFF10465F),
+                color: CustomColors.primeColor,
               )),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
@@ -144,7 +145,7 @@ class _AddSwimmerPageState extends State<AddSwimmerPage> {
                     // Blue container
                     child: Container(
                         decoration: BoxDecoration(
-                            color: Color(0xFF10465F),
+                            color: CustomColors.primeColor,
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20.0))),
                         // Column with elements user can touch

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:swim_timer/CustomColors.dart';
 
 class IconActionButton extends StatelessWidget {
   const IconActionButton(
@@ -47,7 +48,7 @@ class IconStartButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
           shape: const CircleBorder(),
           padding: const EdgeInsets.all(30),
-          backgroundColor: Color(0xFF10465F)),
+          backgroundColor: CustomColors.primeColor),
       child: Center(
         child: canUndoStart
             ? Icon(Icons.fast_rewind_rounded)
