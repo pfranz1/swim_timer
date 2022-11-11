@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
-import 'package:swim_timer/customcolors.dart';
+import 'package:swim_timer/custom_colors.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
