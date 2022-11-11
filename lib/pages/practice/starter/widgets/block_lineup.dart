@@ -157,8 +157,29 @@ class SwimmerCard extends StatelessWidget {
               width: 5.0)),
       height: height,
       width: double.infinity,
+      child: (height > 100)
+          ? StackedNameAndStroke(swimmer: swimmer, isSelected: isSelected)
+          : PairedNameAndStroke(swimmer: swimmer, isSelected: isSelected),
+    );
+  }
+}
+
+class StackedNameAndStroke extends StatelessWidget {
+  const StackedNameAndStroke({
+    Key? key,
+    required this.swimmer,
+    required this.isSelected,
+  }) : super(key: key);
+
+  final Swimmer swimmer;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FittedBox(
             fit: BoxFit.fitWidth,
@@ -168,10 +189,53 @@ class SwimmerCard extends StatelessWidget {
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  fontSize: 16,
+                  fontSize: 20,
                   overflow: TextOverflow.fade),
             ),
-          )
+          ),
+          Image(
+            image: AssetImage('images/backstroke_w.png'),
+            fit: BoxFit.scaleDown,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PairedNameAndStroke extends StatelessWidget {
+  const PairedNameAndStroke({
+    Key? key,
+    required this.swimmer,
+    required this.isSelected,
+  }) : super(key: key);
+
+  final Swimmer swimmer;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          FittedBox(
+            fit: BoxFit.fitHeight,
+            child: Text(
+              swimmer.name.replaceAll(" ", "\n"),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                  fontSize: 20,
+                  overflow: TextOverflow.fade),
+            ),
+          ),
+          Image(
+            image: AssetImage('images/backstroke_w.png'),
+            fit: BoxFit.scaleDown,
+          ),
         ],
       ),
     );
