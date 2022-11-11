@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
-import 'package:swim_timer/CustomColors.dart';
+import 'package:swim_timer/custom_colors.dart';
 
 class CounterBar extends StatefulWidget {
   final int initialCount;

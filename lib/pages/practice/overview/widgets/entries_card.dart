@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:entities/entities.dart';
-import 'package:swim_timer/CustomColors.dart';
+import 'package:swim_timer/custom_colors.dart';
 
 class EntriesCard extends StatelessWidget {
   const EntriesCard({Key? key, this.entries}) : super(key: key);

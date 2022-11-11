@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:swim_timer/CustomColors.dart';
+import 'package:swim_timer/custom_colors.dart';
 import 'package:swim_timer/pages/create/create_bloc/create_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:swim_timer/pages/create/create_bloc/create_event.dart';
