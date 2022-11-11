@@ -153,7 +153,8 @@ class SwimmerCard extends StatelessWidget {
           color: stokeColors[swimmer.stroke],
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           border: Border.all(
-              color: isSelected ? Colors.black : Colors.white, width: 5.0)),
+              color: isSelected ? Colors.black : Colors.transparent,
+              width: 5.0)),
       height: height,
       width: double.infinity,
       child: Column(
