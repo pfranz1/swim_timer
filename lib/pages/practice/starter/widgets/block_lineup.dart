@@ -146,6 +146,14 @@ class SwimmerCard extends StatelessWidget {
     Stroke.BUTTERFLY: Color(0xFF0677BA)
   };
 
+  //TODO: Centralize this information
+  final Map<Stroke, String> strokeIconPaths = const {
+    Stroke.FREE_STYLE: "images/freestyle_w.png",
+    Stroke.BACK_STROKE: "images/backstroke_w.png",
+    Stroke.BREAST_STROKE: "images/breaststroke_w.png",
+    Stroke.BUTTERFLY: "images/butterfly_w.png",
+  };
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -158,8 +166,16 @@ class SwimmerCard extends StatelessWidget {
       height: height,
       width: double.infinity,
       child: (height > 100)
-          ? StackedNameAndStroke(swimmer: swimmer, isSelected: isSelected)
-          : PairedNameAndStroke(swimmer: swimmer, isSelected: isSelected),
+          ? StackedNameAndStroke(
+              swimmerName: swimmer.name,
+              isSelected: isSelected,
+              iconAssetPath: strokeIconPaths[swimmer.stroke]!,
+            )
+          : PairedNameAndStroke(
+              swimmerName: swimmer.name,
+              isSelected: isSelected,
+              iconAssetPath: strokeIconPaths[swimmer.stroke]!,
+            ),
     );
   }
 }
@@ -167,11 +183,13 @@ class SwimmerCard extends StatelessWidget {
 class StackedNameAndStroke extends StatelessWidget {
   const StackedNameAndStroke({
     Key? key,
-    required this.swimmer,
+    required this.swimmerName,
+    required this.iconAssetPath,
     required this.isSelected,
   }) : super(key: key);
 
-  final Swimmer swimmer;
+  final String swimmerName;
+  final String iconAssetPath;
   final bool isSelected;
 
   @override
@@ -182,9 +200,9 @@ class StackedNameAndStroke extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FittedBox(
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.fitHeight,
             child: Text(
-              swimmer.name.replaceAll(" ", "\n"),
+              swimmerName,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -194,7 +212,7 @@ class StackedNameAndStroke extends StatelessWidget {
             ),
           ),
           Image(
-            image: AssetImage('images/backstroke_w.png'),
+            image: AssetImage(iconAssetPath),
             fit: BoxFit.scaleDown,
           ),
         ],
@@ -206,11 +224,14 @@ class StackedNameAndStroke extends StatelessWidget {
 class PairedNameAndStroke extends StatelessWidget {
   const PairedNameAndStroke({
     Key? key,
-    required this.swimmer,
+    required this.swimmerName,
+    required this.iconAssetPath,
     required this.isSelected,
   }) : super(key: key);
 
-  final Swimmer swimmer;
+  final String swimmerName;
+  final String iconAssetPath;
+
   final bool isSelected;
 
   @override
@@ -221,9 +242,10 @@ class PairedNameAndStroke extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FittedBox(
-            fit: BoxFit.fitHeight,
+            fit: BoxFit.scaleDown,
+            clipBehavior: Clip.hardEdge,
             child: Text(
-              swimmer.name.replaceAll(" ", "\n"),
+              swimmerName,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
@@ -233,7 +255,7 @@ class PairedNameAndStroke extends StatelessWidget {
             ),
           ),
           Image(
-            image: AssetImage('images/backstroke_w.png'),
+            image: AssetImage(iconAssetPath),
             fit: BoxFit.scaleDown,
           ),
         ],
