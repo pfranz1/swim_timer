@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
+import 'package:swim_timer/custom_colors.dart';
 import 'package:swim_timer/pages/join/practice_tile.dart';
 
 class JoinPage extends StatelessWidget {
@@ -44,21 +45,21 @@ class JoinPage extends StatelessWidget {
     //     id: "8582",
     //     numSwimmers: 11,
     //     createdOn: DateTime.now().subtract(Duration(days: 4))),
-    // PracticeDM(
-    //     name: "Morning Practice Sprints",
-    //     id: "4329",
-    //     numSwimmers: 18,
-    //     createdOn: DateTime.now().subtract(Duration(days: 4))),
-    // PracticeDM(
-    //     name: "Cork Screw Tournament",
-    //     id: "4326",
-    //     numSwimmers: 33,
-    //     createdOn: DateTime.now().subtract(Duration(days: 5))),
-    // PracticeDM(
-    //     name: "12+ Weekly Benchmark",
-    //     id: "5768",
-    //     numSwimmers: 34,
-    //     createdOn: DateTime.now().subtract(Duration(days: 5))),
+    PracticeDM(
+        name: "Morning Practice Sprints",
+        id: "4329",
+        numSwimmers: 18,
+        createdOn: DateTime.now().subtract(Duration(days: 4))),
+    PracticeDM(
+        name: "Cork Screw Tournament",
+        id: "4326",
+        numSwimmers: 33,
+        createdOn: DateTime.now().subtract(Duration(days: 5))),
+    PracticeDM(
+        name: "12+ Weekly Benchmark",
+        id: "5768",
+        numSwimmers: 34,
+        createdOn: DateTime.now().subtract(Duration(days: 5))),
     // PracticeDM(
     //     name: "City Meet Seed Times",
     //     id: "5642",
@@ -85,17 +86,20 @@ class JoinPage extends StatelessWidget {
             )),
         centerTitle: true,
       ),
-      body: Center(
-        child: ListView.builder(
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PracticeTile(
-                  practice: practices[index],
-                ),
-              );
-            },
-            itemCount: practices.length),
+      body: Container(
+        decoration: BoxDecoration(gradient: CustomColors.backgroundGradient),
+        child: Center(
+          child: ListView.builder(
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: PracticeTile(
+                    practice: practices[index],
+                  ),
+                );
+              },
+              itemCount: practices.length),
+        ),
       ),
     );
   }
