@@ -241,22 +241,28 @@ class PairedNameAndStroke extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            clipBehavior: Clip.hardEdge,
-            child: Text(
-              swimmerName,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  fontSize: 20,
-                  overflow: TextOverflow.fade),
+          Expanded(
+            flex: 4,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              clipBehavior: Clip.hardEdge,
+              child: Text(
+                swimmerName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    fontSize: 20,
+                    overflow: TextOverflow.fade),
+              ),
             ),
           ),
-          Image(
-            image: AssetImage(iconAssetPath),
-            fit: BoxFit.scaleDown,
+          Expanded(
+            flex: 1,
+            child: Image(
+              image: AssetImage(iconAssetPath),
+              fit: BoxFit.scaleDown,
+            ),
           ),
         ],
       ),
