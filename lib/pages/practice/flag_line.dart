@@ -20,7 +20,7 @@ class FlagLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      size: Size(100, 25),
+      size: Size(85, 25),
       painter: FlagPainter(
         colors: colors ?? [CustomColors.primeColor],
         lineColor: lineColor ?? CustomColors.primeColor,
@@ -70,15 +70,21 @@ class FlagPainter extends CustomPainter {
 
     // Draw flags
     for (var flagIndex = 0; flagIndex <= numOfFlags; flagIndex++) {
-      // Draw triangle
-      canvas.drawVertices(
-        Vertices(
-          VertexMode.triangles,
-          makeIsoHangingTriangle(startOfFlag, flagWidth, flagHeight),
-        ),
-        BlendMode.plus,
-        paints[colorIndex],
-      );
+      final myPath = Path();
+
+      addTriangle(myPath, startOfFlag, flagWidth, flagHeight);
+
+      canvas.drawPath(myPath, paints[colorIndex]);
+
+      //Draw triangle
+      // canvas.drawVertices(
+      //   Vertices(
+      //     VertexMode.triangles,
+      //     makeIsoHangingTriangle(startOfFlag, flagWidth, flagHeight),
+      //   ),
+      //   BlendMode.plus,
+      //   paints[colorIndex],
+      // );
 
       startOfFlag += (spacingBetweenFlags + flagWidth);
       colorIndex = (colorIndex + 1) % paints.length;
@@ -87,8 +93,13 @@ class FlagPainter extends CustomPainter {
     // Draw line across canvas in the middle
     final topLeft = Offset(0, 0);
     final topRight = Offset(startOfFlag + spacingBetweenFlags, 0);
-
     canvas.drawLine(topLeft, topRight, mainLinePaint);
+  }
+
+  void addTriangle(
+      Path path, double startX, double flatSlideLength, double height) {
+    path.addPolygon(
+        makeIsoHangingTriangle(startX, flatSlideLength, height), true);
   }
 
   // Assumes that y = 0

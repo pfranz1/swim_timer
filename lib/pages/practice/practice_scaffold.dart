@@ -87,9 +87,10 @@ class PracticeScaffold extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              FlagLine(
-                colors: flagColors,
-              ),
+              if (selectedTab != PracticeTab.overview)
+                FlagLine(
+                  colors: flagColors,
+                ),
             ],
           ),
           backgroundColor: Color(0xFFC7EDFF),
