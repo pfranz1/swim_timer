@@ -146,6 +146,14 @@ class SwimmerCard extends StatelessWidget {
     Stroke.BUTTERFLY: Color(0xFF0677BA)
   };
 
+  //TODO: Centralize this information
+  final Map<Stroke, String> strokeIconPaths = const {
+    Stroke.FREE_STYLE: "images/freestyle_w.png",
+    Stroke.BACK_STROKE: "images/backstroke_w.png",
+    Stroke.BREAST_STROKE: "images/breaststroke_w.png",
+    Stroke.BUTTERFLY: "images/butterfly_w.png",
+  };
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -153,24 +161,109 @@ class SwimmerCard extends StatelessWidget {
           color: stokeColors[swimmer.stroke],
           borderRadius: BorderRadius.all(Radius.circular(6.0)),
           border: Border.all(
-              color: isSelected ? Colors.black : Colors.white, width: 5.0)),
+              color: isSelected ? Colors.black : Colors.transparent,
+              width: 5.0)),
       height: height,
       width: double.infinity,
+      child: (height > 100)
+          ? StackedNameAndStroke(
+              swimmerName: swimmer.name,
+              isSelected: isSelected,
+              iconAssetPath: strokeIconPaths[swimmer.stroke]!,
+            )
+          : PairedNameAndStroke(
+              swimmerName: swimmer.name,
+              isSelected: isSelected,
+              iconAssetPath: strokeIconPaths[swimmer.stroke]!,
+            ),
+    );
+  }
+}
+
+class StackedNameAndStroke extends StatelessWidget {
+  const StackedNameAndStroke({
+    Key? key,
+    required this.swimmerName,
+    required this.iconAssetPath,
+    required this.isSelected,
+  }) : super(key: key);
+
+  final String swimmerName;
+  final String iconAssetPath;
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           FittedBox(
-            fit: BoxFit.fitWidth,
+            fit: BoxFit.fitHeight,
             child: Text(
-              swimmer.name.replaceAll(" ", "\n"),
+              swimmerName,
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.white,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  fontSize: 16,
+                  fontSize: 20,
                   overflow: TextOverflow.fade),
             ),
-          )
+          ),
+          Image(
+            image: AssetImage(iconAssetPath),
+            fit: BoxFit.scaleDown,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PairedNameAndStroke extends StatelessWidget {
+  const PairedNameAndStroke({
+    Key? key,
+    required this.swimmerName,
+    required this.iconAssetPath,
+    required this.isSelected,
+  }) : super(key: key);
+
+  final String swimmerName;
+  final String iconAssetPath;
+
+  final bool isSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            flex: 4,
+            child: FittedBox(
+              fit: BoxFit.contain,
+              clipBehavior: Clip.hardEdge,
+              child: Text(
+                swimmerName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    fontSize: 20,
+                    overflow: TextOverflow.fade),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Image(
+              image: AssetImage(iconAssetPath),
+              fit: BoxFit.scaleDown,
+            ),
+          ),
         ],
       ),
     );

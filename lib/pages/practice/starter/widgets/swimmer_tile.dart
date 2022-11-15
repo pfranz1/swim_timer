@@ -35,7 +35,8 @@ class SwimmerTile extends StatelessWidget {
           alignment: Alignment.center,
           backgroundColor: colors[swimmer.stroke],
           side: BorderSide(
-              color: Colors.black, width: isActiveSwimmer ? 5.0 : 2.0)),
+              color: isActiveSwimmer ? Colors.black : Colors.transparent,
+              width: 5.0)),
       onPressed: onTap,
       // context.read<StarterBloc>().add(TapSwimmer(swimmer, isOnBlock)),
       child: FittedBox(

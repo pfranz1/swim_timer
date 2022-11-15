@@ -3,6 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swim_timer/custom_colors.dart';
+import 'package:swim_timer/pages/practice/flag_line.dart';
 import 'package:swim_timer/pages/practice/practice_cubit/practice_cubit.dart';
 import 'package:provider/provider.dart';
 
@@ -57,19 +58,40 @@ class PracticeScaffold extends StatelessWidget {
   String upperCase(String string) =>
       string.substring(0, 1).toUpperCase() + string.substring(1);
 
+  List<Color> get flagColors {
+    switch (indexOfTab) {
+      case 0:
+        return [CustomColors.freeStyle, CustomColors.primeColor];
+      case 1:
+        return [CustomColors.backStroke, CustomColors.primeColor];
+      case 2:
+        return [CustomColors.butterfly, CustomColors.primeColor];
+      default:
+        return [];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Provider.value(
       value: _baseAddress,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(
-            currentLocation,
-            style: TextStyle(
-              color: CustomColors.primeColor,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.bold,
-            ),
+          title: Column(
+            children: [
+              Text(
+                currentLocation,
+                style: TextStyle(
+                  color: CustomColors.primeColor,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              if (selectedTab != PracticeTab.overview)
+                FlagLine(
+                  colors: flagColors,
+                ),
+            ],
           ),
           backgroundColor: Color(0xFFC7EDFF),
           elevation: 0,

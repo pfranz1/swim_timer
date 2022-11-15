@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
-import 'package:swim_timer/customcolors.dart';
+import 'package:swim_timer/custom_colors.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -83,10 +83,13 @@ class HomePage extends StatelessWidget {
                         )));
                       },
                       backgroundColor: Color(0xFF0677BA),
-                      icon: Icon(
-                        Icons.ssid_chart_sharp,
-                        size: 60.0,
-                        color: Color(0xFF0677BA),
+                      icon: FittedBox(
+                        fit: BoxFit.cover,
+                        child: Icon(
+                          Icons.ssid_chart_sharp,
+                          size: 55,
+                          color: Color(0xFF0677BA),
+                        ),
                       ),
                       text: "View Records",
                     ),

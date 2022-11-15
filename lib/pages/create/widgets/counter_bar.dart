@@ -47,9 +47,8 @@ class _CounterBarState extends State<CounterBar> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SideButton(
-          color: count != _minCount
-              ? CustomColors.primaryRed
-              : CustomColors.primaryRed,
+          color: CustomColors.primaryRed,
+          isDisabled: count <= _minCount,
           icon: Icon(
             Icons.remove,
             color: Colors.white,
@@ -80,9 +79,8 @@ class _CounterBarState extends State<CounterBar> {
         ),
         SideButton(
           //TODO Real color
-          color: count != _maxCount
-              ? CustomColors.primaryGreen
-              : CustomColors.primaryGreen,
+          color: CustomColors.primaryGreen,
+          isDisabled: count >= _maxCount,
           icon: Icon(
             Icons.add,
             color: Colors.white,
@@ -104,20 +102,22 @@ class SideButton extends StatelessWidget {
     required this.color,
     required this.icon,
     required this.onTap,
+    required this.isDisabled,
   }) : super(key: key);
 
   final Color color;
   final Widget icon;
+  final bool isDisabled;
   final void Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: color,
+      color: color.withOpacity(isDisabled ? 0.25 : 1.0),
       borderRadius: BorderRadius.all(Radius.circular(16.0)),
       child: InkWell(
         borderRadius: BorderRadius.all(Radius.circular(16.0)),
-        onTap: onTap,
+        onTap: isDisabled ? null : onTap,
         child: Container(
           child: Padding(
             padding: const EdgeInsets.all(8.0),

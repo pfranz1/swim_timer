@@ -8,6 +8,7 @@ class CustomColors {
 
   static const primaryRed = Color(0xFFD42A34);
   static const primaryGreen = Color(0xFF62CA50);
+  static const primaryBlue = Color(0xFF77D6FF);
 
   static const LinearGradient backgroundGradient = LinearGradient(
     colors: [Color(0xFFE6F3F9), Color(0xFFC6E3EE), Color(0xFFAAF6FF)],
