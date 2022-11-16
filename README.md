@@ -1,6 +1,6 @@
 # swim_timer
-
 Elapsed
+
 pages: https://pfranz1.github.io/swim_timer/#/
 
 This is a Flutter app to help swim coaches time multiple swimmers at once. 
