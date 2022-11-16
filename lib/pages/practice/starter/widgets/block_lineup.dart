@@ -148,10 +148,10 @@ class SwimmerCard extends StatelessWidget {
 
   //TODO: Centralize this information
   final Map<Stroke, String> strokeIconPaths = const {
-    Stroke.FREE_STYLE: "images/freestyle_w.png",
-    Stroke.BACK_STROKE: "images/backstroke_w.png",
-    Stroke.BREAST_STROKE: "images/breaststroke_w.png",
-    Stroke.BUTTERFLY: "images/butterfly_w.png",
+    Stroke.FREE_STYLE: "assets/images/freestyle_w.png",
+    Stroke.BACK_STROKE: "assets/images/backstroke_w.png",
+    Stroke.BREAST_STROKE: "assets/images/breaststroke_w.png",
+    Stroke.BUTTERFLY: "assets/images/butterfly_w.png",
   };
 
   @override
