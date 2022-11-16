@@ -100,7 +100,11 @@ class FirebasePracticeApi extends PracticeApi {
 
   @override
   Future<void> setLane(String id, int? lane) async {
-    await root.child(id).child('lane').set(lane);
+    if (lane != null) {
+      await root.child(id).child('lane').set(lane);
+    } else {
+      await root.child(id).child('lane').set(0);
+    }
   }
 
   @override
@@ -133,7 +137,18 @@ class FirebasePracticeApi extends PracticeApi {
   @override
   Future<bool> trySetLane(String id, int lane) async {
     bool occupied = false;
-    Query swimmers = root.child('swimmers').orderByKey();
+
+/*
+    await root
+        .child('swimmers')
+        .orderByKey().onValue.asyncMap<>((event) => null)
+*/
+
+    if (occupied) {
+      throw LaneOccupiedException();
+    } else {
+      await setLane(id, lane);
+    }
 
     throw UnimplementedError();
   }
@@ -157,9 +172,18 @@ class FirebasePracticeApi extends PracticeApi {
     required int firstLane,
     required String secondId,
     required int secondLane,
-  }) {
-    // TODO: implement trySwapLanes
-    throw UnimplementedError();
+  }) async {
+    await root.child('swimmers').child(firstId).child('lane').get().then(
+          (value) => {if (value.value as int != firstLane) throw SwapFailure()},
+        );
+    await root.child('swimmers').child(secondId).child('lane').get().then(
+          (value) =>
+              {if (value.value as int != secondLane) throw SwapFailure()},
+        );
+
+    await setLane(firstId, secondLane);
+    await setLane(secondId, firstLane);
+    return true;
   }
 
   @override
