@@ -102,6 +102,7 @@ class BlockTile extends StatelessWidget {
                 if (swimmer != null)
                   SwimmerCard(
                     height: constraints.maxHeight * 0.66,
+                    width: constraints.maxWidth,
                     swimmer: swimmer!,
                     isSelected: isSwimmerSelected,
                   )
@@ -130,11 +131,13 @@ class SwimmerCard extends StatelessWidget {
   const SwimmerCard({
     Key? key,
     required this.height,
+    required this.width,
     required this.swimmer,
     required this.isSelected,
   }) : super(key: key);
 
   final double height;
+  final double width;
   final Swimmer swimmer;
   final bool isSelected;
 
@@ -165,7 +168,7 @@ class SwimmerCard extends StatelessWidget {
               width: 5.0)),
       height: height,
       width: double.infinity,
-      child: (height > 100)
+      child: (height > 75)
           ? StackedNameAndStroke(
               swimmerName: swimmer.name,
               isSelected: isSelected,
@@ -199,21 +202,30 @@ class StackedNameAndStroke extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          FittedBox(
-            fit: BoxFit.fitHeight,
-            child: Text(
-              swimmerName,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                  fontSize: 20,
-                  overflow: TextOverflow.fade),
+          Expanded(
+            flex: 2,
+            child: FittedBox(
+              fit: BoxFit.fitWidth,
+              child: Text(
+                swimmerName,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                    fontSize: 20,
+                    overflow: TextOverflow.fade),
+              ),
             ),
           ),
-          Image(
-            image: AssetImage(iconAssetPath),
-            fit: BoxFit.scaleDown,
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            flex: 2,
+            child: Image(
+              image: AssetImage(iconAssetPath),
+              fit: BoxFit.scaleDown,
+            ),
           ),
         ],
       ),
