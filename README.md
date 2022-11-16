@@ -1,16 +1,18 @@
 # swim_timer
 
-A new Flutter project.
+Elapsed
+pages: https://pfranz1.github.io/swim_timer/#/
 
-## Getting Started
+This is a Flutter app to help swim coaches time multiple swimmers at once. 
 
-This project is a starting point for a Flutter application.
+It was insipred by my best friend, who is a summer league swim coach, expressing his frustration with timing using paper pencil and a stop watch.
+Paper gets wet, and transfering the stop watchtime to the paper means only one swimmer can be timed at a time.
 
-A few resources to get you started if this is your first Flutter project:
+Based on a figma design:
+https://www.figma.com/file/QZdB5vqqZocfjbT0xHI2Qg/Swim-Timer-High-Fidelity?node-id=6%3A13&t=2Lh5Bwpk69mgWztj-1
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Note:
+The figma may be out of date with the live app
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
