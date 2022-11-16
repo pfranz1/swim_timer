@@ -116,14 +116,15 @@ class PracticeScaffold extends StatelessWidget {
                     context.go(_popAndReplace("starter"), extra: indexOfTab),
                 groupValue: selectedTab,
                 value: PracticeTab.starter,
-                icon: Icon(Icons.play_arrow_rounded),
+                assetPath: "assets/images/whistle_icon.png",
               ),
               _PracticeTabButton(
-                  onPressed: () =>
-                      context.go(_popAndReplace("stopper"), extra: indexOfTab),
-                  groupValue: selectedTab,
-                  value: PracticeTab.stopper,
-                  icon: Icon(Icons.stop)),
+                onPressed: () =>
+                    context.go(_popAndReplace("stopper"), extra: indexOfTab),
+                groupValue: selectedTab,
+                value: PracticeTab.stopper,
+                assetPath: "assets/images/stop_watch_icon.png",
+              ),
               _PracticeTabButton(
                   onPressed: () =>
                       context.go(_popAndReplace("overview"), extra: indexOfTab),
@@ -143,21 +144,36 @@ class _PracticeTabButton extends StatelessWidget {
     required this.onPressed,
     required this.groupValue,
     required this.value,
-    required this.icon,
+    this.icon,
+    this.assetPath,
   });
 
   final void Function() onPressed;
   final PracticeTab groupValue;
   final PracticeTab value;
-  final Widget icon;
+  final Widget? icon;
+  final String? assetPath;
+
+  static const Color _color = Color(0xFF58CDFF);
 
   @override
   Widget build(BuildContext context) {
-    final Color _color = Color(0xFF58CDFF);
+    // Should pass at least one, will use the asset if both provided
+    assert(icon != null || assetPath != null);
+
+    Widget? iconReplacement = null;
+
+    if (assetPath != null) {
+      iconReplacement = Image.asset(
+        assetPath!,
+        color: groupValue != value ? _color.withOpacity(0.25) : _color,
+      );
+    }
+
     return IconButton(
         onPressed: onPressed,
         iconSize: 48,
         color: groupValue != value ? _color.withOpacity(0.25) : _color,
-        icon: icon);
+        icon: iconReplacement ?? icon!);
   }
 }
