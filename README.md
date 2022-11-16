@@ -1,5 +1,5 @@
-# swim_timer
-Elapsed
+
+# Elapsed
 
 pages: https://pfranz1.github.io/swim_timer/#/
 
