@@ -33,7 +33,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-
+  syncfusion_flutter_charts: ^20.3.57
   flutter_bloc: ^8.0.1
   provider: ^6.0.3
   page_transition: ^2.0.9
@@ -75,6 +75,7 @@ dev_dependencies:
   mockingjay: ^0.3.0
   mocktail: ^0.3.0
   very_good_analysis: ^3.0.1
+  
 
 
   # The "flutter_lints" package below contains a set of recommended lints to
