@@ -60,6 +60,10 @@ class EntryCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(
+              width: 16,
+            ),
+            StrokeIcon(stroke: entry.stroke),
             // Name + Spacer
             Expanded(
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -79,7 +83,7 @@ class EntryCard extends StatelessWidget {
               ]),
               flex: 4,
             ),
-            StrokeIcon(stroke: entry.stroke),
+
             PerformanceChart(previousTimes: entry.previousTimes),
             Expanded(
               child: Row(
