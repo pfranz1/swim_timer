@@ -27,6 +27,9 @@ class FinisherEntry extends Equatable {
   /// The DateTime the time was achieved
   final DateTime dateAchieved;
 
+  /// The previous times of the swimmer
+  final List<Duration>? previousTimes;
+
   /// The difference in time between the current achieved time and previously
   /// achieved time
   ///
@@ -44,6 +47,7 @@ class FinisherEntry extends Equatable {
     required this.stroke,
     required this.dateAchieved,
     this.differenceWithLastTime,
+    this.previousTimes,
   });
 
   ///  Deserializes the given [Map] into a [FinisherEntry].

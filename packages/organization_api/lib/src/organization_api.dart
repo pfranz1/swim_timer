@@ -38,5 +38,5 @@ abstract class OrganizationApi {
 
   Stream<List<Practice>> getActivePractices();
 
-  Stream<List<FinisherEntry>> getRecords();
+  Stream<List<PracticeResult>> getRecords();
 }

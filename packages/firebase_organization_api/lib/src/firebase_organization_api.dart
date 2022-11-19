@@ -164,7 +164,7 @@ class FirebaseOrganizationApi extends OrganizationApi {
   }
 
   @override
-  Stream<List<FinisherEntry>> getRecords() {
+  Stream<List<PracticeResult>> getRecords() {
     final DatabaseReference practicesRef = root.child('Practices');
 /*
     return practicesRef
