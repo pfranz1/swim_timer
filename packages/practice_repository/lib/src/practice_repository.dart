@@ -39,6 +39,7 @@ class PracticeRepository {
           return a.dateAchieved.compareTo(b.dateAchieved);
         });
         for (final practiceResult in event.values) {
+          int i = 0;
           int? prev = null;
           for (final lapResult in practiceResult.lapResults) {
             descendingEntries.add(FinisherEntry(
@@ -47,10 +48,17 @@ class PracticeRepository {
                 dateAchieved: lapResult.endTime,
                 id: practiceResult.swimmerId,
                 name: practiceResult.swimmerName,
+                previousTimes: i > 0
+                    ? practiceResult.lapResults
+                        .getRange(0, i + 1)
+                        .map((lapResult) => lapResult.duration)
+                        .toList()
+                    : null,
                 differenceWithLastTime: prev == null
                     ? null
                     : (lapResult.duration.inMilliseconds - prev) / 1000));
             prev = lapResult.duration.inMilliseconds;
+            i += 1;
           }
         }
 

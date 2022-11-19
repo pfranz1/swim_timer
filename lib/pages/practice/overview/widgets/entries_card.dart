@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:entities/entities.dart';
 import 'package:swim_timer/custom_colors.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class EntriesCard extends StatelessWidget {
   const EntriesCard({Key? key, this.entries}) : super(key: key);
@@ -79,6 +80,7 @@ class EntryCard extends StatelessWidget {
               flex: 4,
             ),
             StrokeIcon(stroke: entry.stroke),
+            PerformanceChart(previousTimes: entry.previousTimes),
             Expanded(
               child: Row(
                 children: [
@@ -110,6 +112,67 @@ class EntryCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class PerformanceChart extends StatelessWidget {
+  PerformanceChart({super.key, required this.previousTimes});
+
+  List<Duration>? previousTimes;
+
+//   import 'package:flutter/material.dart';
+//
+// @override
+//     Widget build(BuildContext context) {
+//         final List<SalesData> chartData = [
+//             SalesData(2010, 35),
+//             SalesData(2011, 28),
+//             SalesData(2012, 34),
+//             SalesData(2013, 32),
+//             SalesData(2014, 40)
+//         ];
+//
+//         return Scaffold(
+//             body: Center(
+//                 child: Container(
+//                     child: SfCartesianChart(
+//                         primaryXAxis: DateTimeAxis(),
+//                         series: <ChartSeries>[
+//                             // Renders line chart
+//                             LineSeries<SalesData, DateTime>(
+//                                 dataSource: chartData,
+//                                 xValueMapper: (SalesData sales, _) => sales.year,
+//                                 yValueMapper: (SalesData sales, _) => sales.sales
+//                             )
+//                         ]
+//                     )
+//                 )
+//             )
+//         );
+//     }
+
+  @override
+  Widget build(BuildContext context) {
+    if (previousTimes == null) {
+      return Container(
+        child: Center(
+          child: Text("---"),
+        ),
+      );
+    }
+
+    return Container(
+      child: SfCartesianChart(
+          primaryXAxis: NumericAxis(),
+          primaryYAxis: NumericAxis(),
+          series: [
+            LineSeries<Duration, int>(
+              dataSource: previousTimes!,
+              yValueMapper: (datum, index) => datum.inMilliseconds,
+              xValueMapper: (datum, index) => index,
+            ),
+          ]),
     );
   }
 }
