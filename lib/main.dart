@@ -25,6 +25,10 @@ void main() async {
   final practiceApi =
       LocalStoragePracticeApi(plugin: await SharedPreferences.getInstance());
 
+  // @Aaron
+  // TODO: Uncomment this and use Firebase implementation instead
+  // final practiceApi = FirebasePracticeApi(orgID: "ORGID", practiceID: "PRACTICEID");
+
   final practiceRepository = PracticeRepository(practiceApi: practiceApi);
 
   BlocOverrides.runZoned(
