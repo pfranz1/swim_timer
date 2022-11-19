@@ -48,7 +48,7 @@ class PracticeRepository {
                 dateAchieved: lapResult.endTime,
                 id: practiceResult.swimmerId,
                 name: practiceResult.swimmerName,
-                previousTimes: i > 0
+                previousTimes: true
                     ? practiceResult.lapResults
                         .getRange(0, i + 1)
                         .map((lapResult) => lapResult.duration)
