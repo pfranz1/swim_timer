@@ -52,68 +52,73 @@ class EntryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: 75, maxHeight: 175),
-      child: Container(
-        height: MediaQuery.of(context).size.height / 10,
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10.0))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 16,
-            ),
-            StrokeIcon(stroke: entry.stroke),
-            // Name + Spacer
-            Expanded(
-              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                // Spacer
-                Expanded(
-                  child: Container(),
-                  flex: 2,
-                ),
-                // Name
-                Expanded(
-                  flex: 8,
-                  child: Text(
-                    entry.name,
-                    style: Theme.of(context).textTheme.headline5,
+      child: ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: CustomColors.primeColor,
+        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 10,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                width: 16,
+              ),
+              StrokeIcon(stroke: entry.stroke),
+              // Name + Spacer
+              Expanded(
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  // Spacer
+                  Expanded(
+                    child: Container(),
+                    flex: 2,
                   ),
-                )
-              ]),
-              flex: 4,
-            ),
-
-            PerformanceChart(previousTimes: entry.previousTimes),
-            Expanded(
-              child: Row(
-                children: [
+                  // Name
                   Expanded(
                     flex: 8,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        // Lap Time
-                        LapTimeText(
-                          duration: entry.time,
-                        ),
-                        // Difference with last time
-                        DifferenceText(
-                          difference: entry.differenceWithLastTime,
-                        ),
-                      ],
+                    child: Text(
+                      entry.name,
+                      style: Theme.of(context).textTheme.headline5,
                     ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(),
-                  ),
-                ],
+                  )
+                ]),
+                flex: 4,
               ),
-              flex: 4,
-            ),
-          ],
+
+              PerformanceChart(previousTimes: entry.previousTimes),
+              Expanded(
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          // Lap Time
+                          LapTimeText(
+                            duration: entry.time,
+                          ),
+                          // Difference with last time
+                          DifferenceText(
+                            difference: entry.differenceWithLastTime,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Container(),
+                    ),
+                  ],
+                ),
+                flex: 4,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -124,37 +129,6 @@ class PerformanceChart extends StatelessWidget {
   PerformanceChart({super.key, required this.previousTimes});
 
   List<Duration>? previousTimes;
-
-//   import 'package:flutter/material.dart';
-//
-// @override
-//     Widget build(BuildContext context) {
-//         final List<SalesData> chartData = [
-//             SalesData(2010, 35),
-//             SalesData(2011, 28),
-//             SalesData(2012, 34),
-//             SalesData(2013, 32),
-//             SalesData(2014, 40)
-//         ];
-//
-//         return Scaffold(
-//             body: Center(
-//                 child: Container(
-//                     child: SfCartesianChart(
-//                         primaryXAxis: DateTimeAxis(),
-//                         series: <ChartSeries>[
-//                             // Renders line chart
-//                             LineSeries<SalesData, DateTime>(
-//                                 dataSource: chartData,
-//                                 xValueMapper: (SalesData sales, _) => sales.year,
-//                                 yValueMapper: (SalesData sales, _) => sales.sales
-//                             )
-//                         ]
-//                     )
-//                 )
-//             )
-//         );
-//     }
 
   @override
   Widget build(BuildContext context) {
@@ -284,10 +258,10 @@ class LapTimeText extends StatelessWidget {
     return Text(
       durationText,
       style: TextStyle(
-        fontSize: 20,
-        fontFamily: 'Poppins',
-        fontWeight: FontWeight.w300,
-      ),
+          fontSize: 20,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w300,
+          color: CustomColors.primeColor),
     );
   }
 }
