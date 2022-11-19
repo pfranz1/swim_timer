@@ -79,16 +79,18 @@ class EntryCard extends StatelessWidget {
                   // Name
                   Expanded(
                     flex: 8,
-                    child: Text(
-                      entry.name,
-                      style: Theme.of(context).textTheme.headline5,
-                    ),
-                  )
+                    child: Text(entry.name,
+                        textAlign: TextAlign.left,
+                        style: Theme.of(context).textTheme.headline5),
+                  ),
                 ]),
                 flex: 4,
               ),
 
-              PerformanceChart(previousTimes: entry.previousTimes),
+              Expanded(
+                child: PerformanceChart(previousTimes: entry.previousTimes),
+                flex: 5,
+              ),
               Expanded(
                 child: Row(
                   children: [
