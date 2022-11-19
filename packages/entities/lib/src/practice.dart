@@ -15,7 +15,7 @@ class Practice {
     String? id,
     String? code,
     DateTime? date,
-    List<FinisherEntry>? finisher_entries,
+    List<PracticeResult>? finisher_entries,
     List<Swimmer>? swimmers,
   }) {
     this.ID = id ?? Common.idGenerator();
@@ -32,7 +32,7 @@ class Practice {
   late final DateTime date;
   final int lanes;
   List<Swimmer> swimmers = [];
-  List<FinisherEntry> finisher_entries = [];
+  List<PracticeResult> finisher_entries = [];
 
   /// Connect the generated [_$PracticeFromJson] function to the `fromJson`
   /// factory.

@@ -44,6 +44,8 @@ class FirebasePracticeApi extends PracticeApi {
   @override
   Stream<Map<String, PracticeResult>> getEntries() {
     throw UnimplementedError();
+    // This commented code is for old style of doing backend,
+    // the method signature of this function is correct
     /*
     return root
         .child('finisher_entries')

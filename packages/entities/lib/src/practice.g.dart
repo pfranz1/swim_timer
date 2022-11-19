@@ -13,7 +13,7 @@ Practice _$PracticeFromJson(Map<String, dynamic> json) => Practice(
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
       finisher_entries: (json['finisher_entries'] as List<dynamic>?)
-          ?.map((e) => FinisherEntry.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => PracticeResult.fromJson(e as Map<String, dynamic>))
           .toList(),
       swimmers: (json['swimmers'] as List<dynamic>?)
           ?.map((e) => Swimmer.fromJson(e as Map<String, dynamic>))

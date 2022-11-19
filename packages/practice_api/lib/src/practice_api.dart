@@ -10,7 +10,7 @@ abstract class PracticeApi {
   /// Provides a [Stream] of [Swimmer]s.
   Stream<List<Swimmer>> getSwimmers();
 
-  /// Provides a [Stream] of [FinisherEntry]
+  /// Provides a [Stream] of [PracticeResult]
   Stream<Map<String, PracticeResult>> getEntries();
 
   /// Adds a swimmer to the current swimmers.
