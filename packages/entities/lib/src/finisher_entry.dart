@@ -37,7 +37,7 @@ class FinisherEntry extends Equatable {
   /// difference > 0 => the time was slower
   /// difference < 0 => the time was faster
   /// (current time - last time);
-  final double? differenceWithLastTime;
+  final Duration? differenceWithLastTime;
 
   /// The object that stores a swimmer's result after a lap
   const FinisherEntry({

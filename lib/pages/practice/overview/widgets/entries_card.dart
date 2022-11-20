@@ -243,18 +243,36 @@ class StrokeIcon extends StatelessWidget {
 }
 
 class DifferenceText extends StatelessWidget {
-  DifferenceText({super.key, double? difference})
-      : differenceText = _formatDiffDouble(difference),
+  DifferenceText({super.key, Duration? difference})
+      : differenceText =
+            difference != null ? _formatDiffDouble(difference) : "---",
         color = _colorFromDiff(difference);
 
-  static String _formatDiffDouble(double? difference) {
-    if (difference == null) return "---";
-    return (difference.sign > 0 ? "+" : "") + difference.toStringAsFixed(2);
+  static final matchTailZeros = RegExp("0+\$");
+  static final matchLeadingZeroAndColons = RegExp("^0+((:0*)?)*");
+
+  // I dont know why this doesn't work, was matching too much and not excluding first group
+  // static final matchDigitsAfterPrecision = RegExp("(?<=\..{3})(.*)\$");
+
+  static const int precision = 2;
+
+  static String _formatDiffDouble(Duration duration) {
+    final output = duration
+        .abs()
+        .toString()
+        .replaceAll(matchTailZeros, "")
+        .replaceAll(matchLeadingZeroAndColons, "");
+
+    final locOfDecimal = output.lastIndexOf(".");
+
+    return (duration.isNegative ? "-" : "+") +
+        (locOfDecimal == 0 ? "0" : "") +
+        output.substring(0, locOfDecimal + precision + 1);
   }
 
-  static Color _colorFromDiff(double? difference) {
+  static Color _colorFromDiff(Duration? difference) {
     if (difference == null || difference == null) return Colors.black;
-    return (difference < 0)
+    return (difference.isNegative)
         ? CustomColors.primaryGreen
         : CustomColors.primaryRed;
   }
@@ -264,13 +282,16 @@ class DifferenceText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      differenceText,
-      style: TextStyle(
-        color: color,
-        fontSize: 13,
-        fontFamily: 'Poppins',
-        fontWeight: FontWeight.bold,
+    return FittedBox(
+      fit: BoxFit.fitWidth,
+      child: Text(
+        differenceText,
+        style: TextStyle(
+          color: color,
+          fontSize: 13,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
@@ -281,7 +302,7 @@ class LapTimeText extends StatelessWidget {
       : durationText = _formatDuration(duration);
 
   static final matchTailZeros = RegExp("0+\$");
-  static final matchLeadingZeroAndColons = RegExp("^0+((:0*)?)*");
+  static final matchLeadingZeroAndColons = RegExp("^-?0+((:0*)?)*");
 
   // I dont know why this doesn't work, was matching too much and not excluding first group
   // static final matchDigitsAfterPrecision = RegExp("(?<=\..{3})(.*)\$");

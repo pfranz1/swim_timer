@@ -40,9 +40,9 @@ class PracticeRepository {
         });
         for (final practiceResult in event.values) {
           int i = 0;
-          int? prev = null;
           for (final lapResult in practiceResult.lapResults) {
-            descendingEntries.add(FinisherEntry(
+            descendingEntries.add(
+              FinisherEntry(
                 stroke: lapResult.stroke,
                 time: lapResult.duration,
                 dateAchieved: lapResult.endTime,
@@ -54,10 +54,17 @@ class PracticeRepository {
                         .map((lapResult) => lapResult.duration)
                         .toList()
                     : null,
-                differenceWithLastTime: prev == null
+                differenceWithLastTime: i == 0
                     ? null
-                    : (lapResult.duration.inMilliseconds - prev) / 1000));
-            prev = lapResult.duration.inMilliseconds;
+                    : Duration(
+                        milliseconds: lapResult.duration.inMilliseconds -
+                            practiceResult.lapResults
+                                .elementAt(i - 1)
+                                .duration
+                                .inMilliseconds,
+                      ),
+              ),
+            );
             i += 1;
           }
         }
