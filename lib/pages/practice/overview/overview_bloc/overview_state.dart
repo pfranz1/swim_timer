@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:practice_api/practice_api.dart';
 import 'package:entities/entities.dart';
 
@@ -40,6 +41,15 @@ class OverviewState extends Equatable {
       showBack: showBack ?? this.showBack,
       showBreast: showBreast ?? this.showBreast,
       showFly: showFly ?? this.showFly,
+    );
+  }
+
+  OverviewState oneSelected({required Stroke stroke}) {
+    return copyWith(
+      showFree: Stroke.FREE_STYLE == stroke,
+      showBack: Stroke.BACK_STROKE == stroke,
+      showBreast: Stroke.BREAST_STROKE == stroke,
+      showFly: Stroke.BUTTERFLY == stroke,
     );
   }
 

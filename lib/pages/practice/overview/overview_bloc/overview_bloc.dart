@@ -17,6 +17,7 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
       : _practiceRepository = praticeRepository,
         super(const OverviewState()) {
     on<SubscriptionRequested>(_subscriptionRequested);
+    on<StrokeFilterSelectedToBeOnly>(_strokeSelectedToBeOnly);
     on<StrokeFilterTapped>(_strokeFilterTapped);
   }
 
@@ -58,6 +59,20 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
         break;
       default:
     }
+
+    final updatedEntries = (await _practiceRepository.getEntries().first)
+        .where(entryMeetsFilter)
+        .toList();
+    emit(state.copyWith(
+      entries: () => updatedEntries,
+    ));
+  }
+
+  Future<void> _strokeSelectedToBeOnly(
+      StrokeFilterSelectedToBeOnly event, Emitter<OverviewState> emit) async {
+    emit(state.oneSelected(stroke: event.stroke));
+    emit(state.copyWith(
+        entries: () => state.entries!.where(entryMeetsFilter).toList()));
 
     final updatedEntries = (await _practiceRepository.getEntries().first)
         .where(entryMeetsFilter)

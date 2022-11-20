@@ -20,3 +20,11 @@ class StrokeFilterTapped extends OverviewEvent {
 
   List<Object> get props => [stroke, isAdding];
 }
+
+class StrokeFilterSelectedToBeOnly extends OverviewEvent {
+  final Stroke stroke;
+
+  StrokeFilterSelectedToBeOnly({required this.stroke});
+
+  List<Object> get prop => [];
+}

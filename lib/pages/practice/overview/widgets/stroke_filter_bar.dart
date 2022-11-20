@@ -77,6 +77,9 @@ class StrokeButton extends StatelessWidget {
       onPressed: () => context
           .read<OverviewBloc>()
           .add(StrokeFilterTapped(stroke: stroke, isAdding: isActive)),
+      onLongPress: () => context
+          .read<OverviewBloc>()
+          .add(StrokeFilterSelectedToBeOnly(stroke: stroke)),
       child: Text(text),
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(
