@@ -13,6 +13,8 @@ export 'overview_event.dart';
 class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
   final PracticeRepository _practiceRepository;
 
+  List<FinisherEntry> data = [];
+
   OverviewBloc({required praticeRepository})
       : _practiceRepository = praticeRepository,
         super(const OverviewState()) {
@@ -41,18 +43,12 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
     switch (event.stroke) {
       case Stroke.FREE_STYLE:
         emit(state.copyWith(showFree: !event.isAdding));
-        emit(state.copyWith(
-            entries: () => state.entries!.where(entryMeetsFilter).toList()));
         break;
       case Stroke.BACK_STROKE:
         emit(state.copyWith(showBack: !event.isAdding));
-        emit(state.copyWith(
-            entries: () => state.entries!.where(entryMeetsFilter).toList()));
         break;
       case Stroke.BREAST_STROKE:
         emit(state.copyWith(showBreast: !event.isAdding));
-        emit(state.copyWith(
-            entries: () => state.entries!.where(entryMeetsFilter).toList()));
         break;
       case Stroke.BUTTERFLY:
         emit(state.copyWith(showFly: !event.isAdding));
@@ -60,26 +56,16 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
       default:
     }
 
-    final updatedEntries = (await _practiceRepository.getEntries().first)
-        .where(entryMeetsFilter)
-        .toList();
-    emit(state.copyWith(
-      entries: () => updatedEntries,
-    ));
+    emit(state.copyWith(entries: () => data.where(entryMeetsFilter).toList()));
   }
 
   Future<void> _strokeSelectedToBeOnly(
       StrokeFilterSelectedToBeOnly event, Emitter<OverviewState> emit) async {
+    // Change filter of state
     emit(state.oneSelected(stroke: event.stroke));
-    emit(state.copyWith(
-        entries: () => state.entries!.where(entryMeetsFilter).toList()));
 
-    final updatedEntries = (await _practiceRepository.getEntries().first)
-        .where(entryMeetsFilter)
-        .toList();
-    emit(state.copyWith(
-      entries: () => updatedEntries,
-    ));
+    // Re-filter data
+    emit(state.copyWith(entries: () => data.where(entryMeetsFilter).toList()));
   }
 
   Future<void> _subscriptionRequested(
@@ -88,9 +74,12 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
 
     await emit.forEach<List<FinisherEntry>>(
       _practiceRepository.getEntries(),
-      onData: (List<FinisherEntry> data) => state.copyWith(
-          entries: () => data.where(entryMeetsFilter).toList(),
-          status: OverviewStatus.succsess),
+      onData: (List<FinisherEntry> data) {
+        this.data = data.toList();
+        return state.copyWith(
+            entries: () => data.where(entryMeetsFilter).toList(),
+            status: OverviewStatus.succsess);
+      },
       onError: (error, stackTrace) =>
           state.copyWith(status: OverviewStatus.failure),
     );
