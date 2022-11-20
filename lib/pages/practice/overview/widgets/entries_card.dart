@@ -302,13 +302,16 @@ class LapTimeText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      durationText,
-      style: TextStyle(
-          fontSize: 20,
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w300,
-          color: CustomColors.primeColor),
+    return FittedBox(
+      fit: BoxFit.fitWidth,
+      child: Text(
+        durationText,
+        style: const TextStyle(
+            fontSize: 20,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w300,
+            color: CustomColors.primeColor),
+      ),
     );
   }
 }
