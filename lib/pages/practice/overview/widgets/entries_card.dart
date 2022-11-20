@@ -41,12 +41,15 @@ class EntriesCard extends StatelessWidget {
 }
 
 class EntryCard extends StatelessWidget {
-  const EntryCard({
+  EntryCard({
     Key? key,
     required this.entry,
-  }) : super(key: key);
+  }) : super(key: key) {
+    modifiedName = entry.name.replaceAll(" ", "\n");
+  }
 
   final FinisherEntry entry;
+  late final String modifiedName;
 
   @override
   Widget build(BuildContext context) {
@@ -57,36 +60,22 @@ class EntryCard extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           foregroundColor: CustomColors.primeColor,
+          padding: EdgeInsets.zero,
         ),
         child: Container(
           height: MediaQuery.of(context).size.height / 10,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              SizedBox(
-                width: 16,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: StrokeIcon(stroke: entry.stroke),
               ),
-              StrokeIcon(stroke: entry.stroke),
-              // Name + Spacer
+              // Name
               Expanded(
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  // Spacer
-                  Expanded(
-                    child: Container(),
-                    flex: 2,
-                  ),
-                  // Name
-                  Expanded(
-                    flex: 8,
-                    child: Text(entry.name,
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.headline5),
-                  ),
-                ]),
-                flex: 4,
+                flex: 3,
+                child: SwimmerName(modifiedName: modifiedName),
               ),
-
               Expanded(
                 child: PerformanceChart(previousTimes: entry.previousTimes),
                 flex: 5,
@@ -127,6 +116,27 @@ class EntryCard extends StatelessWidget {
   }
 }
 
+class SwimmerName extends StatelessWidget {
+  const SwimmerName({
+    Key? key,
+    required this.modifiedName,
+  }) : super(key: key);
+
+  final String modifiedName;
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      child: Padding(
+        padding: EdgeInsets.all(4),
+        child: Text(modifiedName,
+            textAlign: TextAlign.left,
+            style: Theme.of(context).textTheme.headline5),
+      ),
+    );
+  }
+}
+
 class PerformanceChart extends StatelessWidget {
   PerformanceChart({super.key, required this.previousTimes});
 
@@ -134,7 +144,7 @@ class PerformanceChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (previousTimes == null) {
+    if (previousTimes == null || previousTimes!.length <= 1) {
       return Container(
         child: Center(
           child: Text("---"),
@@ -144,10 +154,32 @@ class PerformanceChart extends StatelessWidget {
 
     return Container(
       child: SfCartesianChart(
-          primaryXAxis: NumericAxis(),
-          primaryYAxis: NumericAxis(),
+          // backgroundColor: Colors.red,
+          primaryXAxis: NumericAxis(
+            isVisible: true,
+            interval: 1,
+          ),
+          primaryYAxis: NumericAxis(
+            isVisible: true,
+            maximumLabels: 3,
+            desiredIntervals: 2,
+            // rangeController: ,
+            axisLabelFormatter: (axisLabelRenderArgs) =>
+                ChartAxisLabel("", null),
+            visibleMinimum: 0,
+          ),
+          annotations: [
+            CartesianChartAnnotation(
+                widget: Container(child: const Text('Text')),
+                // Coordinate unit type
+                coordinateUnit: CoordinateUnit.logicalPixel,
+                x: 150,
+                y: 200)
+          ],
+          plotAreaBorderWidth: 0,
           series: [
             LineSeries<Duration, int>(
+              color: CustomColors.primeColor,
               dataSource: previousTimes!,
               yValueMapper: (datum, index) => datum.inMilliseconds,
               xValueMapper: (datum, index) => index,
@@ -245,11 +277,18 @@ class LapTimeText extends StatelessWidget {
   static final matchTailZeros = RegExp("0+\$");
   static final matchLeadingZeroAndColons = RegExp("^0+((:0*)?)*");
 
+  // I dont know why this doesn't work, was matching too much and not excluding first group
+  // static final matchDigitsAfterPrecision = RegExp("(?<=\..{3})(.*)\$");
+
+  static const int precision = 2;
+
   static String _formatDuration(Duration duration) {
-    return duration
+    final output = duration
         .toString()
         .replaceAll(matchTailZeros, "")
         .replaceAll(matchLeadingZeroAndColons, "");
+
+    return output.substring(0, output.lastIndexOf(".") + precision + 1);
   }
 
   final Duration duration;
