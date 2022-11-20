@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:practice_repository/practice_repository.dart';
+import 'package:swim_timer/custom_colors.dart';
 import 'package:swim_timer/pages/practice/overview/overview_bloc/overview_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:swim_timer/pages/practice/overview/widgets/entries_card.dart';
@@ -53,7 +54,18 @@ class OverviewView extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: StrokeFilterBar(),
+                  child: state.filterWithId == null
+                      ? StrokeFilterBar()
+                      : Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: CustomColors.primaryRed),
+                              onPressed: () => context
+                                  .read<OverviewBloc>()
+                                  .add(SwimmerSelected(idOfSwimmer: null)),
+                              child: Text("Show all swimmers")),
+                        ),
                 ),
               ],
             );

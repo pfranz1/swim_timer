@@ -5,7 +5,9 @@ import 'package:flutter/rendering.dart';
 import 'package:practice_repository/practice_repository.dart';
 import 'package:entities/entities.dart';
 import 'package:swim_timer/custom_colors.dart';
+import 'package:swim_timer/pages/practice/overview/overview_bloc/overview_bloc.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:provider/provider.dart';
 
 class EntriesCard extends StatelessWidget {
   const EntriesCard({Key? key, this.entries}) : super(key: key);
@@ -56,7 +58,11 @@ class EntryCard extends StatelessWidget {
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: 75, maxHeight: 175),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          context
+              .read<OverviewBloc>()
+              .add(SwimmerSelected(idOfSwimmer: entry.id));
+        },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           foregroundColor: CustomColors.primeColor,

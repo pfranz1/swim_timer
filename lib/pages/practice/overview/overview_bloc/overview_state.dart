@@ -17,6 +17,8 @@ class OverviewState extends Equatable {
   final bool showBreast;
   final bool showFly;
 
+  final String? filterWithId;
+
   const OverviewState({
     this.entries,
     this.status = OverviewStatus.inital,
@@ -24,6 +26,7 @@ class OverviewState extends Equatable {
     this.showBack = true,
     this.showBreast = true,
     this.showFly = true,
+    this.filterWithId,
   });
 
   OverviewState copyWith({
@@ -33,6 +36,7 @@ class OverviewState extends Equatable {
     bool? showBack,
     bool? showBreast,
     bool? showFly,
+    String? Function()? filterWithId,
   }) {
     return OverviewState(
       entries: entries != null ? entries() : this.entries,
@@ -41,6 +45,7 @@ class OverviewState extends Equatable {
       showBack: showBack ?? this.showBack,
       showBreast: showBreast ?? this.showBreast,
       showFly: showFly ?? this.showFly,
+      filterWithId: filterWithId != null ? filterWithId() : this.filterWithId,
     );
   }
 
@@ -54,6 +59,13 @@ class OverviewState extends Equatable {
   }
 
   @override
-  List<Object> get props =>
-      [status, ...?entries, showFree, showBack, showBreast, showFly];
+  List<Object> get props => [
+        status,
+        ...?entries,
+        showFree,
+        showBack,
+        showBreast,
+        showFly,
+        filterWithId ?? "null"
+      ];
 }

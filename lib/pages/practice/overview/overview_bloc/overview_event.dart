@@ -17,7 +17,7 @@ class StrokeFilterTapped extends OverviewEvent {
   final Stroke stroke;
   // If the stroke was previously not part of the filter
   final bool isAdding;
-
+  @override
   List<Object> get props => [stroke, isAdding];
 }
 
@@ -25,6 +25,15 @@ class StrokeFilterSelectedToBeOnly extends OverviewEvent {
   final Stroke stroke;
 
   StrokeFilterSelectedToBeOnly({required this.stroke});
+  @override
+  List<Object> get props => [stroke];
+}
 
-  List<Object> get prop => [];
+class SwimmerSelected extends OverviewEvent {
+  SwimmerSelected({this.idOfSwimmer});
+
+  final String? idOfSwimmer;
+
+  @override
+  List<Object> get props => [idOfSwimmer ?? "null"];
 }

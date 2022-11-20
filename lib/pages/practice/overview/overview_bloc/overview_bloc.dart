@@ -21,9 +21,14 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
     on<SubscriptionRequested>(_subscriptionRequested);
     on<StrokeFilterSelectedToBeOnly>(_strokeSelectedToBeOnly);
     on<StrokeFilterTapped>(_strokeFilterTapped);
+    on<SwimmerSelected>(_onSwimmerSelected);
   }
 
   bool entryMeetsFilter(FinisherEntry entry) {
+    if (state.filterWithId != null) {
+      if (entry.id != state.filterWithId) return false;
+    }
+
     switch (entry.stroke) {
       case Stroke.FREE_STYLE:
         return state.showFree;
@@ -65,6 +70,13 @@ class OverviewBloc extends Bloc<OverviewEvent, OverviewState> {
     emit(state.oneSelected(stroke: event.stroke));
 
     // Re-filter data
+    emit(state.copyWith(entries: () => data.where(entryMeetsFilter).toList()));
+  }
+
+  Future<void> _onSwimmerSelected(
+      SwimmerSelected event, Emitter<OverviewState> emit) async {
+    emit(state.copyWith(filterWithId: () => event.idOfSwimmer));
+
     emit(state.copyWith(entries: () => data.where(entryMeetsFilter).toList()));
   }
 
