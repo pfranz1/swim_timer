@@ -116,14 +116,18 @@ class PracticeScaffold extends StatelessWidget {
                     context.go(_popAndReplace("starter"), extra: indexOfTab),
                 groupValue: selectedTab,
                 value: PracticeTab.starter,
-                assetPath: "assets/images/whistle_icon.png",
+                // assetPath: "assets/images/whistle_icon.png",
+                icon: Icon(Icons.play_arrow_outlined),
               ),
               _PracticeTabButton(
                 onPressed: () =>
                     context.go(_popAndReplace("stopper"), extra: indexOfTab),
                 groupValue: selectedTab,
                 value: PracticeTab.stopper,
-                assetPath: "assets/images/stop_watch_icon.png",
+                // assetPath: "assets/images/stop_watch_icon.png",
+                icon: Icon(
+                  Icons.timer,
+                ),
               ),
               _PracticeTabButton(
                   onPressed: () =>
@@ -172,7 +176,7 @@ class _PracticeTabButton extends StatelessWidget {
 
     return IconButton(
         onPressed: onPressed,
-        iconSize: 48,
+        iconSize: 45,
         color: groupValue != value ? _color.withOpacity(0.25) : _color,
         icon: iconReplacement ?? icon!);
   }
