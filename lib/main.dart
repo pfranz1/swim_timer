@@ -65,7 +65,7 @@ class AppView extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: RoutingInformation.myRouter,
-      title: "Swim Timer",
+      title: "Elapsed",
       theme: ThemeData(
         fontFamily: 'Poppins',
         appBarTheme: const AppBarTheme(
