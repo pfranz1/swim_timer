@@ -119,14 +119,20 @@ class Lane extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Column(
                   children: [
-                    for (var swimmer in swimmers)
+                    // Fancy list comprehension much wow
+                    // For every swimmer, add a swimmer tile and spacer box
+                    for (var swimmer in swimmers) ...[
                       SwimmerTile(
                         swimmer: swimmer,
                         onTap: () => context.read<StopperBloc>().add(TapSwimmer(
                             lane: laneNum,
                             swimmer: swimmer,
                             time: DateTime.now())),
+                      ),
+                      SizedBox(
+                        height: 5,
                       )
+                    ]
                   ],
                 ),
               ),
