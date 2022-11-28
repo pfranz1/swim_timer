@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,9 +11,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:provider/provider.dart';
 
 class EntriesCard extends StatelessWidget {
-  const EntriesCard({Key? key, this.entries}) : super(key: key);
+  const EntriesCard({Key? key, required this.entries}) : super(key: key);
 
-  final List<FinisherEntry>? entries;
+  final List<FinisherEntry> entries;
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +32,10 @@ class EntriesCard extends StatelessWidget {
                         horizontal: 8.0, vertical: 3.0),
                     // Subtracting from length to reverse order entries are shown
                     child:
-                        EntryCard(entry: entries![entries!.length - 1 - index]),
+                        EntryCard(entry: entries![entries.length - 1 - index]),
                   );
                 },
-                itemCount: entries?.length ?? 0,
+                itemCount: entries.length,
               )
             : Center(child: Text("No times recorded yet...")),
       ),
@@ -315,7 +316,8 @@ class LapTimeText extends StatelessWidget {
         .replaceAll(matchTailZeros, "")
         .replaceAll(matchLeadingZeroAndColons, "");
 
-    return output.substring(0, output.lastIndexOf(".") + precision + 1);
+    return output.substring(
+        0, min(output.length, output.lastIndexOf(".") + precision + 1));
   }
 
   final Duration duration;

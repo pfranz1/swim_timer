@@ -48,7 +48,7 @@ class OverviewView extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: EntriesCard(entries: state.entries),
+                    child: EntriesCard(entries: state.entries ?? []),
                   ),
                   flex: 6,
                 ),
