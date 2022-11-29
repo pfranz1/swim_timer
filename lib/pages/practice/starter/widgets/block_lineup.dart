@@ -202,9 +202,9 @@ class StackedNameAndStroke extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             flex: 2,
@@ -216,7 +216,7 @@ class StackedNameAndStroke extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                    fontSize: 20,
+                    fontSize: 24,
                     overflow: TextOverflow.fade),
               ),
             ),
