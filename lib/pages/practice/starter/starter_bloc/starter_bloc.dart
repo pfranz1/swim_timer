@@ -33,7 +33,7 @@ class StarterBloc extends Bloc<StarterBlocEvent, StarterState> {
 
   final void Function(Swimmer editSwimmer) _editNavigationCallBack;
 
-  static const Duration undoFadeDuration = Duration(seconds: 5);
+  static const Duration undoFadeDuration = Duration(seconds: 3);
 
   Future<void> _onSubscriptionRequested(
     SubscriptionRequested request,
