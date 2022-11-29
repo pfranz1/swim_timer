@@ -99,8 +99,8 @@ class PracticeScaffold extends StatelessWidget {
           leading: IconButton(
               onPressed: () => context.go('/'),
               icon: Icon(
-                Icons.chevron_left,
-                color: Colors.black,
+                Icons.home,
+                color: CustomColors.primeColor,
               )),
         ),
         extendBodyBehindAppBar: false,
@@ -117,7 +117,9 @@ class PracticeScaffold extends StatelessWidget {
                 groupValue: selectedTab,
                 value: PracticeTab.starter,
                 // assetPath: "assets/images/whistle_icon.png",
-                icon: Icon(Icons.play_arrow_outlined),
+                icon: Icon(
+                  Icons.play_arrow_outlined,
+                ),
               ),
               _PracticeTabButton(
                 onPressed: () =>
