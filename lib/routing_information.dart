@@ -110,7 +110,7 @@ class RoutingInformation {
         if (state.params["sessionId"] != repository.sessionId) {
           // TODO: Actally update the repository in a meaningful way
           // I.E. the repository should provide data from a different session
-          await Future.delayed(Duration(seconds: 2)).then(
+          await Future.delayed(Duration(milliseconds: 2000)).then(
               (value) => repository.sessionId = state.params["sessionId"]!);
 
           // TODO: Base this on if the change occured or not
