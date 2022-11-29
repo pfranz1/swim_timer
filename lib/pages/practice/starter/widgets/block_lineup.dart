@@ -168,7 +168,7 @@ class SwimmerCard extends StatelessWidget {
               width: 5.0)),
       height: height,
       width: double.infinity,
-      child: (height > 75)
+      child: (height > 95)
           ? StackedNameAndStroke(
               swimmerName: swimmer.name,
               isSelected: isSelected,
@@ -217,7 +217,7 @@ class StackedNameAndStroke extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Expanded(
@@ -249,7 +249,7 @@ class PairedNameAndStroke extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -269,11 +269,17 @@ class PairedNameAndStroke extends StatelessWidget {
               ),
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Image(
-              image: AssetImage(iconAssetPath),
-              fit: BoxFit.scaleDown,
+          const SizedBox(
+            width: 5,
+          ),
+          ConstrainedBox(
+            constraints: BoxConstraints(minWidth: 0),
+            child: Expanded(
+              flex: 1,
+              child: Image(
+                image: AssetImage(iconAssetPath),
+                fit: BoxFit.fill,
+              ),
             ),
           ),
         ],
