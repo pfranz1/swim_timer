@@ -335,7 +335,7 @@ class StrokeTile extends StatelessWidget {
   late final String strokeName;
   late final AssetImage icon;
 
-  static const minHeightForUnconstrained = 200;
+  static const minHeightForUnconstrained = 100;
   static const double padding = 4.0;
   static const double iconSize = 30;
   static const double iconSizeGrow = 20;
