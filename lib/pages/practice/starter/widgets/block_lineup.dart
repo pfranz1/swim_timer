@@ -168,7 +168,7 @@ class SwimmerCard extends StatelessWidget {
               width: 5.0)),
       height: height,
       width: double.infinity,
-      child: (height > 95)
+      child: (height / width > (1 / 2))
           ? StackedNameAndStroke(
               swimmerName: swimmer.name,
               isSelected: isSelected,
@@ -273,10 +273,10 @@ class PairedNameAndStroke extends StatelessWidget {
             width: 5,
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Image(
               image: AssetImage(iconAssetPath),
-              fit: BoxFit.fill,
+              fit: BoxFit.fitHeight,
             ),
           ),
         ],
