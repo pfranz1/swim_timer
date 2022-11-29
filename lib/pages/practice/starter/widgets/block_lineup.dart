@@ -272,14 +272,11 @@ class PairedNameAndStroke extends StatelessWidget {
           const SizedBox(
             width: 5,
           ),
-          ConstrainedBox(
-            constraints: BoxConstraints(minWidth: 0),
-            child: Expanded(
-              flex: 1,
-              child: Image(
-                image: AssetImage(iconAssetPath),
-                fit: BoxFit.fill,
-              ),
+          Expanded(
+            flex: 1,
+            child: Image(
+              image: AssetImage(iconAssetPath),
+              fit: BoxFit.fill,
             ),
           ),
         ],
