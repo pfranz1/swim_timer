@@ -99,12 +99,16 @@ class BlockTile extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                           color: Colors.black54)),
                 ),
+                Expanded(flex: 1, child: Container()),
                 if (swimmer != null)
-                  SwimmerCard(
-                    height: constraints.maxHeight * 0.66,
-                    width: constraints.maxWidth,
-                    swimmer: swimmer!,
-                    isSelected: isSwimmerSelected,
+                  Expanded(
+                    flex: 5,
+                    child: SwimmerCard(
+                      height: constraints.maxHeight * 0.66,
+                      width: constraints.maxWidth,
+                      swimmer: swimmer!,
+                      isSelected: isSwimmerSelected,
+                    ),
                   )
               ],
             );
@@ -217,8 +221,9 @@ class StackedNameAndStroke extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(
-            height: 10,
+          Expanded(
+            flex: 1,
+            child: Container(),
           ),
           Expanded(
             flex: 2,
