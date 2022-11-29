@@ -335,6 +335,7 @@ class StrokeTile extends StatelessWidget {
   late final String strokeName;
   late final AssetImage icon;
 
+  static const minHeightForUnconstrained = 200;
   static const double padding = 4.0;
   static const double iconSize = 30;
   static const double iconSizeGrow = 20;
@@ -342,66 +343,19 @@ class StrokeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   child: Text(strokeName),
-    // );
-    // return LayoutBuilder(
-    //   builder: (context, constraints) {
-    //     return Padding(
-    //       padding: const EdgeInsets.all(padding),
-    //       child: Container(
-    //         height: (constraints.maxWidth - (2 * padding)) / 2,
-    //         width: (constraints.maxWidth - (2 * padding)) / 2,
-    //         decoration: BoxDecoration(color: color),
-    //         child: Padding(
-    //           padding: const EdgeInsets.all(4.0),
-    //           child: Column(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             mainAxisSize: MainAxisSize.min,
-    //             children: [
-    //               SizedBox(
-    //                 height: 30,
-    //                 width: 30,
-    //                 child: Image(
-    //                   image: icon,
-    //                   fit: BoxFit.fitWidth,
-    //                 ),
-    //               ),
-    //               const SizedBox(
-    //                 width: 5,
-    //               ),
-    //               FittedBox(
-    //                 fit: BoxFit.contain,
-    //                 clipBehavior: Clip.hardEdge,
-    //                 child: Text(
-    //                   strokeName,
-    //                   textAlign: TextAlign.center,
-    //                   style: TextStyle(
-    //                       color: Colors.white,
-    //                       fontWeight:
-    //                           isActive ? FontWeight.w600 : FontWeight.w500,
-    //                       fontSize: 12,
-    //                       overflow: TextOverflow.fade),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
-
     return KeyboardVisibilityBuilder(builder: (context, isKeyboardVis) {
       return LayoutBuilder(builder: (context, constraints) {
         final double tileMainDimension = min(
             max(min(constraints.maxWidth, constraints.maxHeight) / 2, 50), 150);
+        final showCompressedView =
+            isKeyboardVis || constraints.maxHeight < minHeightForUnconstrained;
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
                 height: tileMainDimension,
-                width: tileMainDimension + (isKeyboardVis ? cardSizeGrow : 0),
+                width:
+                    tileMainDimension + (showCompressedView ? cardSizeGrow : 0),
                 child: GestureDetector(
                   onTap: () => onTap(stroke),
                   child: DecoratedBox(
@@ -415,8 +369,8 @@ class StrokeTile extends StatelessWidget {
                       padding: const EdgeInsets.all(4.0),
                       child: Center(
                         child: SizedBox.square(
-                          dimension:
-                              iconSize + (isKeyboardVis ? 0 : iconSizeGrow),
+                          dimension: iconSize +
+                              (showCompressedView ? 0 : iconSizeGrow),
                           child: Image(
                             image: icon,
                             fit: BoxFit.fitWidth,
@@ -426,7 +380,7 @@ class StrokeTile extends StatelessWidget {
                     ),
                   ),
                 )),
-            if (isKeyboardVis == false)
+            if (showCompressedView == false)
               Padding(
                 padding: const EdgeInsets.only(top: 5.0),
                 child: Text(
@@ -440,35 +394,6 @@ class StrokeTile extends StatelessWidget {
               ),
           ],
         );
-
-        //   return Column(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Padding(
-        //         padding: const EdgeInsets.all(16.0),
-        //         child: SizedBox.expand(
-        //             child: GestureDetector(
-        //           onTap: () => onTap(stroke),
-        //           child: DecoratedBox(
-        //             decoration: BoxDecoration(
-        //                 color: color,
-        //                 border: Border.all(
-        //                     color: isActive ? Colors.white38 : Colors.white24,
-        //                     width: isActive ? 8.0 : 3.0),
-        //                 borderRadius: BorderRadius.all(Radius.circular(6.0))),
-        //             child: Text(
-        //               strokeName,
-        //               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-        //                   color: Colors.white,
-        //                   fontWeight:
-        //                       isActive ? FontWeight.bold : FontWeight.normal),
-        //               overflow: TextOverflow.fade,
-        //             ),
-        //           ),
-        //         )),
-        //       ),
-        //     ],
-        //   );
       });
     });
   }
